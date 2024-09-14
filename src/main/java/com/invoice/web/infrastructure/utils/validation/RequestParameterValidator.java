@@ -12,7 +12,6 @@ import java.util.Set;
 
 public class RequestParameterValidator {
 
-
     private RequestParameterValidator() {
     }
 
