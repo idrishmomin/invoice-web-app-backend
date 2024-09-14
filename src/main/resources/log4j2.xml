@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss} [%-6p] %C{1}.%M(%F:%L) – %m%n</Property>
+        <Property name="APP_LOG_ROOT">/logs/invoice_webapp</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <RollingFile name="error"
+                     fileName="${APP_LOG_ROOT}/invoice_web_app_error.log"
+                     filePattern="${APP_LOG_ROOT}/invoice_web_app_error.%d{yyyy-MM-dd}-%i.log.gz">
+            <LevelRangeFilter minLevel="ERROR" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %X{dd.trace_id} %X{dd.span_id} - %m%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <!--            <DefaultRolloverStrategy max="10" />-->
+        </RollingFile>
+
+        <RollingFile name="info"
+                     fileName="${APP_LOG_ROOT}/invoice_web_app_info.log"
+                     filePattern="${APP_LOG_ROOT}/invoice_web_app_info.%d{yyyy-MM-dd}-%i.log.gz">
+            <LevelRangeFilter minLevel="INFO" maxLevel="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %X{dd.trace_id} %X{dd.span_id} - %m%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <!--            <DefaultRolloverStrategy max="10" />-->
+        </RollingFile>
+
+        <RollingFile name="debug"
+                     fileName="${APP_LOG_ROOT}/invoice_web_app_debug.log"
+                     filePattern="${APP_LOG_ROOT}/invoice_web_app_debug.%d{yyyy-MM-dd}-%i.log.gz">
+            <LevelRangeFilter minLevel="DEBUG" maxLevel="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <!--            <DefaultRolloverStrategy max="10" />-->
+        </RollingFile>
+
+    </Appenders>
+    <Loggers>
+
+        <Logger name="com.invoice.web" additivity="false">
+            <AppenderRef ref="error"/>
+            <AppenderRef ref="info"/>
+            <AppenderRef ref="console"/>
+        </Logger>
+
+        <Root level="trace">
+            <AppenderRef ref="debug"/>
+            <AppenderRef ref="error"/>
+            <AppenderRef ref="console"/>
+        </Root>
+
+
+    </Loggers>
+</Configuration>
