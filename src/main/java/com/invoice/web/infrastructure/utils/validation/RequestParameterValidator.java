@@ -21,8 +21,6 @@ public class RequestParameterValidator {
         if (request == null)
             throw new ConstraintViolationException("Money Transfer Request should not be null", null);
         validateRequest(request);
-        validateAmount(request.getAmount());
-        validateCurrency(request.getCurrency());
     }
 
 
