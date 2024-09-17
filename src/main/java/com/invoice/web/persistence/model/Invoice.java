@@ -21,7 +21,7 @@ public class Invoice {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "vendor_id", unique = true, nullable = false)
+    @Column(name = "invoice_number", unique = true, nullable = false)
     private String invoiceNumber;
 
     @Column(name = "rate_of_SAR")
@@ -31,6 +31,12 @@ public class Invoice {
     private String vendorInvoiceDate;
 
     private LocalDateTime invoiceCreatedDate;
+
+    private LocalDateTime invoiceUpdatedDate;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "JSON")
+    private CreateInvoiceRequest.Submitter editedBy;
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "JSON")

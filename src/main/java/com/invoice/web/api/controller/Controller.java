@@ -47,7 +47,7 @@ public class Controller {
         return invoiceService.invoices();
     }
 
-    @PostMapping(value = "/invoice/id", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/invoice/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Response<Object> getInvoiceDetails(@PathVariable String id) {
         log.info("Get Invoice details");
         return invoiceService.getInvoiceDetails(id);
