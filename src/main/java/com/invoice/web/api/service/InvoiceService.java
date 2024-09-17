@@ -1,10 +1,11 @@
 package com.invoice.web.api.service;
 
 import com.invoice.web.api.dto.request.CreateInvoiceRequest;
+import com.invoice.web.api.dto.response.OtherDataResponse;
 import com.invoice.web.api.dto.response.Response;
 import com.invoice.web.infrastructure.utils.CommonUtils;
-import com.invoice.web.persistence.model.Invoice;
-import com.invoice.web.persistence.repositories.InvoiceRepository;
+import com.invoice.web.persistence.model.*;
+import com.invoice.web.persistence.repositories.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +17,21 @@ import java.util.List;
 public class InvoiceService {
 
     private final InvoiceRepository invoiceRepository;
+    private final AccountsRepository accountsRepository;
+    private final CostCenterRepository costCenterRepository;
+    private final CurrenciesRepository currenciesRepository;
+    private final DepartmentRepository departmentRepository;
+    private final ExpenseCodesRepository expenseCodesRepository;
+    private final VendorRepository vendorRepository;
 
-    public InvoiceService(InvoiceRepository invoiceRepository) {
+    public InvoiceService(InvoiceRepository invoiceRepository, AccountsRepository accountsRepository, CostCenterRepository costCenterRepository, CurrenciesRepository currenciesRepository, DepartmentRepository departmentRepository, ExpenseCodesRepository expenseCodesRepository, VendorRepository vendorRepository) {
         this.invoiceRepository = invoiceRepository;
+        this.accountsRepository = accountsRepository;
+        this.costCenterRepository = costCenterRepository;
+        this.currenciesRepository = currenciesRepository;
+        this.departmentRepository = departmentRepository;
+        this.expenseCodesRepository = expenseCodesRepository;
+        this.vendorRepository = vendorRepository;
     }
 
     public Response<Object> invoices() {
@@ -72,6 +85,24 @@ public class InvoiceService {
             invoiceRepository.save(invoice);
             return Response.builder().response(invoice).build();
         }
+    }
 
+    public Response<Object> otherDetails() {
+        List<Accounts> accountsList = accountsRepository.findAll();
+        List<CostCenter> costCenterList = costCenterRepository.findAll();
+        List<Currencies> currenciesList = currenciesRepository.findAll();
+        List<Department> departmentList = departmentRepository.findAll();
+        List<ExpenseCodes> expenseCodesList = expenseCodesRepository.findAll();
+        List<Vendor> vendorList = vendorRepository.findAll();
+
+        OtherDataResponse otherDataResponse = new OtherDataResponse();
+        otherDataResponse.setAccountsList(accountsList);
+        otherDataResponse.setCostCenterList(costCenterList);
+        otherDataResponse.setCurrenciesList(currenciesList);
+        otherDataResponse.setDepartmentList(departmentList);
+        otherDataResponse.setExpenseCodesList(expenseCodesList);
+        otherDataResponse.setVendorList(vendorList);
+
+        return Response.builder().response(otherDataResponse).build();
     }
 }

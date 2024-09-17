@@ -53,6 +53,11 @@ public class Controller {
         return invoiceService.getInvoiceDetails(id);
     }
 
+    @GetMapping(value = "/otherdetails", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response<Object> getOtherDetails() {
+        log.info("Get Other details");
+        return invoiceService.otherDetails();
+    }
 
     @PostMapping(value = "/createinvoice", produces = MediaType.APPLICATION_JSON_VALUE)
     public Response<Object> createinvoice(@RequestBody CreateInvoiceRequest createInvoiceRequest) {
