@@ -55,7 +55,7 @@
             <AppenderRef ref="console"/>
         </Logger>
 
-        <Root level="trace">
+        <Root level="info">
             <AppenderRef ref="debug"/>
             <AppenderRef ref="error"/>
             <AppenderRef ref="console"/>
