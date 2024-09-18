@@ -65,6 +65,7 @@ public class InvoiceService {
                 invoice.setBankDetails(request.getBankDetails());
                 invoice.setAccountDue(request.getAccountDue());
                 invoice.setEditedBy(request.getUpdatedBy());
+                invoice.setItems(request.getItems());
                 invoiceRepository.save(invoice);
                 return Response.builder().response(invoice).build();
             }
@@ -81,6 +82,7 @@ public class InvoiceService {
             invoice.setBankDetails(request.getBankDetails());
             invoice.setAccountDue(request.getAccountDue());
             invoice.setSubmitter(request.getSubmitter());
+            invoice.setItems(request.getItems());
 
             invoiceRepository.save(invoice);
             return Response.builder().response(invoice).build();
