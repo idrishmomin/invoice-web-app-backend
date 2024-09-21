@@ -53,13 +53,12 @@ public class InvoiceService {
     public Response<Object> createInvoice(CreateInvoiceRequest request) {
 
         RequestParameterValidator.createInvoiceValidation(request);
-        if (null != request.getInvoiceNumber()) {
+        if (!request.getInvoiceNumber().isBlank()) {
             Invoice invoice = invoiceRepository.findByInvoiceNumber(request.getInvoiceNumber());
             if (null == invoice) {
                 log.info("Invoice with invoiceNumber : {} does not exist", request.getInvoiceNumber());
                 return Response.builder().response("Invoice with invoiceId does not exist ").build();
             } else {
-                invoice.setVendorInvoiceDate(request.getVendorInvoiceDate());
                 invoice.setInvoiceUpdatedDate(LocalDateTime.now());
 
                 invoice.setTotal(request.getTotal());
@@ -74,7 +73,6 @@ public class InvoiceService {
             log.info("Invoice Generating with invoice Number : {}", invoiceNumber);
             Invoice invoice = new Invoice();
             invoice.setInvoiceNumber(invoiceNumber);
-            invoice.setVendorInvoiceDate(request.getVendorInvoiceDate());
             invoice.setInvoiceCreatedDate(LocalDateTime.now());
 
             invoice.setTotal(request.getTotal());

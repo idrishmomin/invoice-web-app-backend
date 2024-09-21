@@ -21,9 +21,6 @@ public class CreateInvoiceRequest {
 
     private String invoiceNumber;
 
-    @NotBlank(message = "VendorInvoiceDate Can not be blank", groups = BlankCheck.class)
-    private String vendorInvoiceDate;
-
     @Valid
     private Total total;
 
@@ -98,37 +95,35 @@ public class CreateInvoiceRequest {
 
         @NotBlank(message = "Vendor Invoice Ref Can not be blank", groups = BlankCheck.class)
         private String vendorInvoiceRef;
-        private String rateOfSAR;
 
         @NotBlank(message = "Vendor Id Can not be blank", groups = BlankCheck.class)
         private String vendorId;
 
+        @NotBlank(message = "Vendor Name Can not be blank", groups = BlankCheck.class)
+        private String vendorName;
+
+        @NotBlank(message = "VendorInvoiceDate Can not be blank", groups = BlankCheck.class)
+        private String vendorInvoiceDate;
+
+        @NotBlank(message = "InvoiceAmount Can not be blank", groups = BlankCheck.class)
+        private String invoiceAmount;
+
+        @NotBlank(message = "Recurring  Can not be blank", groups = BlankCheck.class)
+        private String recurring;
+
         @NotBlank(message = "Cost Code Can not be blank", groups = BlankCheck.class)
         private String costCode;
-
-        @NotBlank(message = "Expense Code Can not be blank", groups = BlankCheck.class)
-        private String expenseCode;
-
-        @NotBlank(message = "Quantity Code Can not be blank", groups = BlankCheck.class)
-        private String quantity;
-
-        @NotBlank(message = "Amount Code Can not be blank", groups = BlankCheck.class)
-        private String amount;
-
-        @NotBlank(message = "Unit Code Can not be blank", groups = BlankCheck.class)
-        private String unit;
-
-        @NotBlank(message = "Description Can not be blank", groups = BlankCheck.class)
-        private String description;
 
         @NotBlank(message = "Expense type Can not be blank", groups = BlankCheck.class)
         private String expenseType;
 
+        @NotBlank(message = "Description Can not be blank", groups = BlankCheck.class)
+        private String description;
+
+        private String rateOfSAR;
+
         @NotBlank(message = "Currency Can not be blank", groups = BlankCheck.class)
         private String currency;
-
-        @NotBlank(message = "Total Can not be blank", groups = BlankCheck.class)
-        private String total;
     }
 
 }

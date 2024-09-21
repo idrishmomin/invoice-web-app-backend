@@ -24,12 +24,6 @@ public class Invoice {
     @Column(name = "invoice_number", unique = true, nullable = false)
     private String invoiceNumber;
 
-    @Column(name = "rate_of_SAR")
-    private String rateOfSAR;
-
-    @Column(name = "vendor_invoice_Date")
-    private String vendorInvoiceDate;
-
     private LocalDateTime invoiceCreatedDate;
 
     private LocalDateTime invoiceUpdatedDate;

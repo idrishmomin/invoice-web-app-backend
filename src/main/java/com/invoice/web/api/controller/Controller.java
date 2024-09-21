@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @Log4j2
 @RestController
 @RequestMapping("/webportal/v1")
+@CrossOrigin(origins = "http://localhost:4200")
 public class Controller {
 
     private final UserService userService;
@@ -62,7 +63,6 @@ public class Controller {
     }
 
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping(value = "/createinvoice", produces = MediaType.APPLICATION_JSON_VALUE)
     public Response<Object> createinvoice(@RequestBody CreateInvoiceRequest createInvoiceRequest) {
         log.info("Create Invoice request: {}", createInvoiceRequest);
