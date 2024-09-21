@@ -44,10 +44,6 @@ public class Invoice {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "JSON")
-    private CreateInvoiceRequest.BankDetails bankDetails;
-
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "JSON")
     private CreateInvoiceRequest.AccountDue accountDue;
 
     @JdbcTypeCode(SqlTypes.JSON)

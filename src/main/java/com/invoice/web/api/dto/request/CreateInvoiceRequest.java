@@ -5,7 +5,6 @@ import com.invoice.web.infrastructure.utils.validation.LengthCheck;
 import com.invoice.web.infrastructure.utils.validation.NoNullStringCheck;
 import com.invoice.web.infrastructure.utils.validation.PatternCheck;
 import jakarta.validation.GroupSequence;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,10 +20,8 @@ import java.util.List;
 public class CreateInvoiceRequest {
 
     private String invoiceNumber;
-    private String rateOfSAR;
     private String vendorInvoiceDate;
     private Total total;
-    private BankDetails bankDetails;
     private AccountDue accountDue;
     private Submitter submitter;
     private Submitter updatedBy;
@@ -39,19 +36,8 @@ public class CreateInvoiceRequest {
         private String subTotal;
         private String adjustments;
         private String grandTotal;
-
     }
 
-    // BankDetails class
-    @Setter
-    @Getter
-    @NoArgsConstructor
-    public static class BankDetails {
-        private String bankName;
-        private String netTerms;
-        private String paymentDetails;
-
-    }
 
     // AccountDue class
     @Setter
@@ -61,7 +47,6 @@ public class CreateInvoiceRequest {
         private String accountType;
         private String totalDue;
         private String paymentType;
-
     }
 
     // Submitter class
@@ -77,20 +62,20 @@ public class CreateInvoiceRequest {
     @Setter
     @Getter
     @NoArgsConstructor
-    public static class Item {
+    public static class     Item {
         private String refId;
         private String vendorInvoiceRef;
-        private String vendorName;
+        private String rateOfSAR;
         private String vendorId;
         private String costCode;
         private String expenseCode;
-        private String purchasedBy;
         private String quantity;
+        private String amount;
         private String unit;
         private String description;
         private String expenseType;
         private String currency;
-        private String subtotal;
+        private String total;
     }
 
 }

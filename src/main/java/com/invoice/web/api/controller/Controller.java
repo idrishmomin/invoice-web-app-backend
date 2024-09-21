@@ -53,12 +53,15 @@ public class Controller {
         return invoiceService.getInvoiceDetails(id);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = "/otherdetails", produces = MediaType.APPLICATION_JSON_VALUE)
     public Response<Object> getOtherDetails() {
         log.info("Get Other details");
         return invoiceService.otherDetails();
     }
 
+
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping(value = "/createinvoice", produces = MediaType.APPLICATION_JSON_VALUE)
     public Response<Object> createinvoice(@RequestBody CreateInvoiceRequest createInvoiceRequest) {
         log.info("Create Invoice request: {}", createInvoiceRequest);
