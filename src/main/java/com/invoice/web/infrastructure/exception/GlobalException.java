@@ -1,8 +1,12 @@
 package com.invoice.web.infrastructure.exception;
 
 import com.invoice.web.api.dto.response.Response;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,6 +21,7 @@ public class GlobalException extends Exception {
 
     @Serial
     private static final long serialVersionUID = 1L;
+
     @ExceptionHandler(DaoException.class)
     public @ResponseBody ResponseEntity<Response<Object>> daoException(DaoException exception) {
         log.error("Error with database operation: {}", exception.getMessage());
@@ -26,7 +31,7 @@ public class GlobalException extends Exception {
                 .response(exception.getMessage())
                 .build();
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
 
@@ -39,20 +44,26 @@ public class GlobalException extends Exception {
                 .response(exception.getMessage())
                 .build();
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
-
-    @ExceptionHandler(CommonException.class)
-    public @ResponseBody ResponseEntity<Response<Object>> commonException(CommonException exception) {
+    @ExceptionHandler(ConstraintViolationException.class)
+    public @ResponseBody ResponseEntity<Response<Object>> constraintViolationException(ConstraintViolationException exception) {
         log.error("Constraint violation Error: {}", exception.getMessage(), exception);
-        log.error("Application failure occurred by CommonException !", exception);
+        log.error("Application failure occurred by ConstraintViolationException !", exception);
+
+        String error = exception.getConstraintViolations() != null ?
+                exception.getConstraintViolations().stream()
+                        .map(ConstraintViolation::getMessage)
+                        .findFirst().orElse("Validation Error")
+                : exception.getMessage();
 
         Response<Object> response = Response.<Object>builder()
-                .response(exception.getMessage())
+                .response(error)
                 .build();
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
-    
+
+
 }

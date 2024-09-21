@@ -1,7 +1,8 @@
 package com.invoice.web.api.controller;
 
-import com.invoice.web.api.dto.request.LoginRequest;
 import com.invoice.web.api.dto.request.CreateInvoiceRequest;
+import com.invoice.web.api.dto.request.CreateUserRequest;
+import com.invoice.web.api.dto.request.LoginRequest;
 import com.invoice.web.api.dto.response.Response;
 import com.invoice.web.api.service.InvoiceService;
 import com.invoice.web.api.service.UserService;
@@ -30,9 +31,9 @@ public class Controller {
     }
 
     @PostMapping(value = "/createuser", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<Object> createuser(@RequestBody CreateInvoiceRequest createInvoiceRequest) {
-        log.info("Create User Request : {}", createInvoiceRequest);
-        return userService.createUser(createInvoiceRequest);
+    public Response<Object> createuser(@RequestBody CreateUserRequest createUserRequest) {
+        log.info("Create User Request : {}", createUserRequest);
+        return userService.createUser(createUserRequest);
     }
 
     @GetMapping(value = "/userdetails", produces = MediaType.APPLICATION_JSON_VALUE)

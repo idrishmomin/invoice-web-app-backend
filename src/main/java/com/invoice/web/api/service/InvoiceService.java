@@ -4,6 +4,7 @@ import com.invoice.web.api.dto.request.CreateInvoiceRequest;
 import com.invoice.web.api.dto.response.OtherDataResponse;
 import com.invoice.web.api.dto.response.Response;
 import com.invoice.web.infrastructure.utils.CommonUtils;
+import com.invoice.web.infrastructure.utils.validation.RequestParameterValidator;
 import com.invoice.web.persistence.model.*;
 import com.invoice.web.persistence.repositories.*;
 import lombok.extern.log4j.Log4j2;
@@ -51,6 +52,7 @@ public class InvoiceService {
 
     public Response<Object> createInvoice(CreateInvoiceRequest request) {
 
+        RequestParameterValidator.createInvoiceValidation(request);
         if (null != request.getInvoiceNumber()) {
             Invoice invoice = invoiceRepository.findByInvoiceNumber(request.getInvoiceNumber());
             if (null == invoice) {
