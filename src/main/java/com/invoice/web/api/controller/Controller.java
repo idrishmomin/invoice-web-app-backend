@@ -4,11 +4,15 @@ import com.invoice.web.api.dto.request.CreateInvoiceRequest;
 import com.invoice.web.api.dto.request.CreateUserRequest;
 import com.invoice.web.api.dto.request.LoginRequest;
 import com.invoice.web.api.dto.response.Response;
+import com.invoice.web.api.service.GenerateInvoiceService;
 import com.invoice.web.api.service.InvoiceService;
 import com.invoice.web.api.service.UserService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 @Log4j2
 @RestController
@@ -17,12 +21,13 @@ import org.springframework.web.bind.annotation.*;
 public class Controller {
 
     private final UserService userService;
-
     private final InvoiceService invoiceService;
+    private final GenerateInvoiceService generateInvoiceService;
 
-    public Controller(UserService userService, InvoiceService invoiceService) {
+    public Controller(UserService userService, InvoiceService invoiceService, GenerateInvoiceService generateInvoiceService) {
         this.userService = userService;
         this.invoiceService = invoiceService;
+        this.generateInvoiceService = generateInvoiceService;
     }
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -55,7 +60,13 @@ public class Controller {
         return invoiceService.getInvoiceDetails(id);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+
+    @GetMapping(value = "/generateinvoice/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String generatePDFInvoice(@PathVariable String id) throws IOException {
+        log.info("Generate Invoice PDF");
+        return generateInvoiceService.createInvoice(id);
+    }
+
     @GetMapping(value = "/otherdetails", produces = MediaType.APPLICATION_JSON_VALUE)
     public Response<Object> getOtherDetails() {
         log.info("Get Other details");
