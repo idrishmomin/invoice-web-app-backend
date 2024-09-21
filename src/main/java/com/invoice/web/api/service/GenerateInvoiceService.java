@@ -10,7 +10,6 @@ import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.Document;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -73,9 +72,11 @@ public class GenerateInvoiceService {
 
 
         StringBuilder itemsHtml = new StringBuilder();
+        int srNo = 0;
         for (CreateInvoiceRequest.Item item : invoice.getItems()) {
+            srNo = srNo + 1;
             itemsHtml.append("<tr>")
-                    .append("<td>").append(item.getRefId()).append("</td>")
+                    .append("<td>").append(srNo).append("</td>")
                     .append("<td>").append(item.getVendorInvoiceRef()).append("</td>")
                     .append("<td>").append(item.getVendorId()).append("</td>")
                     .append("<td>").append(item.getVendorName()).append("</td>")

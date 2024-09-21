@@ -91,7 +91,6 @@ public class CreateInvoiceRequest {
     @NoArgsConstructor
     @GroupSequence({BlankCheck.class, NoNullStringCheck.class, PatternCheck.class, LengthCheck.class, Item.class})
     public static class Item {
-        private String refId;
 
         @NotBlank(message = "Vendor Invoice Ref Can not be blank", groups = BlankCheck.class)
         private String vendorInvoiceRef;
