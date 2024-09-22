@@ -5,6 +5,7 @@ import com.invoice.web.api.dto.request.CreateInvoiceRequest;
 import com.invoice.web.api.dto.response.Response;
 import com.invoice.web.api.service.InvoiceService;
 import com.invoice.web.api.service.UserService;
+import com.invoice.web.persistence.model.User;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -29,16 +30,10 @@ public class Controller {
         return userService.login(loginRequest);
     }
 
-    @PostMapping(value = "/createuser", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<Object> createuser(@RequestBody CreateInvoiceRequest createInvoiceRequest) {
-        log.info("Create User Request : {}", createInvoiceRequest);
-        return userService.createUser(createInvoiceRequest);
-    }
-
     @GetMapping(value = "/userdetails", produces = MediaType.APPLICATION_JSON_VALUE)
     public Response<Object> userdetails() {
         log.info("Get UserDetails Request");
-        return userService.userDetails();
+        return null;
     }
 
     @GetMapping(value = "/invoices", produces = MediaType.APPLICATION_JSON_VALUE)
