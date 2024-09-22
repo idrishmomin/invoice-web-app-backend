@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @ToString
 @Getter
 @Setter
@@ -38,7 +40,7 @@ public class CreateUserRequest {
     private String department;
 
     @NotBlank(message = "Role should not be blank or null", groups = BlankCheck.class)
-    private String role;
+    private List<String> roles;
 
     @NotBlank(message = "Password should not be blank or null", groups = BlankCheck.class)
     private String password;

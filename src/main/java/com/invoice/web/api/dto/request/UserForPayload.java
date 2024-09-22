@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @ToString
 @Getter
 @Setter
@@ -24,5 +26,5 @@ public class UserForPayload {
 
     private String department;
 
-    private String role;
+    private List<String> roles;
 }

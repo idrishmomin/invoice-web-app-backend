@@ -22,7 +22,7 @@ public class LoginRequest {
     @NotBlank(message = "Password should not be blank or null", groups = BlankCheck.class)
     private String password;
 
-    @NotBlank(message = "OTP should not be blank or null", groups = BlankCheck.class)
+    //@NotBlank(message = "OTP should not be blank or null", groups = BlankCheck.class)
     private String otp;
 
 }

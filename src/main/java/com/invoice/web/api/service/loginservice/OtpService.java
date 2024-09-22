@@ -1,48 +1,23 @@
 package com.invoice.web.api.service.loginservice;
 
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class OtpService {
 
-    private final Map<String, OtpDetails> otpStorage = new HashMap<>();
+    private final Random random = new Random();
 
-    // Expiry time for OTP (10 minutes)
-    private final long OTP_EXPIRY_DURATION = TimeUnit.MINUTES.toMillis(10);
-
-    public String generateOtp(String username) {
-        // Generate a random 6-digit OTP
-        String otp = String.format("%06d", new Random().nextInt(999999));
-
-        // Store the OTP along with the current timestamp
-        OtpDetails otpDetails = new OtpDetails(otp, System.currentTimeMillis());
-        otpStorage.put(username, otpDetails);
-
-        return otp;
+    @CachePut(value = "otpCache", key = "#email")
+    public String generateOtp(String email) {
+        String otp = String.format("%06d", random.nextInt(1000000)); // Generate a 6-digit OTP
+        return otp; // Save OTP to cache with the phone number as the key
     }
 
-    public boolean validateOtp(String username, String otp) {
-        OtpDetails otpDetails = otpStorage.get(username);
-
-        // Check if OTP exists for the user
-        if (otpDetails == null) {
-            return false;
-        }
-
-        // Check if OTP is still valid (within expiry time)
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - otpDetails.getTimestamp() > OTP_EXPIRY_DURATION) {
-            otpStorage.remove(username);  // Remove expired OTP
-            return false;
-        }
-
-        // Validate OTP
-        return otpDetails.getOtp().equals(otp);
+    @Cacheable(value = "otpCache", key = "#email")
+    public String getCachedOtp(String email) {
+        return null; // Will return cached OTP if available, otherwise null
     }
-
 }

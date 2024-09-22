@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
-@Service
+//@Service
 public class OtpService {
 
     public String generateOtp() {

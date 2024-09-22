@@ -1,47 +1,33 @@
 package com.invoice.web.api.service.loginservice;
 
-import com.invoice.web.infrastructure.utils.EmailService;
-import com.invoice.web.persistence.model.User;
-import com.invoice.web.persistence.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.invoice.web.api.dto.request.LoginRequest;
+import com.invoice.web.api.service.UserDetailsLoginService;
+import com.invoice.web.infrastructure.utils.JwtUtils;
+import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
+@AllArgsConstructor
 public class AuthenticationService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final AuthenticationManager authenticationManager;
+    private final UserDetailsLoginService userDetailsService;
+    private final JwtUtils jwtUtils; // Token generation utility
 
-    @Autowired
-    private OtpService otpService;
-
-    @Autowired
-    private EmailService emailService;
-
-    public String loginWithUsernamePassword(String username, String password) {
-        Optional<User> userOptional = Optional.ofNullable(userRepository.findByEmail(username));
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-
-            // Check if password is correct
-            if (user.getPassword().equals(password)) {
-                // Generate OTP
-                String otp = otpService.generateOtp(username);
-
-
-                emailService.sendSimpleMail(otp);
-                return "OTP has been sent to your registered email.";
-            } else {
-                throw new RuntimeException("Invalid username or password");
-            }
-        }
-        throw new RuntimeException("User not found");
+    public UserDetails validateUser(LoginRequest loginRequest) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
+        );
+        return userDetailsService.loadUserByUsername(loginRequest.getEmail());
     }
-
-    public boolean verifyOtp(String username, String otp) {
-        return otpService.validateOtp(username, otp);
+    public String getJwtToken(UserDetails userDetails){
+        if ( userDetails != null)
+            //userDetails.getAuthorities().
+            return jwtUtils.generateToken(userDetails.getUsername()); // Generate and return JWT token
+        return null;
     }
 }
 

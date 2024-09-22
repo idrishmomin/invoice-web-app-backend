@@ -11,7 +11,13 @@ logging:
       springframework.jmx: ERROR
       springframework.test: ERROR
       springframework.web.servlet.handler: ERROR
+      springframework.security: DEBUG
+
 spring:
+  cache:
+    jcache:
+      config=classpath:ehcache:
+        xml:
   profiles:
     active: ${active_profile:local}
   application:
