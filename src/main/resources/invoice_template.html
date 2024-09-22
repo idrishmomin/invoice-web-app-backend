@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 10mm;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .invoice-box {
+            width: 210mm;
+            min-height: 297mm;
+            margin: auto;
+            padding: 10mm;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-size: 12px;
+            line-height: 1.4;
+            color: #555;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+
+        .invoice-header {
+            margin-bottom: 20px;
+        }
+
+        .invoice-header td {
+            padding: 4px 0;
+            vertical-align: top;
+        }
+
+        .invoice-header .invoice-details {
+            text-align: right;
+        }
+
+        /* Add custom spacing for invoice number */
+        .invoice-header .invoice-details table td {
+            padding: 2px; /* Reduced padding */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+
+        table td {
+            padding: 6px;
+        }
+
+        table th {
+            padding: 8px;
+            text-align: left;
+            background-color: #007bff;
+            color: white;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .items td {
+            border: 1px solid #ddd;
+        }
+
+        .items th, .items td {
+            font-size: 10px;
+        }
+
+        .items tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .items tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .signature-box {
+            margin-top: 30px;
+        }
+
+        .signature-box h4 {
+            font-size: 14px;
+            margin-bottom: 15px;
+            color: #007bff;
+        }
+
+        .signature-box .sign-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .signature-box .sign-box {
+            width: 45%;
+            border-top: 1px solid #333;
+            padding-top: 10px;
+            text-align: center;
+            font-size: 10px;
+        }
+
+        .signature-box .name {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        /* Adjusted styles for the total section */
+        .total-box {
+            margin-top: 10px;
+            font-size: 12px;
+            text-align: right; /* Align totals on the right */
+        }
+
+        .total-box table {
+            width: auto;
+            margin-left: auto; /* Push the table to the right */
+            border: 1px solid #ddd;
+        }
+
+        .total-box td, .total-box th {
+            padding: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .total-title {
+            font-weight: normal;
+        }
+
+        .total-value {
+            text-align: right;
+        }
+
+        .grand-total {
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+<div class="invoice-box">
+    <div class="invoice-header">
+        <table>
+            <tr>
+                <td class="title">Invoice</td>
+                <td class="invoice-details">
+                    <table>
+                        <tr>
+                            <td>Invoice Number:</td>
+                            <td>${invoiceNumber}</td>
+                        </tr>
+                        <tr>
+                            <td>Created Date:</td>
+                            <td>${invoiceCreatedDate}</td>
+                        </tr>
+                        <tr>
+                            <td>Updated Date:</td>
+                            <td>${invoiceUpdatedDate}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <table>
+        <tr>
+            <td>
+                Submitter: <strong>${submitterName}</strong><br>
+                Department: <strong>${department}</strong>
+            </td>
+            <td>
+                Account Type: <strong>${accountType}</strong><br>
+                Total Due: <strong>${totalDue}</strong><br>
+                Payment Type: <strong>${paymentType}</strong>
+            </td>
+        </tr>
+    </table>
+
+    <table class="items">
+        <thead>
+        <tr>
+            <th>Ref ID</th>
+            <th>Vendor Invoice Ref</th>
+            <th>Vendor ID</th>
+            <th>Vendor Name</th>
+            <th>Invoice Date</th>
+            <th>Invoice Amount</th>
+            <th>Rate of SAR</th>
+            <th>Recurring</th>
+            <th>Cost Code</th>
+            <th>Expense Type</th>
+            <th>Currency</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        ${items}
+        </tbody>
+    </table>
+
+    <div class="total-box">
+        <table>
+            <tr>
+                <td>Total:</td>
+                <td class="total-value">${subTotal}</td>
+            </tr>
+            <tr>
+                <td>Adjustment:</td>
+                <td class="total-value">${adjustment}</td>
+            </tr>
+            <tr>
+                <td>Grand Total:</td>
+                <td class="total-value grand-total">${grandTotal}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="signature-box">
+        <h4>Signatures</h4>
+        <div>
+            ${signatures}
+        </div>
+    </div>
+</div>
+</body>
+</html>
