@@ -93,31 +93,52 @@
             margin-top: 30px;
         }
 
-        .signature-box h4 {
-            font-size: 14px;
-            margin-bottom: 15px;
-            color: #007bff;
-        }
+       .signature-box {
+    margin-top: 10px;
+    font-size: 12px;
+    text-align: left; /* Align signatures on the left */
+}
 
-        .signature-box .sign-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
+.signature-box table {
+    width: auto;
+    margin-right: auto; /* Push the table to the left */
+    border: 1px solid #ddd;
+}
 
-        .signature-box .sign-box {
-            width: 45%;
-            border-top: 1px solid #333;
-            padding-top: 10px;
-            text-align: center;
-            font-size: 10px;
-        }
+.signature-box td, .signature-box th {
+    padding: 4px;
+    border: 1px solid #ddd;
+}
 
-        .signature-box .name {
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #555;
-        }
+.signature-box h4 {
+    text-align: left; /* Align the "Signatures" title on the left */
+    font-size: 14px;
+    margin-bottom: 15px;
+    color: #007bff;
+}
+
+.signature-box .sign-row {
+    display: flex;
+    justify-content: flex-start; /* Align signature rows on the left */
+    margin-bottom: 20px;
+}
+
+.signature-box .sign-box {
+    width: 45%;
+    border-top: 1px solid #333;
+    padding-top: 10px;
+    text-align: left;
+    font-size: 10px;
+    margin-right: 20px; /* Add margin to the right for space between signature boxes */
+}
+
+.signature-box .name {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+
 
         /* Adjusted styles for the total section */
         .total-box {

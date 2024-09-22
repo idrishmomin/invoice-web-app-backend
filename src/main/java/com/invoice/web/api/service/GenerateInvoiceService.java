@@ -94,9 +94,20 @@ public class GenerateInvoiceService {
         invoiceHtml = invoiceHtml.replace("${items}", itemsHtml.toString());
 
         // Step 5: Generate dynamic signatures
+//        StringBuilder signaturesHtml = new StringBuilder();
+//        for (Signature signature : signatureList) {
+//            signaturesHtml.append("<p>").append(signature.getDepartment());
+//            signaturesHtml.append("<p>");
+//            signaturesHtml.append("<p>").append(signature.getName()).append(": _____________________</p>");
+//        }
+
         StringBuilder signaturesHtml = new StringBuilder();
         for (Signature signature : signatureList) {
-            signaturesHtml.append("<p>").append(signature.getName()).append(": _____________________</p>");
+            signaturesHtml.append("<div style='border: 1px solid black; padding: 10px; margin-bottom: 10px;'>"); // Add a border and padding to each signature
+            signaturesHtml.append("<p><strong>Signature By ").append(signature.getDepartment()).append("</strong>").append(" : <h4>").append(signature.getName()).append("</h4>").append("</p>");
+            signaturesHtml.append("<p><strong>Date: </strong> _____________________</p>");
+            signaturesHtml.append("<p><strong>Signature: </strong> _____________________</p>");
+            signaturesHtml.append("</div>"); // Close the border div
         }
 
         // Step 6: Replace the ${signatures} placeholder with the dynamically generated signature lines

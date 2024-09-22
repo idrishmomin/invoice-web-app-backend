@@ -20,4 +20,7 @@ public class Signature {
     private long id;
 
     private String name;
+
+    private String department;
+
 }

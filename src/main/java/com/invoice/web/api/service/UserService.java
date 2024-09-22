@@ -60,7 +60,8 @@ public class UserService {
         userForPayload.setName(user.getName());
         userForPayload.setSurname(user.getSurname());
         userForPayload.setEmail(user.getEmail());
-        userForPayload.setCountry(user.getPhone());
+        userForPayload.setPhone(user.getPhone());
+        userForPayload.setCountry(user.getCountry());
         userForPayload.setDepartment(user.getDepartment());
         userForPayload.setRole(user.getRole());
 
