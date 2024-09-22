@@ -40,4 +40,8 @@ public class CreateUserRequest {
     @NotBlank(message = "Role should not be blank or null", groups = BlankCheck.class)
     private String role;
 
+    @NotBlank(message = "Password should not be blank or null", groups = BlankCheck.class)
+    private String password;
+
+
 }
