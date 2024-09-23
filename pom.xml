@@ -106,7 +106,7 @@
         <dependency>
             <groupId>org.ehcache</groupId>
             <artifactId>ehcache</artifactId>
-            <version>3.10.8</version>
+            <classifier>jakarta</classifier>
         </dependency>
 
         <dependency>
@@ -114,8 +114,6 @@
             <artifactId>javax.mail</artifactId>
             <version>1.5.5</version>
         </dependency>
-
-
     </dependencies>
 
     <build>
