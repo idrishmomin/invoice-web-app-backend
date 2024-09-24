@@ -11,6 +11,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -93,6 +94,16 @@ public class InvoiceService {
     }
 
     public Response<Object> otherDetails() {
+        List<String> paymentType = new ArrayList<>();
+        paymentType.add("CASH");
+        paymentType.add("CHEQUE");
+        paymentType.add("BANK");
+
+        List<String> invoiceStatus = new ArrayList<>();
+        invoiceStatus.add("PENDING");
+        invoiceStatus.add("SUBMITTED");
+        invoiceStatus.add("REJECTED");
+
         List<Accounts> accountsList = accountsRepository.findAll();
         List<CostCenter> costCenterList = costCenterRepository.findAll();
         List<Currencies> currenciesList = currenciesRepository.findAll();
@@ -107,6 +118,8 @@ public class InvoiceService {
         otherDataResponse.setDepartmentList(departmentList);
         otherDataResponse.setExpenseCodesList(expenseCodesList);
         otherDataResponse.setVendorList(vendorList);
+        otherDataResponse.setPaymentType(paymentType);
+        otherDataResponse.setInvoiceStatus(invoiceStatus);
 
         return Response.builder().response(otherDataResponse).build();
     }

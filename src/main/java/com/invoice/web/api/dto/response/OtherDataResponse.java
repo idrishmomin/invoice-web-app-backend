@@ -19,5 +19,7 @@ public class OtherDataResponse {
     List<Department> departmentList;
     List<ExpenseCodes> expenseCodesList;
     List<Vendor> vendorList;
+    List<String> paymentType;
+    List<String> invoiceStatus;
 
 }
