@@ -181,15 +181,15 @@
                     <table>
                         <tr>
                             <td>Invoice Number:</td>
-                            <td>6420240922024536075</td>
+                            <td>${invoiceNumber}</td>
                         </tr>
                         <tr>
                             <td>Created Date:</td>
-                            <td>2024-09-22</td>
+                            <td>${invoiceCreatedDate}</td>
                         </tr>
                         <tr>
-                            <td>Updated Date:</td>
-                            <td>N/A</td>
+                            <td>Created By:</td>
+                            <td>${createdBy}</td>
                         </tr>
                     </table>
                 </td>
@@ -200,13 +200,17 @@
     <table>
         <tr>
             <td>
-                Submitter: <strong>Samad</strong><br>
-                Department: <strong>Telecom</strong>
+                Submitter: <strong>${submitterName}</strong><br>
+                Department: <strong>${department}</strong>
             </td>
             <td>
-                Account Type: <strong>Private Account</strong><br>
-                Total Due: <strong>$ 6657</strong><br>
-                Payment Type: <strong>Bank</strong>
+                Account Type: <strong>${accountType}</strong><br>
+                Payment Type: <strong>${paymentType}</strong>
+            </td>
+            <td>
+                Bill To: <strong>${billTo}</strong><br>
+                Payment Due: <strong>${paymentDue}</strong>
+                Vendor Bank Details: <strong>${vendorBankDetails}</strong>
             </td>
         </tr>
     </table>
@@ -219,17 +223,18 @@
             <th>Vendor ID</th>
             <th>Vendor Name</th>
             <th>Invoice Date</th>
-            <th>Invoice Amount</th>
-            <th>Rate of SAR</th>
+            <th>Description</th>
             <th>Recurring</th>
             <th>Cost Code</th>
             <th>Expense Type</th>
             <th>Currency</th>
-            <th>Description</th>
+            <th>Rate of SAR</th>
+            <th>Invoice Amount</th>
+            <th>Total</th>
         </tr>
         </thead>
         <tbody>
-        <tr><td>1</td><td>1222</td><td>FFGH</td><td>SST Tech LTD</td><td>2023-04-22</td><td>6</td><td>1.00</td><td>NO</td><td>9900</td><td>50106002</td><td>USD</td><td>test</td></tr><tr><td>2</td><td>1222</td><td>FFGH</td><td>SST Tech LTD</td><td>2023-04-22</td><td>6</td><td>1.00</td><td>NO</td><td>9900</td><td>50106002</td><td>USD</td><td>test</td></tr><tr><td>3</td><td>1222</td><td>FFGH</td><td>SST Tech LTD</td><td>2023-04-22</td><td>6</td><td>1.00</td><td>NO</td><td>9900</td><td>50106002</td><td>USD</td><td>test</td></tr><tr><td>4</td><td>1222</td><td>FFGH</td><td>SST Tech LTD</td><td>2023-04-22</td><td>6</td><td>1.00</td><td>NO</td><td>9900</td><td>50106002</td><td>USD</td><td>test</td></tr><tr><td>5</td><td>1222</td><td>FFGH</td><td>SST Tech LTD</td><td>2023-04-22</td><td>6</td><td>1.00</td><td>NO</td><td>9900</td><td>50106002</td><td>USD</td><td>test</td></tr><tr><td>6</td><td>1222</td><td>FFGH</td><td>SST Tech LTD</td><td>2023-04-22</td><td>6</td><td>1.00</td><td>NO</td><td>9900</td><td>50106002</td><td>USD</td><td>test</td></tr><tr><td>7</td><td>1222</td><td>FFGH</td><td>SST Tech LTD</td><td>2023-04-22</td><td>6</td><td>1.00</td><td>NO</td><td>9900</td><td>50106002</td><td>USD</td><td>test</td></tr><tr><td>8</td><td>1222</td><td>FFGH</td><td>SST Tech LTD</td><td>2023-04-22</td><td>6</td><td>1.00</td><td>NO</td><td>9900</td><td>50106002</td><td>USD</td><td>test</td></tr><tr><td>9</td><td>1222</td><td>FFGH</td><td>SST Tech LTD</td><td>2023-04-22</td><td>6</td><td>1.00</td><td>NO</td><td>9900</td><td>50106002</td><td>USD</td><td>test</td></tr>
+        ${items}
         </tbody>
     </table>
 
@@ -237,15 +242,15 @@
         <table>
             <tr>
                 <td>Total:</td>
-                <td class="total-value">667</td>
+                <td class="total-value">${subTotal}</td>
             </tr>
             <tr>
                 <td>Adjustment:</td>
-                <td class="total-value">0.00</td>
+                <td class="total-value">${adjustment}</td>
             </tr>
             <tr>
                 <td>Grand Total:</td>
-                <td class="total-value grand-total">$ 6670</td>
+                <td class="total-value grand-total">${grandTotal}</td>
             </tr>
         </table>
     </div>
@@ -253,7 +258,7 @@
     <div class="signature-box">
         <h4>Signatures</h4>
         <div>
-            <div style='border: 1px solid black; padding: 10px; margin-bottom: 10px;'><p><strong>Signature By Accounting</strong> : <h4>Thomas</h4></p><p><strong>Date: </strong> _____________________</p><p><strong>Signature: </strong> _____________________</p></div><div style='border: 1px solid black; padding: 10px; margin-bottom: 10px;'><p><strong>Signature By CEO</strong> : <h4>cook</h4></p><p><strong>Date: </strong> _____________________</p><p><strong>Signature: </strong> _____________________</p></div><div style='border: 1px solid black; padding: 10px; margin-bottom: 10px;'><p><strong>Signature By Supervisor</strong> : <h4>Andrew</h4></p><p><strong>Date: </strong> _____________________</p><p><strong>Signature: </strong> _____________________</p></div>
+            ${signatures}
         </div>
     </div>
 </div>

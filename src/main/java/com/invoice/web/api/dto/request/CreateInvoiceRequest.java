@@ -138,12 +138,13 @@ public class CreateInvoiceRequest {
         @NotBlank(message = "Currency Can not be blank", groups = BlankCheck.class)
         private String currency;
 
-
+        private String invoiceTotal;
         private String invoiceAmount;   // don't show in petty cash
         private String recurring;    // don't show in petty cash
 
 
         // petty Cash fields
+        private String submitterName;
         private String itemAmount;
         private String quantity;
         private String subTotal;   // itemAmount * quantity * rateOfSAR
