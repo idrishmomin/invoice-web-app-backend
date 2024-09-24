@@ -24,13 +24,15 @@ public class Invoice {
     @Column(name = "invoice_number", unique = true, nullable = false)
     private String invoiceNumber;
 
+    private String createdBy;
+
+    private String updatedBy;
+
+    private String invoiceStatus;
+
     private LocalDateTime invoiceCreatedDate;
 
     private LocalDateTime invoiceUpdatedDate;
-
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "JSON")
-    private CreateInvoiceRequest.Submitter editedBy;
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "JSON")
@@ -38,7 +40,11 @@ public class Invoice {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "JSON")
-    private CreateInvoiceRequest.AccountDue accountDue;
+    private CreateInvoiceRequest.AccountDue accountDetails;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "JSON")
+    private CreateInvoiceRequest.VendorDetails vendorDetails;
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "JSON")

@@ -8,14 +8,14 @@
         @page {
             size: A4;
             margin: 10mm;
-        }
+}
 
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
-        }
+}
 
         .invoice-box {
             width: 210mm;
@@ -24,46 +24,48 @@
             padding: 10mm;
             background-color: #fff;
             border: 1px solid #ddd;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0,
+    0,
+    0,
+    0.1);
             font-size: 12px;
             line-height: 1.4;
             color: #555;
-        }
+}
 
         .title {
             font-size: 28px;
             font-weight: bold;
             color: #333;
             text-align: center;
-        }
+}
 
         .invoice-header {
             margin-bottom: 20px;
-        }
+}
 
         .invoice-header td {
             padding: 4px 0;
             vertical-align: top;
-        }
+}
 
         .invoice-header .invoice-details {
             text-align: right;
-        }
-
-        /* Add custom spacing for invoice number */
+}
+/* Add custom spacing for invoice number */
         .invoice-header .invoice-details table td {
             padding: 2px; /* Reduced padding */
-        }
+}
 
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 10px;
-        }
+}
 
         table td {
             padding: 6px;
-        }
+}
 
         table th {
             padding: 8px;
@@ -71,27 +73,27 @@
             background-color: #007bff;
             color: white;
             border-bottom: 1px solid #ddd;
-        }
+}
 
         .items td {
             border: 1px solid #ddd;
-        }
+}
 
         .items th, .items td {
             font-size: 10px;
-        }
+}
 
         .items tr:nth-child(even) {
             background-color: #f9f9f9;
-        }
+}
 
         .items tr:hover {
             background-color: #f1f1f1;
-        }
+}
 
         .signature-box {
             margin-top: 30px;
-        }
+}
 
        .signature-box {
     margin-top: 10px;
@@ -137,39 +139,36 @@
     margin-bottom: 8px;
     color: #555;
 }
-
-
-
-        /* Adjusted styles for the total section */
+/* Adjusted styles for the total section */
         .total-box {
             margin-top: 10px;
             font-size: 12px;
             text-align: right; /* Align totals on the right */
-        }
+}
 
         .total-box table {
             width: auto;
             margin-left: auto; /* Push the table to the right */
             border: 1px solid #ddd;
-        }
+}
 
         .total-box td, .total-box th {
             padding: 4px;
             border: 1px solid #ddd;
-        }
+}
 
         .total-title {
             font-weight: normal;
-        }
+}
 
         .total-value {
             text-align: right;
-        }
+}
 
         .grand-total {
             font-weight: bold;
             color: #007bff;
-        }
+}
     </style>
 </head>
 <body>
@@ -182,15 +181,15 @@
                     <table>
                         <tr>
                             <td>Invoice Number:</td>
-                            <td>${invoiceNumber}</td>
+                            <td>6420240922024536075</td>
                         </tr>
                         <tr>
                             <td>Created Date:</td>
-                            <td>${invoiceCreatedDate}</td>
+                            <td>2024-09-22</td>
                         </tr>
                         <tr>
                             <td>Updated Date:</td>
-                            <td>${invoiceUpdatedDate}</td>
+                            <td>N/A</td>
                         </tr>
                     </table>
                 </td>
@@ -201,13 +200,13 @@
     <table>
         <tr>
             <td>
-                Submitter: <strong>${submitterName}</strong><br>
-                Department: <strong>${department}</strong>
+                Submitter: <strong>Samad</strong><br>
+                Department: <strong>Telecom</strong>
             </td>
             <td>
-                Account Type: <strong>${accountType}</strong><br>
-                Total Due: <strong>${totalDue}</strong><br>
-                Payment Type: <strong>${paymentType}</strong>
+                Account Type: <strong>Private Account</strong><br>
+                Total Due: <strong>$ 6657</strong><br>
+                Payment Type: <strong>Bank</strong>
             </td>
         </tr>
     </table>
@@ -230,7 +229,7 @@
         </tr>
         </thead>
         <tbody>
-        ${items}
+        <tr><td>1</td><td>1222</td><td>FFGH</td><td>SST Tech LTD</td><td>2023-04-22</td><td>6</td><td>1.00</td><td>NO</td><td>9900</td><td>50106002</td><td>USD</td><td>test</td></tr><tr><td>2</td><td>1222</td><td>FFGH</td><td>SST Tech LTD</td><td>2023-04-22</td><td>6</td><td>1.00</td><td>NO</td><td>9900</td><td>50106002</td><td>USD</td><td>test</td></tr><tr><td>3</td><td>1222</td><td>FFGH</td><td>SST Tech LTD</td><td>2023-04-22</td><td>6</td><td>1.00</td><td>NO</td><td>9900</td><td>50106002</td><td>USD</td><td>test</td></tr><tr><td>4</td><td>1222</td><td>FFGH</td><td>SST Tech LTD</td><td>2023-04-22</td><td>6</td><td>1.00</td><td>NO</td><td>9900</td><td>50106002</td><td>USD</td><td>test</td></tr><tr><td>5</td><td>1222</td><td>FFGH</td><td>SST Tech LTD</td><td>2023-04-22</td><td>6</td><td>1.00</td><td>NO</td><td>9900</td><td>50106002</td><td>USD</td><td>test</td></tr><tr><td>6</td><td>1222</td><td>FFGH</td><td>SST Tech LTD</td><td>2023-04-22</td><td>6</td><td>1.00</td><td>NO</td><td>9900</td><td>50106002</td><td>USD</td><td>test</td></tr><tr><td>7</td><td>1222</td><td>FFGH</td><td>SST Tech LTD</td><td>2023-04-22</td><td>6</td><td>1.00</td><td>NO</td><td>9900</td><td>50106002</td><td>USD</td><td>test</td></tr><tr><td>8</td><td>1222</td><td>FFGH</td><td>SST Tech LTD</td><td>2023-04-22</td><td>6</td><td>1.00</td><td>NO</td><td>9900</td><td>50106002</td><td>USD</td><td>test</td></tr><tr><td>9</td><td>1222</td><td>FFGH</td><td>SST Tech LTD</td><td>2023-04-22</td><td>6</td><td>1.00</td><td>NO</td><td>9900</td><td>50106002</td><td>USD</td><td>test</td></tr>
         </tbody>
     </table>
 
@@ -238,15 +237,15 @@
         <table>
             <tr>
                 <td>Total:</td>
-                <td class="total-value">${subTotal}</td>
+                <td class="total-value">667</td>
             </tr>
             <tr>
                 <td>Adjustment:</td>
-                <td class="total-value">${adjustment}</td>
+                <td class="total-value">0.00</td>
             </tr>
             <tr>
                 <td>Grand Total:</td>
-                <td class="total-value grand-total">${grandTotal}</td>
+                <td class="total-value grand-total">$ 6670</td>
             </tr>
         </table>
     </div>
@@ -254,7 +253,7 @@
     <div class="signature-box">
         <h4>Signatures</h4>
         <div>
-            ${signatures}
+            <div style='border: 1px solid black; padding: 10px; margin-bottom: 10px;'><p><strong>Signature By Accounting</strong> : <h4>Thomas</h4></p><p><strong>Date: </strong> _____________________</p><p><strong>Signature: </strong> _____________________</p></div><div style='border: 1px solid black; padding: 10px; margin-bottom: 10px;'><p><strong>Signature By CEO</strong> : <h4>cook</h4></p><p><strong>Date: </strong> _____________________</p><p><strong>Signature: </strong> _____________________</p></div><div style='border: 1px solid black; padding: 10px; margin-bottom: 10px;'><p><strong>Signature By Supervisor</strong> : <h4>Andrew</h4></p><p><strong>Date: </strong> _____________________</p><p><strong>Signature: </strong> _____________________</p></div>
         </div>
     </div>
 </div>

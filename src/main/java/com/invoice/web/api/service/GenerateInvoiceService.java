@@ -62,9 +62,8 @@ public class GenerateInvoiceService {
                 .replace("${invoiceUpdatedDate}", "N/A")
                 .replace("${submitterName}", invoice.getSubmitter().getSubmitterName())
                 .replace("${department}", invoice.getSubmitter().getDepartment())
-                .replace("${totalDue}", invoice.getAccountDue().getTotalDue())
-                .replace("${paymentType}", invoice.getAccountDue().getPaymentType())
-                .replace("${accountType}", invoice.getAccountDue().getAccountType())
+                .replace("${paymentType}", invoice.getAccountDetails().getPaymentType())
+                .replace("${accountType}", invoice.getAccountDetails().getAccountType())
 
                 .replace("${subTotal}", invoice.getTotal().getSubTotal())
                 .replace("${adjustment}", invoice.getTotal().getAdjustments())

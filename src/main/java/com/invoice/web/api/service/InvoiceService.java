@@ -59,12 +59,16 @@ public class InvoiceService {
                 log.info("Invoice with invoiceNumber : {} does not exist", request.getInvoiceNumber());
                 return Response.builder().response("Invoice with invoiceId does not exist ").build();
             } else {
+                invoice.setUpdatedBy(request.getUpdatedBy());
+                invoice.setInvoiceStatus(request.getInvoiceStatus());
                 invoice.setInvoiceUpdatedDate(LocalDateTime.now());
 
                 invoice.setTotal(request.getTotal());
-                invoice.setAccountDue(request.getAccountDue());
-                invoice.setEditedBy(request.getUpdatedBy());
+                invoice.setAccountDetails(request.getAccountDetails());
+                invoice.setVendorDetails(request.getVendorDetails());
+                invoice.setSubmitter(request.getSubmitter());
                 invoice.setItems(request.getItems());
+
                 invoiceRepository.save(invoice);
                 return Response.builder().response(invoice).build();
             }
@@ -73,10 +77,13 @@ public class InvoiceService {
             log.info("Invoice Generating with invoice Number : {}", invoiceNumber);
             Invoice invoice = new Invoice();
             invoice.setInvoiceNumber(invoiceNumber);
+            invoice.setCreatedBy(request.getCreatedBy());
+            invoice.setInvoiceStatus(request.getInvoiceStatus());
             invoice.setInvoiceCreatedDate(LocalDateTime.now());
 
             invoice.setTotal(request.getTotal());
-            invoice.setAccountDue(request.getAccountDue());
+            invoice.setAccountDetails(request.getAccountDetails());
+            invoice.setVendorDetails(request.getVendorDetails());
             invoice.setSubmitter(request.getSubmitter());
             invoice.setItems(request.getItems());
 
