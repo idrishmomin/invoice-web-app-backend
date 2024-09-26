@@ -27,7 +27,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/webportal/v1/login", "/webportal/v1/verify-otp").permitAll()
+                        .requestMatchers("/webportal/v1/login").permitAll()
                         .requestMatchers("/webportal/v1/admin/**").hasAnyRole(Roles.ADMIN.name(),Roles.SUPER_ADMIN.name())
                         .requestMatchers("/webportal/v1/user/**").hasAnyRole(Roles.ADMIN.name(),Roles.SUPER_ADMIN.name(),Roles.USER.name())
                         .anyRequest().authenticated()
@@ -35,14 +35,6 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-/*
-        http.csrf().disable()
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/webportal/v1/login", "/webportal/v1/verify-otp").permitAll()
-                        .anyRequest().authenticated()  // Allow all requests for testing
-                )
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        return http.build();*/
         return http.build();
     }
 

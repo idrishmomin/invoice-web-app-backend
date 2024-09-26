@@ -16,7 +16,7 @@ public class OtpService {
     @CachePut(value = "otpCache", key = "#email")
     public String generateOtp(String email) {
         String otp = String.format("%06d", random.nextInt(1000000)); // Generate a 6-digit OTP
-        return otp; // Save OTP to cache with the phone number as the key
+        return otp;
     }
 
     @Cacheable(value = "otpCache", key = "#email")

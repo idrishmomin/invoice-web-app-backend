@@ -3,6 +3,20 @@ spring:
         url: jdbc:mysql://localhost:3306/invoice_web_app?createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false&sslMode=VERIFY_IDENTITY&enabledTLSProtocols=TLSv1.2
         username: root
         password: root
+    mail:
+        host: smtp.office365.com
+        port: 587
+        username:
+        password:
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
+
 jwt:
     secret: "Wi4XkPz4lDuy7YIdRSpcKpJhZhNsPXZMfGW15xnCX7A="
     expiration: 900000
+email:
+    from:

@@ -1,19 +1,55 @@
 package com.invoice.web.infrastructure.utils;
 
+
 import com.invoice.web.infrastructure.Constants;
-import com.invoice.web.persistence.repositories.SystemConfigRepository;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.util.Date;
-import java.util.Properties;
-
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 @Service
+@RequiredArgsConstructor
 public class EmailService {
-    private final SystemConfigRepository systemConfigRepository;
+    private final JavaMailSender mailSender;
+    private final TemplateEngine templateEngine;
+
+    @Value("${email.from}")
+    private String fromAddress;
+
+    private void sendEmailWithTemplate(String templateName, Context context, String to, String subject) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setFrom(fromAddress);
+
+        // Thymeleaf context to inject variables into the template
+        /*Context context = new Context();
+        context.setVariable("name", name);
+        context.setVariable("message", messageBody);*/
+        String htmlContent = templateEngine.process(templateName, context);
+        helper.setText(htmlContent, true);
+        mailSender.send(message);
+    }
+    @Async
+    public void sendOtpEmail(String name, String surname,String otp, String email) throws MessagingException {
+        Context context = new Context();
+        context.setVariable("name", name);
+        context.setVariable("surname", surname);
+        context.setVariable("otp", otp);
+        sendEmailWithTemplate(Constants.OTP_EMAIL_TEMPLATE,context,email,Constants.OTP_EMAIL_SUBJECT);
+    }
+}
+
+    /*private final SystemConfigRepository systemConfigRepository;
 
     public EmailService(SystemConfigRepository systemConfigRepository) {
         this.systemConfigRepository = systemConfigRepository;
@@ -65,5 +101,4 @@ public class EmailService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-}
+    }*/

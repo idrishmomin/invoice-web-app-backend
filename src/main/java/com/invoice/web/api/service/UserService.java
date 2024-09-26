@@ -3,16 +3,22 @@ package com.invoice.web.api.service;
 import com.invoice.web.api.dto.request.CreateUserRequest;
 import com.invoice.web.api.dto.request.LoginRequest;
 import com.invoice.web.api.dto.request.UserForPayload;
+import com.invoice.web.api.dto.response.LoginResponse;
 import com.invoice.web.api.dto.response.Response;
 import com.invoice.web.api.enums.Roles;
 import com.invoice.web.api.service.loginservice.AuthenticationService;
 import com.invoice.web.api.service.loginservice.OtpService;
+import com.invoice.web.infrastructure.Constants;
+import com.invoice.web.infrastructure.utils.EmailService;
 import com.invoice.web.infrastructure.utils.validation.RequestParameterValidator;
 import com.invoice.web.persistence.model.Role;
 import com.invoice.web.persistence.model.User;
 import com.invoice.web.persistence.repositories.UserRepository;
+import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,6 +37,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder ;
     private final AuthenticationService authenticationService;
     private final OtpService otpService ;
+    private final EmailService emailService ;
 
 
     /*public Response<Object> createUser(CreateUserRequest createUserRequest) {
@@ -41,20 +48,28 @@ public class UserService {
         return null;
     }*/
 
-    public Response<Object> login(LoginRequest request) {
+    public ResponseEntity<LoginResponse> login(LoginRequest request) throws MessagingException {
         RequestParameterValidator.loginRequest(request);
-        UserDetails userDetails = authenticationService.validateUser(request);
-        if (Objects.nonNull(userDetails) && Objects.nonNull(request.getOtp()) && !request.getOtp().isEmpty()){
-            if ( request.getOtp().equals(otpService.getCachedOtp(request.getEmail())))
-                return Response.builder().response(authenticationService.getJwtToken(userDetails)).build();
-            else
-                return Response.builder().response("Wrong OTP").build();
-        } else if(Objects.nonNull(userDetails) && (Objects.isNull(request.getOtp()) || request.getOtp().isEmpty())){
-            otpService.generateOtp(request.getEmail());
-            //email
-            return Response.builder().response("OTP SENT").build();
+        UserDetails userDetails = null ;
+        try {
+            userDetails = authenticationService.validateUser(request);
+        } catch (Exception e){
+            ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginResponse(Constants.INVALID_USER));
         }
-        return Response.builder().response("Wrong cred").build();
+        if (Objects.nonNull(userDetails) && Objects.nonNull(request.getOtp()) && !request.getOtp().isEmpty()){
+            if ( request.getOtp().equals(otpService.getCachedOtp(request.getEmail()))) {
+                String token = authenticationService.getJwtToken(userDetails) ;
+                return ResponseEntity.status(HttpStatus.OK).body(new LoginResponse(Constants.SUCCESS,token));
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginResponse(Constants.INVALID_OTP));
+            }
+        } else if(Objects.nonNull(userDetails) && (Objects.isNull(request.getOtp()) || request.getOtp().isEmpty())){
+            String otp = otpService.generateOtp(userDetails.getUsername());
+            User user = userRepository.findByEmail(userDetails.getUsername());
+            emailService.sendOtpEmail(user.getName(),user.getSurname(),otp,userDetails.getUsername());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginResponse(Constants.OTP_GENERATED));
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginResponse(Constants.INVALID_USER));
     }
 
     public Response<Object> createUser(CreateUserRequest request) {
