@@ -1,12 +1,9 @@
 package com.invoice.web.api.service.loginservice;
 
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+
 import java.util.Random;
 
 @Service
@@ -19,7 +16,7 @@ public class OtpService {
         return otp;
     }
 
-    @Cacheable(value = "otpCache", key = "#email")
+    @Cacheable(value = "otpCache", key = "#email", unless = "#result == null")
     public String getCachedOtp(String email) {
         return null; // Will return cached OTP if available, otherwise null
     }

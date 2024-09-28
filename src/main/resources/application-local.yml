@@ -6,8 +6,8 @@ spring:
     mail:
         host: smtp.office365.com
         port: 587
-        username:
-        password:
+        username: ramizahmed.samol@azilen.com
+        password: ramiZ@2023
         properties:
             mail:
                 smtp:
@@ -17,6 +17,6 @@ spring:
 
 jwt:
     secret: "Wi4XkPz4lDuy7YIdRSpcKpJhZhNsPXZMfGW15xnCX7A="
-    expiration: 900000
+    expiration: 9000000
 email:
-    from:
+    from: ramizahmed.samol@azilen.com

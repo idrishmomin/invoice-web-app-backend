@@ -12,4 +12,6 @@ public class Constants {
     public static final String INVALID_OTP = "Invalid OTP";
     public static final String OTP_EMAIL_TEMPLATE = "OTP-email";
     public static final String OTP_EMAIL_SUBJECT = "OTP for login";
+    public static final String DUPLICATE_USER = "User Already exists";
+    public static final String USER_NOT_FOUND = "User Details not found";
 }

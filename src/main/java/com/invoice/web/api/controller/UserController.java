@@ -1,13 +1,16 @@
 package com.invoice.web.api.controller;
 
 import com.invoice.web.api.dto.request.CreateInvoiceRequest;
+import com.invoice.web.api.dto.response.ApiResponse;
 import com.invoice.web.api.dto.response.Response;
+import com.invoice.web.api.dto.response.UserResponseDto;
 import com.invoice.web.api.service.GenerateInvoiceService;
 import com.invoice.web.api.service.InvoiceService;
 import com.invoice.web.api.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -23,8 +26,8 @@ public class UserController {
     private final InvoiceService invoiceService;
     private final GenerateInvoiceService generateInvoiceService;
 
-    @GetMapping(value = "/userdetails/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<Object> userdetails(@PathVariable String email) {
+    @GetMapping(value = "/user-details/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<UserResponseDto>> userDetails(@PathVariable String email) {
         log.info("Get UserDetails Request");
         return userService.userDetails(email);
     }

@@ -22,10 +22,6 @@ spring:
   application:
     name: InvoiceWebApp
   datasource:
-    default-auto-commit: true
-    initial-size: 5
-    max-active: 10
-    min-idle: 7
     driver-class-name: com.mysql.cj.jdbc.Driver
   jmx:
     enabled: false

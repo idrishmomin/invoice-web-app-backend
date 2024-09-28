@@ -4,7 +4,6 @@ package com.invoice.web.infrastructure.utils;
 import com.invoice.web.infrastructure.Constants;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;

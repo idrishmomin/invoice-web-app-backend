@@ -1,11 +1,8 @@
 package com.invoice.web.api.controller;
 
-import com.invoice.web.api.dto.request.CreateInvoiceRequest;
 import com.invoice.web.api.dto.request.LoginRequest;
+import com.invoice.web.api.dto.response.ApiResponse;
 import com.invoice.web.api.dto.response.LoginResponse;
-import com.invoice.web.api.dto.response.Response;
-import com.invoice.web.api.service.GenerateInvoiceService;
-import com.invoice.web.api.service.InvoiceService;
 import com.invoice.web.api.service.UserService;
 import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
@@ -14,20 +11,18 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-
 @Log4j2
 @RestController
 @RequestMapping("/webportal/v1")
 @CrossOrigin(origins = "http://localhost:4200")
 @AllArgsConstructor
-public class Controller {
+public class LoginController {
 
     private final UserService userService;
 
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) throws MessagingException {
+    public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest loginRequest) throws MessagingException {
         log.info("Login Request : {}", loginRequest);
         return userService.login(loginRequest);
         /*if (loginRequest.getOtp() == null || loginRequest.getOtp().isEmpty()) {

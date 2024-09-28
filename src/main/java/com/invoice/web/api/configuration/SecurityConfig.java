@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,8 +27,8 @@ public class SecurityConfig {
         http.csrf().disable()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/webportal/v1/login").permitAll()
-                        .requestMatchers("/webportal/v1/admin/**").hasAnyRole(Roles.ADMIN.name(),Roles.SUPER_ADMIN.name())
-                        .requestMatchers("/webportal/v1/user/**").hasAnyRole(Roles.ADMIN.name(),Roles.SUPER_ADMIN.name(),Roles.USER.name())
+                        .requestMatchers("/webportal/v1/admin/**").hasAnyAuthority(Roles.ADMIN.name(),Roles.SUPER_ADMIN.name())
+                        .requestMatchers("/webportal/v1/user/**").hasAnyAuthority(Roles.ADMIN.name(),Roles.SUPER_ADMIN.name(),Roles.USER.name())
                         .anyRequest().authenticated()
                 )
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
