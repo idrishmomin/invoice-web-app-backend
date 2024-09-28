@@ -17,6 +17,7 @@ public class OtherDataResponse {
     List<CostCenter> costCenterList;
     List<Currencies> currenciesList;
     List<Department> departmentList;
+    List<Submitter> submitterList;
     List<ExpenseCodes> expenseCodesList;
     List<Vendor> vendorList;
     List<String> paymentType;

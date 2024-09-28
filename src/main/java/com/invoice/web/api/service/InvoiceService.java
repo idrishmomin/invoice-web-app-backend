@@ -25,8 +25,9 @@ public class InvoiceService {
     private final DepartmentRepository departmentRepository;
     private final ExpenseCodesRepository expenseCodesRepository;
     private final VendorRepository vendorRepository;
+    private final SubmitterRepository submitterRepository;
 
-    public InvoiceService(InvoiceRepository invoiceRepository, AccountsRepository accountsRepository, CostCenterRepository costCenterRepository, CurrenciesRepository currenciesRepository, DepartmentRepository departmentRepository, ExpenseCodesRepository expenseCodesRepository, VendorRepository vendorRepository) {
+    public InvoiceService(InvoiceRepository invoiceRepository, AccountsRepository accountsRepository, CostCenterRepository costCenterRepository, CurrenciesRepository currenciesRepository, DepartmentRepository departmentRepository, ExpenseCodesRepository expenseCodesRepository, VendorRepository vendorRepository, SubmitterRepository submitterRepository) {
         this.invoiceRepository = invoiceRepository;
         this.accountsRepository = accountsRepository;
         this.costCenterRepository = costCenterRepository;
@@ -34,6 +35,7 @@ public class InvoiceService {
         this.departmentRepository = departmentRepository;
         this.expenseCodesRepository = expenseCodesRepository;
         this.vendorRepository = vendorRepository;
+        this.submitterRepository = submitterRepository;
     }
 
     public Response<Object> invoices() {
@@ -110,6 +112,7 @@ public class InvoiceService {
         List<Department> departmentList = departmentRepository.findAll();
         List<ExpenseCodes> expenseCodesList = expenseCodesRepository.findAll();
         List<Vendor> vendorList = vendorRepository.findAll();
+        List<Submitter> submitterList = submitterRepository.findAll();
 
         OtherDataResponse otherDataResponse = new OtherDataResponse();
         otherDataResponse.setAccountsList(accountsList);
@@ -120,6 +123,7 @@ public class InvoiceService {
         otherDataResponse.setVendorList(vendorList);
         otherDataResponse.setPaymentType(paymentType);
         otherDataResponse.setInvoiceStatus(invoiceStatus);
+        otherDataResponse.setSubmitterList(submitterList);
 
         return Response.builder().response(otherDataResponse).build();
     }
