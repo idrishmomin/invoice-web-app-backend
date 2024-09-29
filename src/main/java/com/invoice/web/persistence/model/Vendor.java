@@ -43,8 +43,8 @@ public class Vendor {
     @NoArgsConstructor
     public class BankDetails {
         private String bankName;
-        private String netTerms;
-        private String paymentDetails;
+        private String ibanNumber;
+        private String bankAddress;
     }
 }
 

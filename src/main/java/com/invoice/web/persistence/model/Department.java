@@ -19,5 +19,8 @@ public class Department {
     @Column(name = "id")
     private long id;
 
-    private String name;
+    private String departmentName;
+    private String departmentManager;
+    private String submitter;
+
 }

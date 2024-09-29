@@ -1,21 +1,18 @@
 package com.invoice.web.api.controller;
 
-import com.invoice.web.api.dto.request.CreateInvoiceRequest;
-import com.invoice.web.api.dto.request.CreateUserRequest;
-import com.invoice.web.api.dto.request.LoginRequest;
+import com.invoice.web.api.dto.request.*;
 import com.invoice.web.api.dto.response.Response;
 import com.invoice.web.api.service.GenerateInvoiceService;
 import com.invoice.web.api.service.InvoiceService;
+import com.invoice.web.api.service.OtherDetailsService;
 import com.invoice.web.api.service.UserService;
 import com.invoice.web.api.service.loginservice.AuthenticationService;
 import com.invoice.web.infrastructure.utils.JwtUtil;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 @Log4j2
@@ -28,13 +25,15 @@ public class Controller {
     private final InvoiceService invoiceService;
     private final GenerateInvoiceService generateInvoiceService;
     private final AuthenticationService authenticationService;
+    private final OtherDetailsService otherDetailsService;
     private final JwtUtil jwtUtil;
 
-    public Controller(UserService userService, InvoiceService invoiceService, GenerateInvoiceService generateInvoiceService, AuthenticationService authenticationService, JwtUtil jwtUtil) {
+    public Controller(UserService userService, InvoiceService invoiceService, GenerateInvoiceService generateInvoiceService, AuthenticationService authenticationService, OtherDetailsService otherDetailsService, JwtUtil jwtUtil) {
         this.userService = userService;
         this.invoiceService = invoiceService;
         this.generateInvoiceService = generateInvoiceService;
         this.authenticationService = authenticationService;
+        this.otherDetailsService = otherDetailsService;
         this.jwtUtil = jwtUtil;
     }
 
@@ -97,11 +96,45 @@ public class Controller {
         return invoiceService.otherDetails();
     }
 
-
     @PostMapping(value = "/createinvoice", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createinvoice(@RequestBody CreateInvoiceRequest createInvoiceRequest) {
         log.info("Create Invoice request: {}", createInvoiceRequest);
         return invoiceService.createInvoice(createInvoiceRequest);
     }
+
+    @PostMapping(value = "/create-costcenter", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> createCostCenter(@RequestBody CostCenterRequest costCenterRequest) {
+        log.info("Cost Center request: {}", costCenterRequest);
+        return otherDetailsService.createOrUpdateCostCenter(costCenterRequest);
+    }
+
+    @PostMapping(value = "/create-expensetype", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> createExpenseType(@RequestBody ExpenseTypeRequest expenseTypeRequest) {
+        log.info("Expense Type request: {}", expenseTypeRequest);
+        return otherDetailsService.createOrUpdateExpenseType(expenseTypeRequest);
+    }
+
+    @PostMapping(value = "/create-department", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> createDepartment(@RequestBody DepartmentsRequest departmentsRequest) {
+        log.info("Department request: {}", departmentsRequest);
+        return otherDetailsService.createOrUpdateDepartment(departmentsRequest);
+    }
+
+
+    @GetMapping(value = "/costcenters", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> costCenters() {
+        return otherDetailsService.getCostCenters();
+    }
+
+    @GetMapping(value = "/expensetypes", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> expenseTypes() {
+        return otherDetailsService.getExpenseTypes();
+    }
+
+    @GetMapping(value = "/departments", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> departments() {
+        return otherDetailsService.getDepartments();
+    }
+
 
 }

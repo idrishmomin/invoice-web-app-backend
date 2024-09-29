@@ -1,0 +1,107 @@
+package com.invoice.web.api.service;
+
+import com.invoice.web.api.dto.request.CostCenterRequest;
+import com.invoice.web.api.dto.request.DepartmentsRequest;
+import com.invoice.web.api.dto.request.ExpenseTypeRequest;
+import com.invoice.web.infrastructure.utils.validation.RequestParameterValidator;
+import com.invoice.web.persistence.model.CostCenter;
+import com.invoice.web.persistence.model.Department;
+import com.invoice.web.persistence.model.ExpenseCodes;
+import com.invoice.web.persistence.repositories.CostCenterRepository;
+import com.invoice.web.persistence.repositories.DepartmentRepository;
+import com.invoice.web.persistence.repositories.ExpenseCodesRepository;
+import com.invoice.web.persistence.repositories.VendorRepository;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@Log4j2
+public class OtherDetailsService {
+
+    private final CostCenterRepository costCenterRepository;
+    private final ExpenseCodesRepository expenseCodesRepository;
+
+    private final DepartmentRepository departmentRepository;
+
+    private final VendorRepository vendorRepository;
+
+    public OtherDetailsService(CostCenterRepository costCenterRepository, ExpenseCodesRepository expenseCodesRepository, DepartmentRepository departmentRepository, VendorRepository vendorRepository) {
+        this.costCenterRepository = costCenterRepository;
+        this.expenseCodesRepository = expenseCodesRepository;
+        this.departmentRepository = departmentRepository;
+        this.vendorRepository = vendorRepository;
+    }
+
+    public ResponseEntity<Object> createOrUpdateCostCenter(CostCenterRequest costCenterRequest) {
+        RequestParameterValidator.commonValidateRequest(costCenterRequest);
+        CostCenter costCenter = costCenterRepository.findByName(costCenterRequest.getCenterName());
+        if (null == costCenter) {
+            log.info("Create New costCenter with name : {}",costCenterRequest.getCenterName());
+            costCenter = new CostCenter();
+            costCenter.setName(costCenterRequest.getCenterName());
+            costCenter.setCode(costCenterRequest.getCenterCode());
+            costCenterRepository.save(costCenter);
+        } else {
+            log.info("Update costCenter with name : {}",costCenterRequest.getCenterName());
+            costCenter.setCode(costCenterRequest.getCenterCode());
+            costCenterRepository.save(costCenter);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(costCenter);
+    }
+
+    public ResponseEntity<Object> createOrUpdateExpenseType(ExpenseTypeRequest expenseTypeRequest) {
+        RequestParameterValidator.commonValidateRequest(expenseTypeRequest);
+        ExpenseCodes expenseCodes = expenseCodesRepository.findByType(expenseTypeRequest.getExpenseName());
+        if (null == expenseCodes) {
+            log.info("Create New ExpenseType with name : {}",expenseCodes.getType());
+            expenseCodes = new ExpenseCodes();
+            expenseCodes.setType(expenseTypeRequest.getExpenseName());
+            expenseCodes.setCode(expenseTypeRequest.getExpenseCode());
+            expenseCodesRepository.save(expenseCodes);
+        } else {
+            log.info("Update ExpenseType with name : {}",expenseTypeRequest.getExpenseName());
+            expenseCodes.setCode(expenseTypeRequest.getExpenseCode());
+            expenseCodesRepository.save(expenseCodes);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(expenseCodes);
+    }
+
+    public ResponseEntity<Object> createOrUpdateDepartment(DepartmentsRequest departmentsRequest) {
+        RequestParameterValidator.commonValidateRequest(departmentsRequest);
+        Department department = departmentRepository.findByDepartmentName(departmentsRequest.getDepartmentName());
+        if (null == department) {
+            log.info("Create New Department with name : {}",departmentsRequest.getDepartmentName());
+            department = new Department();
+            department.setDepartmentName(departmentsRequest.getDepartmentName());
+            department.setDepartmentManager(departmentsRequest.getDepartmentManager());
+            departmentRepository.save(department);
+        } else {
+            log.info("Update Department with name : {}",department.getDepartmentName());
+            department.setDepartmentManager(departmentsRequest.getDepartmentManager());
+            departmentRepository.save(department);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(department);
+    }
+
+    public ResponseEntity<Object> getCostCenters() {
+        List<CostCenter> costCenterList = costCenterRepository.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(costCenterList);
+    }
+
+    public ResponseEntity<Object> getExpenseTypes() {
+        List<ExpenseCodes> costCenterList = expenseCodesRepository.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(costCenterList);
+    }
+
+    public ResponseEntity<Object> getDepartments() {
+        List<Department> costCenterList = departmentRepository.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(costCenterList);
+    }
+}
+
+
+
