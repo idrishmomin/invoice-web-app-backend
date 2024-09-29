@@ -73,33 +73,33 @@ public class Controller {
     }
 
     @GetMapping(value = "/invoices", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<Object> invoices() {
+    public ResponseEntity<Object> invoices() {
         log.info("Get Invoices request ");
         return invoiceService.invoices();
     }
 
     @GetMapping(value = "/invoice/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<Object> getInvoiceDetails(@PathVariable String id) {
+    public ResponseEntity<Object> getInvoiceDetails(@PathVariable String id) {
         log.info("Get Invoice details");
         return invoiceService.getInvoiceDetails(id);
     }
 
 
     @GetMapping(value = "/generateinvoice/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String generatePDFInvoice(@PathVariable String id) throws IOException {
+    public byte[] generatePDFInvoice(@PathVariable String id) throws IOException {
         log.info("Generate Invoice PDF");
         return generateInvoiceService.createInvoice(id);
     }
 
     @GetMapping(value = "/otherdetails", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<Object> getOtherDetails() {
+    public ResponseEntity<Object> getOtherDetails() {
         log.info("Get Other details");
         return invoiceService.otherDetails();
     }
 
 
     @PostMapping(value = "/createinvoice", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response<Object> createinvoice(@RequestBody CreateInvoiceRequest createInvoiceRequest) {
+    public ResponseEntity<Object> createinvoice(@RequestBody CreateInvoiceRequest createInvoiceRequest) {
         log.info("Create Invoice request: {}", createInvoiceRequest);
         return invoiceService.createInvoice(createInvoiceRequest);
     }

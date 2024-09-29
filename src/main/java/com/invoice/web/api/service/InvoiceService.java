@@ -8,6 +8,8 @@ import com.invoice.web.infrastructure.utils.validation.RequestParameterValidator
 import com.invoice.web.persistence.model.*;
 import com.invoice.web.persistence.repositories.*;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -38,30 +40,31 @@ public class InvoiceService {
         this.submitterRepository = submitterRepository;
     }
 
-    public Response<Object> invoices() {
+    public ResponseEntity<Object> invoices() {
         List<Invoice> invoiceList = invoiceRepository.findAll();
         log.info("Invoice List Size : {}", invoiceList.size());
-        return Response.builder().response(invoiceList).build();
+        return ResponseEntity.status(HttpStatus.OK).body(invoiceList);
     }
 
-    public Response<Object> getInvoiceDetails(String invoiceNumber) {
+    public ResponseEntity<Object> getInvoiceDetails(String invoiceNumber) {
         Invoice invoice = invoiceRepository.findByInvoiceNumber(invoiceNumber);
         if (null == invoice) {
             log.info("Invoice with invoiceNumber : {} does not exist", invoiceNumber);
         }
-        return Response.builder().response(invoice).build();
+        return ResponseEntity.status(HttpStatus.OK).body(invoice);
     }
 
 
-    public Response<Object> createInvoice(CreateInvoiceRequest request) {
+    public ResponseEntity<Object> createInvoice(CreateInvoiceRequest request) {
 
         RequestParameterValidator.createInvoiceValidation(request);
         if (!request.getInvoiceNumber().isBlank()) {
             Invoice invoice = invoiceRepository.findByInvoiceNumber(request.getInvoiceNumber());
             if (null == invoice) {
                 log.info("Invoice with invoiceNumber : {} does not exist", request.getInvoiceNumber());
-                return Response.builder().response("Invoice with invoiceId does not exist ").build();
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invoice with invoiceId does not exist");
             } else {
+                log.info("Invoice Updated with invoice Number : {}", invoice.getInvoiceNumber());
                 invoice.setUpdatedBy(request.getUpdatedBy());
                 invoice.setInvoiceStatus(request.getInvoiceStatus());
                 invoice.setInvoiceUpdatedDate(LocalDateTime.now());
@@ -73,7 +76,7 @@ public class InvoiceService {
                 invoice.setItems(request.getItems());
 
                 invoiceRepository.save(invoice);
-                return Response.builder().response(invoice).build();
+                return ResponseEntity.status(HttpStatus.OK).body(invoice);
             }
         } else {
             String invoiceNumber = CommonUtils.generateInvoiceNumber();
@@ -91,11 +94,11 @@ public class InvoiceService {
             invoice.setItems(request.getItems());
 
             invoiceRepository.save(invoice);
-            return Response.builder().response(invoice).build();
+            return ResponseEntity.status(HttpStatus.OK).body(invoice);
         }
     }
 
-    public Response<Object> otherDetails() {
+    public ResponseEntity<Object> otherDetails() {
         List<String> paymentType = new ArrayList<>();
         paymentType.add("CASH");
         paymentType.add("CHEQUE");
@@ -125,6 +128,6 @@ public class InvoiceService {
         otherDataResponse.setInvoiceStatus(invoiceStatus);
         otherDataResponse.setSubmitterList(submitterList);
 
-        return Response.builder().response(otherDataResponse).build();
+        return ResponseEntity.status(HttpStatus.OK).body(otherDataResponse);
     }
 }
