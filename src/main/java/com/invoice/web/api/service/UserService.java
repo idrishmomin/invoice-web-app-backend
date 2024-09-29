@@ -2,7 +2,7 @@ package com.invoice.web.api.service;
 
 import com.invoice.web.api.dto.request.CreateUserRequest;
 import com.invoice.web.api.dto.request.LoginRequest;
-import com.invoice.web.api.dto.request.UserForPayload;
+import com.invoice.web.api.dto.request.UpdateUserRequest;
 import com.invoice.web.api.dto.response.*;
 import com.invoice.web.api.enums.Roles;
 import com.invoice.web.api.service.loginservice.AuthenticationService;
@@ -16,12 +16,14 @@ import com.invoice.web.persistence.repositories.UserRepository;
 import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.util.Strings;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -55,7 +57,7 @@ public class UserService {
             }
         } else if(Objects.nonNull(userDetails) && (Objects.isNull(request.getOtp()) || request.getOtp().isEmpty())){
             String otp = otpService.generateOtp(userDetails.getUsername());
-            User user = userRepository.findByEmail(userDetails.getUsername());
+            User user = userRepository.findByEmail(userDetails.getUsername().toLowerCase());
             emailService.sendOtpEmail(user.getName(),user.getSurname(),otp,userDetails.getUsername());
             return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>(Constants.OTP_GENERATED));
         }
@@ -63,7 +65,7 @@ public class UserService {
     }
 
     public ResponseEntity<ApiResponse<UserResponseDto>> createUser(CreateUserRequest request) {
-        User user = userRepository.findByEmail(request.getEmail());
+        User user = userRepository.findByEmail(request.getEmail().toLowerCase());
         if (null != user) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body( new ApiResponse<>(Constants.DUPLICATE_USER));
@@ -72,7 +74,7 @@ public class UserService {
         User newUser = new User();
         newUser.setName(request.getName());
         newUser.setSurname(request.getSurname());
-        newUser.setEmail(request.getEmail());
+        newUser.setEmail(request.getEmail().toLowerCase());
         newUser.setPhone(request.getPhone());
         newUser.setCountry(request.getCountry());
         newUser.setDepartment(request.getDepartment());
@@ -90,7 +92,7 @@ public class UserService {
     }
 
     public ResponseEntity<ApiResponse<UserResponseDto>> userDetails(String email) {
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email.toLowerCase());
         if (null == user) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body( new ApiResponse<>(Constants.USER_NOT_FOUND));
@@ -116,5 +118,57 @@ public class UserService {
                         .collect(Collectors.toList())
         );
         return userDetails;
+    }
+
+    public ResponseEntity<ApiResponse<UserResponseDto>> updateUser(UpdateUserRequest updateUserRequest) {
+        User user = userRepository.findByEmail(updateUserRequest.getCurrentEmail().toLowerCase());
+        if (null == user) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body( new ApiResponse<>(Constants.USER_NOT_FOUND));
+        }
+
+        if(Objects.nonNull(updateUserRequest.getEmail()) && !Strings.isEmpty(updateUserRequest.getEmail()) && !updateUserRequest.getCurrentEmail().equalsIgnoreCase(updateUserRequest.getEmail())) {
+            User existingUser = userRepository.findByEmail(updateUserRequest.getEmail().toLowerCase());
+            if (null != existingUser) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body( new ApiResponse<>(Constants.DUPLICATE_USER));
+            }
+            user.setEmail(updateUserRequest.getEmail());
+        }
+
+        if(Objects.nonNull(updateUserRequest.getName()) && !Strings.isEmpty(updateUserRequest.getName())){
+            user.setName(updateUserRequest.getName());
+        }
+        if(Objects.nonNull(updateUserRequest.getSurname()) && !Strings.isEmpty(updateUserRequest.getSurname())){
+            user.setSurname(updateUserRequest.getSurname());
+        }
+        if(Objects.nonNull(updateUserRequest.getCountry()) && !Strings.isEmpty(updateUserRequest.getCountry())){
+            user.setCountry(updateUserRequest.getCountry());
+        }
+
+        if(Objects.nonNull(updateUserRequest.getPhone()) && !Strings.isEmpty(updateUserRequest.getPhone())){
+            user.setPhone(updateUserRequest.getPhone());
+        }
+        if(Objects.nonNull(updateUserRequest.getDepartment()) && !Strings.isEmpty(updateUserRequest.getDepartment())){
+            user.setDepartment(updateUserRequest.getDepartment());
+        }
+        if(Objects.nonNull(updateUserRequest.getRoles()) && !updateUserRequest.getRoles().isEmpty()){
+
+            List<Roles> roles = updateUserRequest.getRoles().stream()
+                    .map(roleString -> Roles.valueOf(roleString.toUpperCase()))
+                    .collect(Collectors.toList());
+            user.setRoles(roleRepository.findByRoleTypeIn(roles));
+        }
+        User updatedUser = userRepository.save(user);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body( new ApiResponse<>(Constants.SUCCESS,
+                        new UserResponseDto(convertUserEntityToDto(updatedUser))));
+    }
+
+    public ResponseEntity<ApiResponse<Page<UserResponseDto>>> getAllUsers(Pageable pageable) {
+        Page<User> userPage = userRepository.findAll(pageable);
+        Page<UserResponseDto> userDtos = userPage.map(user -> new UserResponseDto(convertUserEntityToDto(user)));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body( new ApiResponse<>(Constants.SUCCESS,userDtos));
     }
 }

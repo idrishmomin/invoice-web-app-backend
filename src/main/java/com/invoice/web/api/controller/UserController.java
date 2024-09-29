@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.security.Principal;
 
 @Log4j2
 @RestController
@@ -26,10 +27,10 @@ public class UserController {
     private final InvoiceService invoiceService;
     private final GenerateInvoiceService generateInvoiceService;
 
-    @GetMapping(value = "/user-details/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<UserResponseDto>> userDetails(@PathVariable String email) {
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<UserResponseDto>> userDetails(Principal principal) {
         log.info("Get UserDetails Request");
-        return userService.userDetails(email);
+        return userService.userDetails(principal.getName());
     }
 
     @GetMapping(value = "/invoices", produces = MediaType.APPLICATION_JSON_VALUE)
