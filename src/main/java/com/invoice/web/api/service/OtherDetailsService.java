@@ -111,6 +111,38 @@ public class OtherDetailsService {
         List<Department> costCenterList = departmentRepository.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(costCenterList);
     }
+
+    public ResponseEntity<Object> deleteCostCenter(String name) {
+        CostCenter costCenter = costCenterRepository.findCostCenter(name);
+
+        if(null == costCenter){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cost Center With Name Does not Exists");
+        }
+        costCenterRepository.delete(costCenter);
+        return ResponseEntity.status(HttpStatus.OK).body("Cost Center Deleted Successfully");
+
+    }
+
+    public ResponseEntity<Object> deleteExpenseType(String expenseTypeName) {
+        ExpenseCodes expenseCodes = expenseCodesRepository.findByExpenseName(expenseTypeName);
+
+        if(null == expenseCodes){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Expense Code With Name Does not Exists");
+        }
+        expenseCodesRepository.delete(expenseCodes);
+        return ResponseEntity.status(HttpStatus.OK).body("Expense Code Deleted Successfully");
+
+    }
+
+    public ResponseEntity<Object> deleteDepartment(String departmentName) {
+        Department department = departmentRepository.findByDepartmentName(departmentName);
+
+        if(null == department){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Department Does not Exists");
+        }
+        departmentRepository.delete(department);
+        return ResponseEntity.status(HttpStatus.OK).body("Department Deleted Successfully");
+    }
 }
 
 

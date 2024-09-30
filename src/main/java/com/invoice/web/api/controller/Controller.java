@@ -120,6 +120,24 @@ public class Controller {
         return otherDetailsService.createOrUpdateDepartment(departmentsRequest);
     }
 
+    @PostMapping(value = "/delete-costcenter", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> deleteCostCenter(@RequestBody String name) {
+        log.info("Delete Center request: {}", name);
+        return otherDetailsService.deleteCostCenter(name);
+    }
+
+    @PostMapping(value = "/delete-expensetype", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> deleteExpenseType(@RequestBody String expenseName) {
+        log.info("Delete Expense Type request: {}", expenseName);
+        return otherDetailsService.deleteExpenseType(expenseName);
+    }
+
+    @PostMapping(value = "/delete-department", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> deleteDepartment(@RequestBody String departmentName) {
+        log.info("Delete Department request: {}", departmentName);
+        return otherDetailsService.deleteDepartment(departmentName);
+    }
+
 
     @GetMapping(value = "/costcenters", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> costCenters() {

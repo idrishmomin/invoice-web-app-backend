@@ -10,4 +10,7 @@ import java.util.List;
 @Repository
 public interface CostCenterRepository extends JpaRepository<CostCenter, Long> {
     List<CostCenter> findByName(String name);
+
+    @Query("select c from CostCenter c where c.name = ?1")
+    CostCenter findCostCenter(String name);
 }
