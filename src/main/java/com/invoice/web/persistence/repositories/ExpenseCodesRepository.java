@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ExpenseCodesRepository extends JpaRepository<ExpenseCodes, Long> {
-    ExpenseCodes findByType(String type);
+    ExpenseCodes findByExpenseName(String expenseName);
 }

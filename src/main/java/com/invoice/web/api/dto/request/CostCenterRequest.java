@@ -19,8 +19,8 @@ import lombok.ToString;
 public class CostCenterRequest {
 
     @NotBlank(message = "CostCenter Name should not be blank or null", groups = BlankCheck.class)
-    private String centerName;
+    private String name;
 
     @NotBlank(message = "CostCenter Code should not be blank or null", groups = BlankCheck.class)
-    private String centerCode;
+    private String code;
 }

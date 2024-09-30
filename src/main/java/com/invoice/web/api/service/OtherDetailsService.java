@@ -38,16 +38,26 @@ public class OtherDetailsService {
 
     public ResponseEntity<Object> createOrUpdateCostCenter(CostCenterRequest costCenterRequest) {
         RequestParameterValidator.commonValidateRequest(costCenterRequest);
-        CostCenter costCenter = costCenterRepository.findByName(costCenterRequest.getCenterName());
+        List<CostCenter> costCenterList = costCenterRepository.findByName(costCenterRequest.getName());
+
+        if(costCenterList.size() > 1){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cost Center With Name Already Exists");
+        }
+
+        CostCenter costCenter = null;
+        if(!costCenterList.isEmpty()) {
+            costCenter = costCenterList.get(0);
+        }
+
         if (null == costCenter) {
-            log.info("Create New costCenter with name : {}",costCenterRequest.getCenterName());
+            log.info("Create New costCenter with name : {}",costCenterRequest.getName());
             costCenter = new CostCenter();
-            costCenter.setName(costCenterRequest.getCenterName());
-            costCenter.setCode(costCenterRequest.getCenterCode());
+            costCenter.setName(costCenterRequest.getName());
+            costCenter.setCode(costCenterRequest.getCode());
             costCenterRepository.save(costCenter);
         } else {
-            log.info("Update costCenter with name : {}",costCenterRequest.getCenterName());
-            costCenter.setCode(costCenterRequest.getCenterCode());
+            log.info("Update costCenter with name : {}",costCenterRequest.getName());
+            costCenter.setCode(costCenterRequest.getCode());
             costCenterRepository.save(costCenter);
         }
         return ResponseEntity.status(HttpStatus.OK).body(costCenter);
@@ -55,16 +65,16 @@ public class OtherDetailsService {
 
     public ResponseEntity<Object> createOrUpdateExpenseType(ExpenseTypeRequest expenseTypeRequest) {
         RequestParameterValidator.commonValidateRequest(expenseTypeRequest);
-        ExpenseCodes expenseCodes = expenseCodesRepository.findByType(expenseTypeRequest.getExpenseName());
+        ExpenseCodes expenseCodes = expenseCodesRepository.findByExpenseName(expenseTypeRequest.getExpenseName());
         if (null == expenseCodes) {
-            log.info("Create New ExpenseType with name : {}",expenseCodes.getType());
+            log.info("Create New ExpenseType with name : {}",expenseTypeRequest.getExpenseName());
             expenseCodes = new ExpenseCodes();
-            expenseCodes.setType(expenseTypeRequest.getExpenseName());
-            expenseCodes.setCode(expenseTypeRequest.getExpenseCode());
+            expenseCodes.setExpenseName(expenseTypeRequest.getExpenseName());
+            expenseCodes.setExpenseCode(expenseTypeRequest.getExpenseCode());
             expenseCodesRepository.save(expenseCodes);
         } else {
             log.info("Update ExpenseType with name : {}",expenseTypeRequest.getExpenseName());
-            expenseCodes.setCode(expenseTypeRequest.getExpenseCode());
+            expenseCodes.setExpenseCode(expenseTypeRequest.getExpenseCode());
             expenseCodesRepository.save(expenseCodes);
         }
         return ResponseEntity.status(HttpStatus.OK).body(expenseCodes);
