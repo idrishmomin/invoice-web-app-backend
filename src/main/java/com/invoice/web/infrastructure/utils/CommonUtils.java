@@ -10,10 +10,11 @@ public class CommonUtils {
 
     public static String generateInvoiceNumber() {
 
-        int randomNumber = ThreadLocalRandom.current().nextInt(100);
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+//        int randomNumber = ThreadLocalRandom.current().nextInt(100);
+        DateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmssSSS");
         Date date = new Date();
-        return String.valueOf(randomNumber).concat(dateFormat.format(date));
+//        return String.valueOf(randomNumber).concat(dateFormat.format(date));
+        return dateFormat.format(date);
     }
 }
 

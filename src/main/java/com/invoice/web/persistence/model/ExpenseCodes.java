@@ -19,7 +19,7 @@ public class ExpenseCodes {
     @Column(name = "id")
     private long id;
 
-    private String type;
+    private String expenseName;
 
-    private String code;
+    private String expenseCode;
 }

@@ -11,16 +11,13 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "departments")
-public class Department {
+@Table(name = "submitter")
+public class Submitter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
 
-    private String departmentName;
-    private String departmentManager;
-    private String submitter;
-
+    private String name;
 }

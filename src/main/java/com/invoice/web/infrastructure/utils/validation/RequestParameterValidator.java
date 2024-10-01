@@ -41,6 +41,12 @@ public class RequestParameterValidator {
         validateRequest(request);
     }
 
+    public static <T> void commonValidateRequest(T request) throws ConstraintViolationException {
+
+        if (request == null)
+            throw new ConstraintViolationException("Create Invoice Validation request should not be null", null);
+        validateRequest(request);
+    }
 
     private static <T> void validateRequest(T request) {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
