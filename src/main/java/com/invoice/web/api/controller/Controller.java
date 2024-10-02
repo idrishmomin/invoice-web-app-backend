@@ -16,7 +16,7 @@ import java.io.IOException;
 
 @Log4j2
 @RestController
-@RequestMapping("/webportal/v1")
+@RequestMapping("/webportal/v1/invoice/")
 @CrossOrigin(origins = "http://localhost:4200")
 public class Controller {
 
@@ -38,7 +38,7 @@ public class Controller {
         return invoiceService.invoices();
     }
 
-    @GetMapping(value = "/invoice/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/invoiceDetails/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> getInvoiceDetails(@PathVariable String id) {
         log.info("Get Invoice details");
         return invoiceService.getInvoiceDetails(id);

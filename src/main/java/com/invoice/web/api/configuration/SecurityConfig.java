@@ -29,6 +29,7 @@ public class SecurityConfig {
                         .requestMatchers("/webportal/v1/login").permitAll()
                         .requestMatchers("/webportal/v1/admin/**").hasAnyAuthority(Roles.ADMIN.name(),Roles.SUPER_ADMIN.name())
                         .requestMatchers("/webportal/v1/user/**").hasAnyAuthority(Roles.ADMIN.name(),Roles.SUPER_ADMIN.name(),Roles.USER.name())
+                        .requestMatchers("/webportal/v1/invoice/**").hasAnyAuthority(Roles.ADMIN.name(),Roles.SUPER_ADMIN.name(),Roles.USER.name())
                         .anyRequest().authenticated()
                 )
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
