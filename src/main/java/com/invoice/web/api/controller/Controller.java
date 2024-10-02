@@ -85,7 +85,7 @@ public class Controller {
 
 
     @GetMapping(value = "/generateinvoice/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public byte[] generatePDFInvoice(@PathVariable String id) throws IOException {
+    public String generatePDFInvoice(@PathVariable String id) throws IOException {
         log.info("Generate Invoice PDF");
         return generateInvoiceService.createInvoice(id);
     }
@@ -120,6 +120,12 @@ public class Controller {
         return otherDetailsService.createOrUpdateDepartment(departmentsRequest);
     }
 
+    @PostMapping(value = "/create-vendors", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> createVendor(@RequestBody VendorCreateRequest request) {
+        log.info("Vendor Create request: {}", request);
+        return otherDetailsService.createOrUpdateVendor(request);
+    }
+
     @PostMapping(value = "/delete-costcenter", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> deleteCostCenter(@RequestBody String name) {
         log.info("Delete Center request: {}", name);
@@ -130,6 +136,12 @@ public class Controller {
     public ResponseEntity<Object> deleteExpenseType(@RequestBody String expenseName) {
         log.info("Delete Expense Type request: {}", expenseName);
         return otherDetailsService.deleteExpenseType(expenseName);
+    }
+
+    @PostMapping(value = "/delete-vendor", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> deleteVendor(@RequestBody String vendorId) {
+        log.info("Delete Vendor request: {}", vendorId);
+        return otherDetailsService.deleteVendor(vendorId);
     }
 
     @PostMapping(value = "/delete-department", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -152,6 +164,11 @@ public class Controller {
     @GetMapping(value = "/departments", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> departments() {
         return otherDetailsService.getDepartments();
+    }
+
+    @GetMapping(value = "/vendors", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> vendors() {
+        return otherDetailsService.getVendors();
     }
 
 
