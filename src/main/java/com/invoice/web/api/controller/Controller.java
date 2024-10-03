@@ -1,9 +1,6 @@
 package com.invoice.web.api.controller;
 
-import com.invoice.web.api.dto.request.CostCenterRequest;
-import com.invoice.web.api.dto.request.CreateInvoiceRequest;
-import com.invoice.web.api.dto.request.DepartmentsRequest;
-import com.invoice.web.api.dto.request.ExpenseTypeRequest;
+import com.invoice.web.api.dto.request.*;
 import com.invoice.web.api.service.GenerateInvoiceService;
 import com.invoice.web.api.service.InvoiceService;
 import com.invoice.web.api.service.OtherDetailsService;
@@ -100,7 +97,7 @@ public class Controller {
     }
 
     @PostMapping(value = "/delete-vendor", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> deleteVendor(@RequestBody String vendorId) {
+    public ResponseEntity<Object> deleteVendor(@RequestParam String vendorId) {
         log.info("Delete Vendor request: {}", vendorId);
         return otherDetailsService.deleteVendor(vendorId);
     }

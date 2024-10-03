@@ -89,6 +89,11 @@ public class OtherDetailsService {
             log.info("Create New Vendor with Id : {}",request.getVendorId());
             vendor = new Vendor();
             vendor.setVendorId(request.getVendorId());
+            vendor.setVendorName(request.getVendorName());
+
+            vendor.setBankDetails(request.getBankDetails());
+            vendor.setAddress(request.getAddress());
+            vendor.setPhoneNumber(request.getPhoneNumber());
             vendorRepository.save(vendor);
         } else {
             log.info("Update Vendor with name : {}",request.getVendorId());
