@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Invoice</title>
     <style>
         @page {
@@ -169,6 +169,21 @@
             font-weight: bold;
             color: #007bff;
 }
+
+         /* Set specific widths for each column */
+    .items th:nth-child(1), .items td:nth-child(1) { width: 4%; } /* Ref ID */
+    .items th:nth-child(2), .items td:nth-child(2) { width: 10%; } /* Vendor Invoice Ref */
+    .items th:nth-child(3), .items td:nth-child(3) { width: 8%; } /* Vendor ID */
+    .items th:nth-child(4), .items td:nth-child(4) { width: 10%; } /* Vendor Name */
+    .items th:nth-child(5), .items td:nth-child(5) { width: 8%; } /* Invoice Date */
+    .items th:nth-child(6), .items td:nth-child(6) { width: 10%; } /* Description */
+    .items th:nth-child(7), .items td:nth-child(7) { width: 5%; } /* Recurring */
+    .items th:nth-child(8), .items td:nth-child(8) { width: 8%; } /* Cost Code */
+    .items th:nth-child(9), .items td:nth-child(9) { width: 10%; } /* Expense Type */
+    .items th:nth-child(10), .items td:nth-child(10) { width: 4%; } /* Currency */
+    .items th:nth-child(11), .items td:nth-child(11) { width: 8%; } /* Rate of SAR */
+    .items th:nth-child(12), .items td:nth-child(12) { width: 8%; } /* Invoice Amount */
+    .items th:nth-child(13), .items td:nth-child(13) { width: 8%; } /* Total */
     </style>
 </head>
 <body>
@@ -180,16 +195,13 @@
                 <td class="invoice-details">
                     <table>
                         <tr>
-                            <td>Invoice Number:</td>
-                            <td>${invoiceNumber}</td>
+                            <td><strong>Invoice Number: </strong>${invoiceNumber}</td>
                         </tr>
                         <tr>
-                            <td>Created Date:</td>
-                            <td>${invoiceCreatedDate}</td>
+                            <td><strong>Created Date: </strong>${invoiceCreatedDate}</td>
                         </tr>
                         <tr>
-                            <td>Created By:</td>
-                            <td>${createdBy}</td>
+                            <td><strong>Created By: </strong>${createdBy}</td>
                         </tr>
                     </table>
                 </td>
@@ -200,17 +212,17 @@
     <table>
         <tr>
             <td>
-                Submitter: <strong>${submitterName}</strong><br>
-                Department: <strong>${department}</strong>
+                <strong>Submitter: </strong>${submitterName}<br />
+                <strong>Department: </strong>${department}
             </td>
             <td>
-                Account Type: <strong>${accountType}</strong><br>
-                Payment Type: <strong>${paymentType}</strong>
+                <strong>Account Type: </strong>${accountType}<br />
+                <strong>Payment Type: </strong>${paymentType}
             </td>
             <td>
-                Bill To: <strong>${billTo}</strong><br>
-                Payment Due: <strong>${paymentDue}</strong>
-                Vendor Bank Details: <strong>${vendorBankDetails}</strong>
+                <strong>Bill To: </strong>${billTo}<br />
+                <strong>Payment Due: </strong>${paymentDue}<br />
+                <strong>Vendor Bank Details: </strong>${vendorBankDetails}
             </td>
         </tr>
     </table>
