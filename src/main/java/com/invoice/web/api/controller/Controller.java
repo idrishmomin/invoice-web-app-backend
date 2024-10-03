@@ -14,7 +14,6 @@ import java.io.IOException;
 @Log4j2
 @RestController
 @RequestMapping("/webportal/v1/invoice/")
-@CrossOrigin(origins = "http://localhost:4200")
 public class Controller {
 
     private final InvoiceService invoiceService;
