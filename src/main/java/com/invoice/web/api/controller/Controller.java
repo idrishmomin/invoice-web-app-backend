@@ -75,26 +75,26 @@ public class Controller {
         return otherDetailsService.createOrUpdateExpenseType(expenseTypeRequest);
     }
 
-    @PostMapping(value = "/create-department", produces = MediaType.APPLICATION_JSON_VALUE)
+        @PostMapping(value = "/create-department", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createDepartment(@RequestBody DepartmentsRequest departmentsRequest) {
         log.info("Department request: {}", departmentsRequest);
         return otherDetailsService.createOrUpdateDepartment(departmentsRequest);
     }
 
     @PostMapping(value = "/delete-costcenter", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> deleteCostCenter(@RequestBody String name) {
+    public ResponseEntity<Object> deleteCostCenter(@RequestParam String name) {
         log.info("Delete Center request: {}", name);
         return otherDetailsService.deleteCostCenter(name);
     }
 
     @PostMapping(value = "/delete-expensetype", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> deleteExpenseType(@RequestBody String expenseName) {
+    public ResponseEntity<Object> deleteExpenseType(@RequestParam String expenseName) {
         log.info("Delete Expense Type request: {}", expenseName);
         return otherDetailsService.deleteExpenseType(expenseName);
     }
 
     @PostMapping(value = "/delete-department", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> deleteDepartment(@RequestBody String departmentName) {
+    public ResponseEntity<Object> deleteDepartment(@RequestParam String departmentName) {
         log.info("Delete Department request: {}", departmentName);
         return otherDetailsService.deleteDepartment(departmentName);
     }
