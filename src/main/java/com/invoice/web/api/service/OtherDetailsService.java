@@ -3,10 +3,12 @@ package com.invoice.web.api.service;
 import com.invoice.web.api.dto.request.CostCenterRequest;
 import com.invoice.web.api.dto.request.DepartmentsRequest;
 import com.invoice.web.api.dto.request.ExpenseTypeRequest;
+import com.invoice.web.api.dto.request.VendorCreateRequest;
 import com.invoice.web.infrastructure.utils.validation.RequestParameterValidator;
 import com.invoice.web.persistence.model.CostCenter;
 import com.invoice.web.persistence.model.Department;
 import com.invoice.web.persistence.model.ExpenseCodes;
+import com.invoice.web.persistence.model.Vendor;
 import com.invoice.web.persistence.repositories.CostCenterRepository;
 import com.invoice.web.persistence.repositories.DepartmentRepository;
 import com.invoice.web.persistence.repositories.ExpenseCodesRepository;
@@ -80,6 +82,27 @@ public class OtherDetailsService {
         return ResponseEntity.status(HttpStatus.OK).body(expenseCodes);
     }
 
+    public ResponseEntity<Object> createOrUpdateVendor(VendorCreateRequest request) {
+        RequestParameterValidator.commonValidateRequest(request);
+        Vendor vendor = vendorRepository.findByVendorId(request.getVendorId());
+        if (null == vendor) {
+            log.info("Create New Vendor with Id : {}",request.getVendorId());
+            vendor = new Vendor();
+            vendor.setVendorId(request.getVendorId());
+            vendorRepository.save(vendor);
+        } else {
+            log.info("Update Vendor with name : {}",request.getVendorId());
+            vendor.setVendorName(request.getVendorName());
+
+            vendor.setBankDetails(request.getBankDetails());
+            vendor.setAddress(request.getAddress());
+            vendor.setPhoneNumber(request.getPhoneNumber());
+            vendorRepository.save(vendor);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(vendor);
+    }
+
+
     public ResponseEntity<Object> createOrUpdateDepartment(DepartmentsRequest departmentsRequest) {
         RequestParameterValidator.commonValidateRequest(departmentsRequest);
         Department department = departmentRepository.findByDepartmentName(departmentsRequest.getDepartmentName());
@@ -112,6 +135,13 @@ public class OtherDetailsService {
         return ResponseEntity.status(HttpStatus.OK).body(costCenterList);
     }
 
+
+
+    public ResponseEntity<Object> getVendors() {
+        List<Vendor> vendorList = vendorRepository.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(vendorList);
+    }
+
     public ResponseEntity<Object> deleteCostCenter(String name) {
         CostCenter costCenter = costCenterRepository.findCostCenter(name);
 
@@ -131,6 +161,17 @@ public class OtherDetailsService {
         }
         expenseCodesRepository.delete(expenseCodes);
         return ResponseEntity.status(HttpStatus.OK).body("Expense Code Deleted Successfully");
+
+    }
+
+    public ResponseEntity<Object> deleteVendor(String vendorId) {
+        Vendor vendor = vendorRepository.findByVendorId(vendorId);
+
+        if(null == vendor){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Vendor With Id Does not Exists");
+        }
+        vendorRepository.delete(vendor);
+        return ResponseEntity.status(HttpStatus.OK).body("Vendor Deleted Successfully");
 
     }
 

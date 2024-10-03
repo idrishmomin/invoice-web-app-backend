@@ -1,5 +1,6 @@
 package com.invoice.web.persistence.model;
 
+import com.invoice.web.api.dto.request.BankDetails;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,14 +39,6 @@ public class Vendor {
     private String phoneNumber;
 
 
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    public class BankDetails {
-        private String bankName;
-        private String ibanNumber;
-        private String bankAddress;
-    }
 }
 
 
