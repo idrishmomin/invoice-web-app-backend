@@ -26,7 +26,7 @@ public class AuthenticationService {
     public String getJwtToken(UserDetails userDetails){
         if ( userDetails != null)
             //userDetails.getAuthorities().
-            return jwtUtils.generateToken(userDetails.getUsername()); // Generate and return JWT token
+            return jwtUtils.generateToken(userDetails);
         return null;
     }
 }
