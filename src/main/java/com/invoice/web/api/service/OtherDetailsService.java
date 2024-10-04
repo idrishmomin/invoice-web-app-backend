@@ -146,14 +146,14 @@ public class OtherDetailsService {
         return ResponseEntity.status(HttpStatus.OK).body(vendorList);
     }
 
-    public ResponseEntity<Object> deleteCostCenter(long id) {
+    public ResponseEntity<ApiResponse> deleteCostCenter(long id) {
         Optional<CostCenter> costCenter = costCenterRepository.findById(id);
 
         if (costCenter.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cost Center With Name Does not Exists");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>("Cost Center With Name Does not Exists"));
         }
         costCenterRepository.delete(costCenter.get());
-        return ResponseEntity.status(HttpStatus.OK).body("Cost Center Deleted Successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>("Cost Center Deleted Successfully"));
 
     }
 

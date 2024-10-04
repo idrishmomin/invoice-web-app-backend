@@ -43,7 +43,7 @@ public class Controller {
 
 
     @GetMapping(value = "/generateinvoice/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String generatePDFInvoice(@PathVariable String id) throws IOException {
+    public byte[] generatePDFInvoice(@PathVariable String id) throws IOException {
         log.info("Generate Invoice PDF");
         return generateInvoiceService.createInvoice(id);
     }
@@ -85,7 +85,7 @@ public class Controller {
     }
 
     @DeleteMapping(value = "/delete-costcenter", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> deleteCostCenter(@RequestParam long id) {
+    public ResponseEntity<ApiResponse> deleteCostCenter(@RequestParam long id) {
         log.info("Delete Center request: {}", id);
         return otherDetailsService.deleteCostCenter(id);
     }
@@ -102,7 +102,7 @@ public class Controller {
         return otherDetailsService.deleteVendor(id);
     }
 
-    @PostMapping(value = "/delete-department", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/delete-department", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse> deleteDepartment(@RequestParam long id) {
         log.info("Delete Department request: {}", id);
         return otherDetailsService.deleteDepartment(id);
