@@ -1,6 +1,7 @@
 package com.invoice.web.api.controller;
 
 import com.invoice.web.api.dto.request.*;
+import com.invoice.web.api.dto.response.ApiResponse;
 import com.invoice.web.api.service.GenerateInvoiceService;
 import com.invoice.web.api.service.InvoiceService;
 import com.invoice.web.api.service.OtherDetailsService;
@@ -90,23 +91,22 @@ public class Controller {
     }
 
     @DeleteMapping(value = "/delete-expensetype", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> deleteExpenseType(@RequestParam long id) {
+    public ResponseEntity<ApiResponse> deleteExpenseType(@RequestParam long id) {
         log.info("Delete Expense Type request: {}", id);
         return otherDetailsService.deleteExpenseType(id);
     }
 
     @DeleteMapping(value = "/delete-vendor", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> deleteVendor(@RequestParam int id) {
+    public ResponseEntity<ApiResponse> deleteVendor(@RequestParam int id) {
         log.info("Delete Vendor request: {}", id);
         return otherDetailsService.deleteVendor(id);
     }
 
     @PostMapping(value = "/delete-department", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> deleteDepartment(@RequestParam long id) {
+    public ResponseEntity<ApiResponse> deleteDepartment(@RequestParam long id) {
         log.info("Delete Department request: {}", id);
         return otherDetailsService.deleteDepartment(id);
     }
-
 
     @GetMapping(value = "/costcenters", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> costCenters() {

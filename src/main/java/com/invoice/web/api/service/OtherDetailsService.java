@@ -4,6 +4,7 @@ import com.invoice.web.api.dto.request.CostCenterRequest;
 import com.invoice.web.api.dto.request.DepartmentsRequest;
 import com.invoice.web.api.dto.request.ExpenseTypeRequest;
 import com.invoice.web.api.dto.request.VendorCreateRequest;
+import com.invoice.web.api.dto.response.ApiResponse;
 import com.invoice.web.infrastructure.utils.validation.RequestParameterValidator;
 import com.invoice.web.persistence.model.CostCenter;
 import com.invoice.web.persistence.model.Department;
@@ -156,36 +157,37 @@ public class OtherDetailsService {
 
     }
 
-    public ResponseEntity<Object> deleteExpenseType(long id) {
+    public ResponseEntity<ApiResponse> deleteExpenseType(long id) {
         Optional<ExpenseCodes> expenseCodes = expenseCodesRepository.findById(id);
 
         if (expenseCodes.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Expense Code With Name Does not Exists");
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse("Expense Code With Name Does not Exists"));
         }
         expenseCodesRepository.delete(expenseCodes.get());
-        return ResponseEntity.status(HttpStatus.OK).body("Expense Code Deleted Successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Expense Code Deleted Successfully"));
 
     }
 
-    public ResponseEntity<Object> deleteVendor(int id) {
+    public ResponseEntity<ApiResponse> deleteVendor(int id) {
         Optional<Vendor> vendor = vendorRepository.findById(id);
 
         if (vendor.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Vendor With Id Does not Exists");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>("Vendor With Id Does not Exists"));
         }
         vendorRepository.delete(vendor.get());
-        return ResponseEntity.status(HttpStatus.OK).body("Vendor Deleted Successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Vendor Deleted Successfully"));
 
     }
 
-    public ResponseEntity<Object> deleteDepartment(long id) {
+    public ResponseEntity<ApiResponse> deleteDepartment(long id) {
         Optional<Department> department = departmentRepository.findById(id);
 
         if (department.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Department Does not Exists");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>("Department Does not Exists"));
         }
         departmentRepository.delete(department.get());
-        return ResponseEntity.status(HttpStatus.OK).body("Department Deleted Successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>("Department Deleted Successfully"));
     }
 }
 

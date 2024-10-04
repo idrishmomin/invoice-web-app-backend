@@ -1,19 +1,17 @@
 package com.invoice.web.api.controller;
 
-import com.invoice.web.api.dto.request.CreateInvoiceRequest;
 import com.invoice.web.api.dto.response.ApiResponse;
-import com.invoice.web.api.dto.response.Response;
 import com.invoice.web.api.dto.response.UserResponseDto;
-import com.invoice.web.api.service.GenerateInvoiceService;
-import com.invoice.web.api.service.InvoiceService;
 import com.invoice.web.api.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.security.Principal;
 
 @Log4j2
