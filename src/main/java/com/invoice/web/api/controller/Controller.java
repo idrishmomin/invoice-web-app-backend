@@ -83,28 +83,28 @@ public class Controller {
         return otherDetailsService.createOrUpdateVendor(request);
     }
 
-    @PostMapping(value = "/delete-costcenter", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> deleteCostCenter(@RequestParam String name) {
-        log.info("Delete Center request: {}", name);
-        return otherDetailsService.deleteCostCenter(name);
+    @DeleteMapping(value = "/delete-costcenter", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> deleteCostCenter(@RequestParam long id) {
+        log.info("Delete Center request: {}", id);
+        return otherDetailsService.deleteCostCenter(id);
     }
 
-    @PostMapping(value = "/delete-expensetype", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> deleteExpenseType(@RequestParam String expenseName) {
-        log.info("Delete Expense Type request: {}", expenseName);
-        return otherDetailsService.deleteExpenseType(expenseName);
+    @DeleteMapping(value = "/delete-expensetype", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> deleteExpenseType(@RequestParam long id) {
+        log.info("Delete Expense Type request: {}", id);
+        return otherDetailsService.deleteExpenseType(id);
     }
 
-    @PostMapping(value = "/delete-vendor", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> deleteVendor(@RequestParam String vendorId) {
-        log.info("Delete Vendor request: {}", vendorId);
-        return otherDetailsService.deleteVendor(vendorId);
+    @DeleteMapping(value = "/delete-vendor", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> deleteVendor(@RequestParam int id) {
+        log.info("Delete Vendor request: {}", id);
+        return otherDetailsService.deleteVendor(id);
     }
 
     @PostMapping(value = "/delete-department", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> deleteDepartment(@RequestParam String departmentName) {
-        log.info("Delete Department request: {}", departmentName);
-        return otherDetailsService.deleteDepartment(departmentName);
+    public ResponseEntity<Object> deleteDepartment(@RequestParam long id) {
+        log.info("Delete Department request: {}", id);
+        return otherDetailsService.deleteDepartment(id);
     }
 
 
