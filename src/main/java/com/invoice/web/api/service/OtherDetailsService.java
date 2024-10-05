@@ -114,11 +114,13 @@ public class OtherDetailsService {
         if (null == department) {
             log.info("Create New Department with name : {}", departmentsRequest.getDepartmentName());
             department = new Department();
+            department.setSubmitter(departmentsRequest.getSubmitter());
             department.setDepartmentName(departmentsRequest.getDepartmentName());
             department.setDepartmentManager(departmentsRequest.getDepartmentManager());
             departmentRepository.save(department);
         } else {
             log.info("Update Department with name : {}", department.getDepartmentName());
+            department.setSubmitter(departmentsRequest.getSubmitter());
             department.setDepartmentManager(departmentsRequest.getDepartmentManager());
             departmentRepository.save(department);
         }
