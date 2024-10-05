@@ -1,11 +1,11 @@
 package com.invoice.web.api.service;
 
 import com.invoice.web.api.dto.request.CreateInvoiceRequest;
-import com.invoice.web.infrastructure.Constants;
 import com.invoice.web.persistence.model.Invoice;
 import com.invoice.web.persistence.model.Signature;
 import com.invoice.web.persistence.repositories.InvoiceRepository;
 import com.invoice.web.persistence.repositories.SignatureRepository;
+import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -38,9 +38,9 @@ public class GenerateInvoiceService {
         }
 
 
-        if (invoice.getVendorDetails().getBillTo().equalsIgnoreCase(Constants.PETTY_CASH)) {
-            return generateInvoiceForPettyCah(invoice, signatureList);
-        }
+//        if (invoice.getVendorDetails().getBillTo().equalsIgnoreCase(Constants.PETTY_CASH)) {
+//            return generateInvoiceForPettyCah(invoice, signatureList);
+//        }
 
         InputStream templateStream = GenerateInvoiceService.class.getClassLoader().getResourceAsStream("invoice_template_for_vendor.html");
 
@@ -109,10 +109,36 @@ public class GenerateInvoiceService {
         // Step 6: Replace the ${signatures} placeholder with the dynamically generated signature lines
         invoiceHtml = invoiceHtml.replace("${signatures}", signaturesHtml.toString());
 
-        byte[] invoiceBytes = invoiceHtml.getBytes(StandardCharsets.UTF_8);
-        return Base64.getEncoder().encodeToString(invoiceBytes);
+//        byte[] invoiceBytes = invoiceHtml.getBytes(StandardCharsets.UTF_8);
+//        return Base64.getEncoder().encodeToString(invoiceBytes);
+
+        return generatePdfFromHtml(invoiceHtml);
     }
 
+    public String generatePdfFromHtml(String htmlTemplate) {
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            PdfRendererBuilder builder = new PdfRendererBuilder();
+            builder.withHtmlContent(htmlTemplate, null);
+            builder.toStream(outputStream);
+            builder.run();
+            byte[] pdfBytes = outputStream.toByteArray();
+
+            // Save the PDF to a file for testing
+            if (pdfBytes != null) {
+                try (FileOutputStream fos = new FileOutputStream("invoicerrr.pdf")) {
+                    fos.write(pdfBytes);
+                }
+                System.out.println("PDF generated successfully.");
+            } else {
+                System.out.println("Failed to generate PDF.");
+            }
+
+            return Base64.getEncoder().encodeToString(pdfBytes);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public String generateInvoiceForPettyCah(Invoice invoice, List<Signature> signatureList) {
 

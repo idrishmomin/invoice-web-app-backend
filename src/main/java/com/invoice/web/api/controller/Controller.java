@@ -43,7 +43,7 @@ public class Controller {
 
 
     @GetMapping(value = "/generateinvoice/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public byte[] generatePDFInvoice(@PathVariable String id) throws IOException {
+    public String generatePDFInvoice(@PathVariable String id) throws IOException {
         log.info("Generate Invoice PDF");
         return generateInvoiceService.createInvoice(id);
     }
