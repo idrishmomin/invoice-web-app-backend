@@ -1,5 +1,6 @@
 package com.invoice.web.api.service;
 
+import com.invoice.web.api.dto.request.ChangePassword;
 import com.invoice.web.api.dto.request.CreateUserRequest;
 import com.invoice.web.api.dto.request.LoginRequest;
 import com.invoice.web.api.dto.request.UpdateUserRequest;
@@ -24,6 +25,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -44,7 +47,7 @@ public class UserService {
         RequestParameterValidator.loginRequest(request);
         UserDetails userDetails = null ;
         try {
-            userDetails = authenticationService.validateUser(request);
+            userDetails = authenticationService.validateUser(request.getEmail(),request.getPassword());
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse<>(Constants.INVALID_USER));
         }
@@ -101,6 +104,16 @@ public class UserService {
         return ResponseEntity.status(HttpStatus.OK)
                 .body( new ApiResponse<>(Constants.SUCCESS,
                         new UserResponseDto(convertUserEntityToDto(user))));
+    }
+    public ResponseEntity<ApiResponse<String>> deleteUser(String email) {
+        User user = userRepository.findByEmail(email.toLowerCase());
+        if (null == user) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body( new ApiResponse<>(Constants.USER_NOT_FOUND));
+        }
+        userRepository.delete(user);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body( new ApiResponse<>(Constants.SUCCESS));
     }
     private UserDto convertUserEntityToDto(User user){
         UserDto userDetails = new UserDto();
@@ -170,5 +183,31 @@ public class UserService {
         Page<UserResponseDto> userDtos = userPage.map(user -> new UserResponseDto(convertUserEntityToDto(user)));
         return ResponseEntity.status(HttpStatus.OK)
                 .body( new ApiResponse<>(Constants.SUCCESS,userDtos));
+    }
+
+    @Transactional
+    public ResponseEntity<ApiResponse<String>> changePassword(ChangePassword changePassword, boolean isAdmin) {
+        User user = userRepository.findByEmail(changePassword.getEmail().toLowerCase());
+        if (null == user) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body( new ApiResponse<>(Constants.USER_NOT_FOUND));
+        }
+        if( !isAdmin){
+            if ( Objects.isNull(changePassword.getOldPassword())
+                    || changePassword.getOldPassword().isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body( new ApiResponse<>(Constants.INVALID_OLD_PASSWORD));
+            }
+            UserDetails userDetails ;
+            try {
+                userDetails = authenticationService.validateUser(changePassword.getEmail(), changePassword.getOldPassword());
+            } catch (Exception e){
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse<>(Constants.INVALID_OLD_PASSWORD));
+            }
+        }
+        user.setPassword(passwordEncoder.encode(changePassword.getNewPassword()));
+        userRepository.save(user);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body( new ApiResponse<>(Constants.SUCCESS));
     }
 }

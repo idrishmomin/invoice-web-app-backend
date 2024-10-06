@@ -1,5 +1,6 @@
 package com.invoice.web.api.controller;
 
+import com.invoice.web.api.dto.request.ChangePassword;
 import com.invoice.web.api.dto.request.CreateUserRequest;
 import com.invoice.web.api.dto.request.UpdateUserRequest;
 import com.invoice.web.api.dto.response.ApiResponse;
@@ -25,8 +26,6 @@ public class AdminController {
         log.info("Create User Request : {}", createUserRequest);
         return userService.createUser(createUserRequest);
     }
-
-    //TODO
     @PutMapping(value = "/user/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<UserResponseDto>> updateUser(@PathVariable String email, @RequestBody UpdateUserRequest updateUserRequest) {
         log.info("Update User Request : {}", updateUserRequest);
@@ -44,5 +43,17 @@ public class AdminController {
     public ResponseEntity<ApiResponse<Page<UserResponseDto>>> userDetails(Pageable pageable) {
         log.info("Get All UserDetails Request");
         return userService.getAllUsers(pageable);
+    }
+    @DeleteMapping(value = "/user/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<String>> deleteUser(@PathVariable String email) {
+        log.info("Delete UserDetails Request");
+        return userService.deleteUser(email);
+    }
+
+    @PutMapping(value = "/change-password/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<String>> changePassword(@PathVariable("email") String email, @RequestBody ChangePassword changePassword) {
+        log.info("Change password Request");
+        changePassword.setEmail(email);
+        return userService.changePassword(changePassword,true);
     }
 }
