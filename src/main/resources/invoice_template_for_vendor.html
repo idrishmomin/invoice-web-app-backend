@@ -6,7 +6,7 @@
     <title>Invoice</title>
     <style>
         @page {
-            size: A4;
+            size: A4 landscape;
             margin: 10mm;
 }
 
@@ -40,17 +40,9 @@
             text-align: center;
 }
 
-        .invoice-header {
-            margin-bottom: 20px;
-}
-
-        .invoice-header td {
-            padding: 4px 0;
-            vertical-align: top;
-}
 
         .invoice-header .invoice-details {
-            text-align: right;
+            text-align: center;
 }
 /* Add custom spacing for invoice number */
         .invoice-header .invoice-details table td {
@@ -69,7 +61,7 @@
 
         table th {
             padding: 8px;
-            text-align: left;
+            text-align: center;
             background-color: #007bff;
             color: white;
             border-bottom: 1px solid #ddd;
@@ -95,7 +87,7 @@
             margin-top: 30px;
 }
 
-       .signature-box {
+   .signature-box {
     margin-top: 10px;
     font-size: 12px;
     text-align: left; /* Align signatures on the left */
