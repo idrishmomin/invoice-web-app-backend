@@ -134,7 +134,7 @@ public class CreateInvoiceRequest {
         @NotBlank(message = "Description Can not be blank", groups = BlankCheck.class)
         private String description;
 
-        @NotBlank(message = "Description Can not be blank", groups = BlankCheck.class)
+        @NotBlank(message = "Rate of SAR Can not be blank", groups = BlankCheck.class)
         private String rateOfSAR;
 
         @NotBlank(message = "Currency Can not be blank", groups = BlankCheck.class)

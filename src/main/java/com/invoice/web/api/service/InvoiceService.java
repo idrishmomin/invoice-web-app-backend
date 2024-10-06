@@ -1,6 +1,7 @@
 package com.invoice.web.api.service;
 
 import com.invoice.web.api.dto.request.CreateInvoiceRequest;
+import com.invoice.web.api.dto.response.ApiResponse;
 import com.invoice.web.api.dto.response.OtherDataResponse;
 import com.invoice.web.api.dto.response.Response;
 import com.invoice.web.infrastructure.utils.CommonUtils;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Log4j2
@@ -129,5 +131,16 @@ public class InvoiceService {
         otherDataResponse.setSubmitterList(submitterList);
 
         return ResponseEntity.status(HttpStatus.OK).body(otherDataResponse);
+    }
+
+    public ResponseEntity<ApiResponse> deleteInvoice(String invoiceNumber) {
+        Invoice invoice = invoiceRepository.findByInvoiceNumber(invoiceNumber);
+
+        if (invoice == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>("Invoice With Id Does not Exists"));
+        }
+        invoiceRepository.delete(invoice);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>("Invoice Deleted Successfully"));
+
     }
 }

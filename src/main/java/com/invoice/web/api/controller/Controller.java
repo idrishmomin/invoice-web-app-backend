@@ -48,6 +48,11 @@ public class Controller {
         return generateInvoiceService.createInvoice(id);
     }
 
+    @DeleteMapping(value = "/delete-invoice", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse> deleteInvoice(@RequestParam String id) {
+        log.info("Delete Invoice request: {}", id);
+        return invoiceService.deleteInvoice(id);
+    }
     @GetMapping(value = "/otherdetails", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> getOtherDetails() {
         log.info("Get Other details");
