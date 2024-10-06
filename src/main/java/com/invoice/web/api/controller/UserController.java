@@ -1,5 +1,6 @@
 package com.invoice.web.api.controller;
 
+import com.invoice.web.api.dto.request.ChangePassword;
 import com.invoice.web.api.dto.response.ApiResponse;
 import com.invoice.web.api.dto.response.UserResponseDto;
 import com.invoice.web.api.service.UserService;
@@ -7,10 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -27,5 +25,11 @@ public class UserController {
     public ResponseEntity<ApiResponse<UserResponseDto>> userDetails(Principal principal) {
         log.info("Get UserDetails Request");
         return userService.userDetails(principal.getName());
+    }
+    @PutMapping(value = "/change-password", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<String>> changePassword(@RequestBody ChangePassword changePassword, Principal principal) {
+        log.info("Change password Request");
+        changePassword.setEmail(principal.getName());
+        return userService.changePassword(changePassword,false);
     }
 }

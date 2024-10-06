@@ -17,11 +17,11 @@ public class AuthenticationService {
     private final UserDetailsLoginService userDetailsService;
     private final JwtUtils jwtUtils; // Token generation utility
 
-    public UserDetails validateUser(LoginRequest loginRequest) {
+    public UserDetails validateUser(String email, String password) {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
+                new UsernamePasswordAuthenticationToken(email, password)
         );
-        return userDetailsService.loadUserByUsername(loginRequest.getEmail());
+        return userDetailsService.loadUserByUsername(email);
     }
     public String getJwtToken(UserDetails userDetails){
         if ( userDetails != null)
