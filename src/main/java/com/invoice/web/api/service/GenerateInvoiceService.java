@@ -111,8 +111,10 @@ public class GenerateInvoiceService {
 
 //        byte[] invoiceBytes = invoiceHtml.getBytes(StandardCharsets.UTF_8);
 //        return Base64.getEncoder().encodeToString(invoiceBytes);
+return  "{ \"pdfData\": \"" +  generatePdfFromHtml(invoiceHtml) + "\" }";
 
-        return generatePdfFromHtml(invoiceHtml);
+
+
     }
 
     public String generatePdfFromHtml(String htmlTemplate) {
