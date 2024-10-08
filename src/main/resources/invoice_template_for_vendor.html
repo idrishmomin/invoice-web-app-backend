@@ -6,9 +6,8 @@
     <title>Invoice</title>
     <style>
         @page {
-            size: A4 landscape;
-            margin: 10mm;
-}
+        size: A4 landscape;
+        }
 
         body {
             font-family: Arial, sans-serif;
@@ -18,32 +17,30 @@
 }
 
         .invoice-box {
-            width: 210mm;
-            min-height: 297mm;
-            margin: auto;
-            padding: 10mm;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            box-shadow: 0 0 10px rgba(0,
-    0,
-    0,
-    0.1);
-            font-size: 12px;
-            line-height: 1.4;
-            color: #555;
-}
+        width: 297mm; /* Set width for landscape A4 */
+        min-height: 210mm; /* Set minimum height for landscape A4 */
+        padding: 10mm;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        font-size: 12px;
+        line-height: 1.4;
+        color: #555;
+        }
+
 
         .title {
             font-size: 28px;
             font-weight: bold;
             color: #333;
             text-align: center;
-}
+        }
 
 
         .invoice-header .invoice-details {
             text-align: center;
-}
+        }
+
 /* Add custom spacing for invoice number */
         .invoice-header .invoice-details table td {
             padding: 2px; /* Reduced padding */
@@ -78,65 +75,35 @@
         .items tr:nth-child(even) {
             background-color: #f9f9f9;
 }
+.items tr {
+    height: auto;
+}
 
         .items tr:hover {
             background-color: #f1f1f1;
 }
 
-        .signature-box {
-            margin-top: 30px;
-}
-
-   .signature-box {
-    margin-top: 10px;
-    font-size: 12px;
-    text-align: left; /* Align signatures on the left */
-}
-
-.signature-box table {
-    width: auto;
-    margin-right: auto; /* Push the table to the left */
-    border: 1px solid #ddd;
-}
-
-.signature-box td, .signature-box th {
-    padding: 4px;
-    border: 1px solid #ddd;
-}
-
-.signature-box h4 {
-    text-align: left; /* Align the "Signatures" title on the left */
-    font-size: 14px;
-    margin-bottom: 15px;
-    color: #007bff;
-}
-
-.signature-box .sign-row {
+  .signature-box .sign-row {
     display: flex;
-    justify-content: flex-start; /* Align signature rows on the left */
-    margin-bottom: 20px;
+    flex-direction: row; /* Horizontal layout */
+    justify-content: space-between; /* Distribute space between signatures */
+    flex-wrap: nowrap; /* Prevent wrapping */
+    gap: 20px;
 }
 
-.signature-box .sign-box {
-    width: 45%;
-    border-top: 1px solid #333;
-    padding-top: 10px;
-    text-align: left;
-    font-size: 10px;
-    margin-right: 20px; /* Add margin to the right for space between signature boxes */
+.signature-box .sign-row div {
+    width: 30%; /* Adjust percentage based on the number of signatures */
+    text-align: center; /* Center the content */
 }
 
-.signature-box .name {
-    font-weight: bold;
-    margin-bottom: 8px;
-    color: #555;
-}
-/* Adjusted styles for the total section */
+
+
+        /* Adjusted styles for the total section */
         .total-box {
             margin-top: 10px;
             font-size: 12px;
             text-align: right; /* Align totals on the right */
-}
+        }
 
         .total-box table {
             width: auto;
@@ -168,7 +135,7 @@
     .items th:nth-child(3), .items td:nth-child(3) { width: 8%; } /* Vendor ID */
     .items th:nth-child(4), .items td:nth-child(4) { width: 10%; } /* Vendor Name */
     .items th:nth-child(5), .items td:nth-child(5) { width: 8%; } /* Invoice Date */
-    .items th:nth-child(6), .items td:nth-child(6) { width: 10%; } /* Description */
+    .items th:nth-child(6), .items td:nth-child(6) { width: 8%; } /* Description */
     .items th:nth-child(7), .items td:nth-child(7) { width: 5%; } /* Recurring */
     .items th:nth-child(8), .items td:nth-child(8) { width: 8%; } /* Cost Code */
     .items th:nth-child(9), .items td:nth-child(9) { width: 10%; } /* Expense Type */
@@ -204,7 +171,7 @@
     <table>
         <tr>
             <td>
-                <strong>Submitter: </strong>${submitterName}<br />
+                <strong>Submitter: </strong>${submitterName}<br/>
                 <strong>Department: </strong>${department}
             </td>
             <td>
@@ -260,8 +227,7 @@
     </div>
 
     <div class="signature-box">
-        <h4>Signatures</h4>
-        <div>
+        <div class="sign-row">
             ${signatures}
         </div>
     </div>
