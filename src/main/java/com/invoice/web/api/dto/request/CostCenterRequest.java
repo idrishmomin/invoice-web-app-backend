@@ -23,4 +23,7 @@ public class CostCenterRequest {
 
     @NotBlank(message = "CostCenter Code should not be blank or null", groups = BlankCheck.class)
     private String code;
+
+    @NotBlank(message = "CostCenter Description should not be blank or null", groups = BlankCheck.class)
+    private String description;
 }

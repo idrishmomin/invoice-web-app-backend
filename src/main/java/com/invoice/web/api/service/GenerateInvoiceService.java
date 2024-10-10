@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.List;
@@ -112,13 +113,13 @@ public class GenerateInvoiceService {
 
 //        byte[] invoiceBytes = invoiceHtml.getBytes(StandardCharsets.UTF_8);
 //        return Base64.getEncoder().encodeToString(invoiceBytes);
-return  "{ \"pdfData\": \"" +  generatePdfFromHtml(invoiceHtml) + "\" }";
+        return  "{ \"pdfData\": \"" +  generatePdfFromHtml(invoiceHtml,invoice) + "\" }";
 
 
 
     }
 
-    public String generatePdfFromHtml(String htmlTemplate) {
+    public String generatePdfFromHtml(String htmlTemplate,Invoice invoice) {
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             PdfRendererBuilder builder = new PdfRendererBuilder();
             builder.withHtmlContent(htmlTemplate, null);
@@ -126,16 +127,10 @@ return  "{ \"pdfData\": \"" +  generatePdfFromHtml(invoiceHtml) + "\" }";
             builder.run();
             byte[] pdfBytes = outputStream.toByteArray();
 
-            // Save the PDF to a file for testing
-            if (pdfBytes != null) {
-                try (FileOutputStream fos = new FileOutputStream("invoicerrr.pdf")) {
-                    fos.write(pdfBytes);
-                }
-                System.out.println("PDF generated successfully.");
-            } else {
-                System.out.println("Failed to generate PDF.");
+            String invoiceName = invoice.getVendorDetails().getBillTo().concat("_").concat(invoice.getInvoiceNumber()).concat("_").concat(String.valueOf(LocalDate.now())).concat(".pdf");
+            try (FileOutputStream fos = new FileOutputStream(invoiceName)) {
+                fos.write(pdfBytes);
             }
-
             return Base64.getEncoder().encodeToString(pdfBytes);
         } catch (Exception e) {
             e.printStackTrace();

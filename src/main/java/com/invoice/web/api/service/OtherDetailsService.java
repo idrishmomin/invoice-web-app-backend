@@ -52,6 +52,7 @@ public class OtherDetailsService {
             costCenter = new CostCenter();
             costCenter.setName(costCenterRequest.getName());
             costCenter.setCode(costCenterRequest.getCode());
+            costCenter.setDescription(costCenter.getDescription());
             costCenterRepository.save(costCenter);
         }
 

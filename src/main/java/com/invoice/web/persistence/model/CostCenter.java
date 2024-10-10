@@ -22,4 +22,6 @@ public class CostCenter {
     private String name;
 
     private String code;
+
+    private String description;
 }
