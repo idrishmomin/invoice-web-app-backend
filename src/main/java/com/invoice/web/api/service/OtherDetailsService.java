@@ -42,25 +42,39 @@ public class OtherDetailsService {
 
     public ResponseEntity<Object> createOrUpdateCostCenter(CostCenterRequest costCenterRequest) {
         RequestParameterValidator.commonValidateRequest(costCenterRequest);
-        String name = costCenterRequest.getName();
-        CostCenter costCenter = costCenterRepository.findByName(name);
+
+        if (!costCenterRequest.getId().isBlank()) {
+            CostCenter costCenter = costCenterRepository.findByName(costCenterRequest.getName());
+            if (null != costCenter) {
+                if(costCenter.getId() != Long.valueOf(costCenterRequest.getId())){
+                    return ResponseEntity.status(HttpStatus.OK).body("Cost Center Already Exist");
+                }
+                costCenter.setCode(costCenterRequest.getCode());
+                costCenter.setDescription(costCenterRequest.getDescription());
+                costCenterRepository.save(costCenter);
+                return ResponseEntity.status(HttpStatus.OK).body(costCenter);
+            } else {
+                log.info("Update costCenter with name : {}", costCenterRequest.getName());
+                Optional<CostCenter> optCostCenter = costCenterRepository.findById(Long.valueOf(costCenterRequest.getId()));
+                costCenter = optCostCenter.get();
+                costCenter.setName(costCenterRequest.getName());
+                costCenter.setCode(costCenterRequest.getCode());
+                costCenter.setDescription(costCenterRequest.getDescription());
+                costCenterRepository.save(costCenter);
+                return ResponseEntity.status(HttpStatus.OK).body(costCenter);
+            }
+        }
+
+        CostCenter costCenter = costCenterRepository.findByName(costCenterRequest.getName());
 
         if (costCenter != null) {
             return ResponseEntity.status(HttpStatus.OK).body("Cost Center Already Exist");
         } else {
-            log.info("Create New costCenter with name : {}", costCenterRequest.getName());
+            log.info("Create new costCenter with name : {}", costCenterRequest.getName());
             costCenter = new CostCenter();
             costCenter.setName(costCenterRequest.getName());
             costCenter.setCode(costCenterRequest.getCode());
-            costCenter.setDescription(costCenter.getDescription());
-            costCenterRepository.save(costCenter);
-        }
-
-        if (null == costCenter) {
-
-        } else {
-            log.info("Update costCenter with name : {}", costCenterRequest.getName());
-            costCenter.setCode(costCenterRequest.getCode());
+            costCenter.setDescription(costCenterRequest.getDescription());
             costCenterRepository.save(costCenter);
         }
         return ResponseEntity.status(HttpStatus.OK).body(costCenter);
