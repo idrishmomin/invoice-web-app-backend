@@ -84,8 +84,10 @@ public class OtherDetailsService {
         RequestParameterValidator.commonValidateRequest(expenseTypeRequest);
 
         if (!expenseTypeRequest.getId().isBlank()) {
-            ExpenseCodes expenseCodes = expenseCodesRepository.findByExpenseName(expenseTypeRequest.getExpenseName());
-            if (null != expenseCodes) {
+            Optional<ExpenseCodes> optionalExpenseCodes = expenseCodesRepository.findByExpenseName(expenseTypeRequest.getExpenseName());
+            ExpenseCodes expenseCodes;
+            if (optionalExpenseCodes.isPresent()) {
+                expenseCodes = optionalExpenseCodes.get();
                 if (expenseCodes.getId() != Long.valueOf(expenseTypeRequest.getId())) {
                     return ResponseEntity.status(HttpStatus.OK).body("Expense Type Already Exist");
                 }
@@ -103,9 +105,9 @@ public class OtherDetailsService {
             }
         }
 
-        ExpenseCodes expenseCodes = expenseCodesRepository.findByExpenseName(expenseTypeRequest.getExpenseName());
-
-        if (expenseCodes != null) {
+        Optional<ExpenseCodes> optionalExpenseCodes = expenseCodesRepository.findByExpenseName(expenseTypeRequest.getExpenseName());
+        ExpenseCodes expenseCodes;
+        if (optionalExpenseCodes.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body("Expense Type  Already Exist");
         } else {
             log.info("Create new Expense Type with name : {}", expenseTypeRequest.getExpenseName());
@@ -121,8 +123,10 @@ public class OtherDetailsService {
         RequestParameterValidator.commonValidateRequest(request);
 
         if (!request.getId().isBlank()) {
-            Vendor vendor = vendorRepository.findByVendorId(request.getVendorId());
-            if (null != vendor) {
+            Optional<Vendor> optionalVendor = vendorRepository.findByVendorId(request.getVendorId());
+            Vendor vendor;
+            if (optionalVendor.isPresent()) {
+                vendor = optionalVendor.get();
                 if (vendor.getId() != Long.valueOf(request.getId())) {
                     return ResponseEntity.status(HttpStatus.OK).body("Vendor Already Exist");
                 }
@@ -134,8 +138,8 @@ public class OtherDetailsService {
                 return ResponseEntity.status(HttpStatus.OK).body(vendor);
             } else {
                 log.info("Update Vendor with Vendor Id : {}", request.getVendorId());
-                Optional<Vendor> optionalVendor = vendorRepository.findById(Long.valueOf(request.getId()));
-                vendor = optionalVendor.get();
+                Optional<Vendor> optionalVendor1 = vendorRepository.findById(Long.valueOf(request.getId()));
+                vendor = optionalVendor1.get();
                 vendor.setVendorId(request.getVendorId());
                 vendor.setVendorName(request.getVendorName());
                 vendor.setBankDetails(request.getBankDetails());
@@ -146,9 +150,9 @@ public class OtherDetailsService {
             }
         }
 
-        Vendor vendor = vendorRepository.findByVendorId(request.getVendorId());
-
-        if (vendor != null) {
+        Optional<Vendor> optionalVendor = vendorRepository.findByVendorId(request.getVendorId());
+        Vendor vendor;
+        if (optionalVendor.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body("Vendor Already Exist");
         } else {
             log.info("Create new Vendor with Id : {}", request.getVendorId());
@@ -168,8 +172,10 @@ public class OtherDetailsService {
         RequestParameterValidator.commonValidateRequest(departmentsRequest);
 
         if (!departmentsRequest.getId().isBlank()) {
-            Department department = departmentRepository.findByDepartmentName(departmentsRequest.getDepartmentName());
-            if (null != department) {
+            Optional<Department> optionalDepartment = departmentRepository.findByDepartmentName(departmentsRequest.getDepartmentName());
+            Department department;
+            if (optionalDepartment.isPresent()) {
+                department = optionalDepartment.get();
                 if (department.getId() != Long.valueOf(departmentsRequest.getId())) {
                     return ResponseEntity.status(HttpStatus.OK).body("Department Already Exist");
                 }
@@ -189,9 +195,10 @@ public class OtherDetailsService {
             }
         }
 
-        Department department = departmentRepository.findByDepartmentName(departmentsRequest.getDepartmentName());
+        Optional<Department> optionalDepartment = departmentRepository.findByDepartmentName(departmentsRequest.getDepartmentName());
 
-        if (department != null) {
+        Department department;
+        if (optionalDepartment.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body("Department Already Exist");
         } else {
             log.info("Create new Department with name : {}", departmentsRequest.getDepartmentName());
