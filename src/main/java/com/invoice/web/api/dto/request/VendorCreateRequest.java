@@ -18,6 +18,8 @@ import lombok.ToString;
 @GroupSequence({BlankCheck.class, NoNullStringCheck.class, PatternCheck.class, LengthCheck.class, VendorCreateRequest.class})
 public class VendorCreateRequest {
 
+    private String id;
+
     @NotBlank(message = "Vendor ID should not be blank or null", groups = BlankCheck.class)
     private String vendorId;
 

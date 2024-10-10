@@ -53,6 +53,7 @@ public class Controller {
         log.info("Delete Invoice request: {}", id);
         return invoiceService.deleteInvoice(id);
     }
+
     @GetMapping(value = "/otherdetails", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> getOtherDetails() {
         log.info("Get Other details");
@@ -77,7 +78,7 @@ public class Controller {
         return otherDetailsService.createOrUpdateExpenseType(expenseTypeRequest);
     }
 
-        @PostMapping(value = "/create-department", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/create-department", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createDepartment(@RequestBody DepartmentsRequest departmentsRequest) {
         log.info("Department request: {}", departmentsRequest);
         return otherDetailsService.createOrUpdateDepartment(departmentsRequest);
@@ -102,7 +103,7 @@ public class Controller {
     }
 
     @DeleteMapping(value = "/delete-vendor", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse> deleteVendor(@RequestParam int id) {
+    public ResponseEntity<ApiResponse> deleteVendor(@RequestParam long id) {
         log.info("Delete Vendor request: {}", id);
         return otherDetailsService.deleteVendor(id);
     }

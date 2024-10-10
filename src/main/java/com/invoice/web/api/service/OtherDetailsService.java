@@ -46,7 +46,7 @@ public class OtherDetailsService {
         if (!costCenterRequest.getId().isBlank()) {
             CostCenter costCenter = costCenterRepository.findByName(costCenterRequest.getName());
             if (null != costCenter) {
-                if(costCenter.getId() != Long.valueOf(costCenterRequest.getId())){
+                if (costCenter.getId() != Long.valueOf(costCenterRequest.getId())) {
                     return ResponseEntity.status(HttpStatus.OK).body("Cost Center Already Exist");
                 }
                 costCenter.setCode(costCenterRequest.getCode());
@@ -82,15 +82,35 @@ public class OtherDetailsService {
 
     public ResponseEntity<Object> createOrUpdateExpenseType(ExpenseTypeRequest expenseTypeRequest) {
         RequestParameterValidator.commonValidateRequest(expenseTypeRequest);
+
+        if (!expenseTypeRequest.getId().isBlank()) {
+            ExpenseCodes expenseCodes = expenseCodesRepository.findByExpenseName(expenseTypeRequest.getExpenseName());
+            if (null != expenseCodes) {
+                if (expenseCodes.getId() != Long.valueOf(expenseTypeRequest.getId())) {
+                    return ResponseEntity.status(HttpStatus.OK).body("Expense Type Already Exist");
+                }
+                expenseCodes.setExpenseCode(expenseTypeRequest.getExpenseCode());
+                expenseCodesRepository.save(expenseCodes);
+                return ResponseEntity.status(HttpStatus.OK).body(expenseCodes);
+            } else {
+                log.info("Update Expense Type with name : {}", expenseTypeRequest.getExpenseName());
+                Optional<ExpenseCodes> optCostCenter = expenseCodesRepository.findById(Long.valueOf(expenseTypeRequest.getId()));
+                expenseCodes = optCostCenter.get();
+                expenseCodes.setExpenseName(expenseTypeRequest.getExpenseName());
+                expenseCodes.setExpenseCode(expenseTypeRequest.getExpenseCode());
+                expenseCodesRepository.save(expenseCodes);
+                return ResponseEntity.status(HttpStatus.OK).body(expenseCodes);
+            }
+        }
+
         ExpenseCodes expenseCodes = expenseCodesRepository.findByExpenseName(expenseTypeRequest.getExpenseName());
-        if (null == expenseCodes) {
-            log.info("Create New ExpenseType with name : {}", expenseTypeRequest.getExpenseName());
+
+        if (expenseCodes != null) {
+            return ResponseEntity.status(HttpStatus.OK).body("Expense Type  Already Exist");
+        } else {
+            log.info("Create new Expense Type with name : {}", expenseTypeRequest.getExpenseName());
             expenseCodes = new ExpenseCodes();
             expenseCodes.setExpenseName(expenseTypeRequest.getExpenseName());
-            expenseCodes.setExpenseCode(expenseTypeRequest.getExpenseCode());
-            expenseCodesRepository.save(expenseCodes);
-        } else {
-            log.info("Update ExpenseType with name : {}", expenseTypeRequest.getExpenseName());
             expenseCodes.setExpenseCode(expenseTypeRequest.getExpenseCode());
             expenseCodesRepository.save(expenseCodes);
         }
@@ -99,21 +119,42 @@ public class OtherDetailsService {
 
     public ResponseEntity<Object> createOrUpdateVendor(VendorCreateRequest request) {
         RequestParameterValidator.commonValidateRequest(request);
+
+        if (!request.getId().isBlank()) {
+            Vendor vendor = vendorRepository.findByVendorId(request.getVendorId());
+            if (null != vendor) {
+                if (vendor.getId() != Long.valueOf(request.getId())) {
+                    return ResponseEntity.status(HttpStatus.OK).body("Vendor Already Exist");
+                }
+                vendor.setVendorName(request.getVendorName());
+                vendor.setBankDetails(request.getBankDetails());
+                vendor.setAddress(request.getAddress());
+                vendor.setPhoneNumber(request.getPhoneNumber());
+                vendorRepository.save(vendor);
+                return ResponseEntity.status(HttpStatus.OK).body(vendor);
+            } else {
+                log.info("Update Vendor with Vendor Id : {}", request.getVendorId());
+                Optional<Vendor> optionalVendor = vendorRepository.findById(Long.valueOf(request.getId()));
+                vendor = optionalVendor.get();
+                vendor.setVendorId(request.getVendorId());
+                vendor.setVendorName(request.getVendorName());
+                vendor.setBankDetails(request.getBankDetails());
+                vendor.setAddress(request.getAddress());
+                vendor.setPhoneNumber(request.getPhoneNumber());
+                vendorRepository.save(vendor);
+                return ResponseEntity.status(HttpStatus.OK).body(vendor);
+            }
+        }
+
         Vendor vendor = vendorRepository.findByVendorId(request.getVendorId());
-        if (null == vendor) {
-            log.info("Create New Vendor with Id : {}", request.getVendorId());
+
+        if (vendor != null) {
+            return ResponseEntity.status(HttpStatus.OK).body("Vendor Already Exist");
+        } else {
+            log.info("Create new Vendor with Id : {}", request.getVendorId());
             vendor = new Vendor();
             vendor.setVendorId(request.getVendorId());
             vendor.setVendorName(request.getVendorName());
-
-            vendor.setBankDetails(request.getBankDetails());
-            vendor.setAddress(request.getAddress());
-            vendor.setPhoneNumber(request.getPhoneNumber());
-            vendorRepository.save(vendor);
-        } else {
-            log.info("Update Vendor with name : {}", request.getVendorId());
-            vendor.setVendorName(request.getVendorName());
-
             vendor.setBankDetails(request.getBankDetails());
             vendor.setAddress(request.getAddress());
             vendor.setPhoneNumber(request.getPhoneNumber());
@@ -125,17 +166,38 @@ public class OtherDetailsService {
 
     public ResponseEntity<Object> createOrUpdateDepartment(DepartmentsRequest departmentsRequest) {
         RequestParameterValidator.commonValidateRequest(departmentsRequest);
+
+        if (!departmentsRequest.getId().isBlank()) {
+            Department department = departmentRepository.findByDepartmentName(departmentsRequest.getDepartmentName());
+            if (null != department) {
+                if (department.getId() != Long.valueOf(departmentsRequest.getId())) {
+                    return ResponseEntity.status(HttpStatus.OK).body("Department Already Exist");
+                }
+                department.setSubmitter(departmentsRequest.getSubmitter());
+                department.setDepartmentManager(departmentsRequest.getDepartmentManager());
+                departmentRepository.save(department);
+                return ResponseEntity.status(HttpStatus.OK).body(department);
+            } else {
+                log.info("Update Department with name : {}", departmentsRequest.getDepartmentName());
+                Optional<Department> optCostCenter = departmentRepository.findById(Long.valueOf(departmentsRequest.getId()));
+                department = optCostCenter.get();
+                department.setDepartmentName(departmentsRequest.getDepartmentName());
+                department.setSubmitter(departmentsRequest.getSubmitter());
+                department.setDepartmentManager(departmentsRequest.getDepartmentManager());
+                departmentRepository.save(department);
+                return ResponseEntity.status(HttpStatus.OK).body(department);
+            }
+        }
+
         Department department = departmentRepository.findByDepartmentName(departmentsRequest.getDepartmentName());
-        if (null == department) {
-            log.info("Create New Department with name : {}", departmentsRequest.getDepartmentName());
+
+        if (department != null) {
+            return ResponseEntity.status(HttpStatus.OK).body("Department Already Exist");
+        } else {
+            log.info("Create new Department with name : {}", departmentsRequest.getDepartmentName());
             department = new Department();
             department.setSubmitter(departmentsRequest.getSubmitter());
             department.setDepartmentName(departmentsRequest.getDepartmentName());
-            department.setDepartmentManager(departmentsRequest.getDepartmentManager());
-            departmentRepository.save(department);
-        } else {
-            log.info("Update Department with name : {}", department.getDepartmentName());
-            department.setSubmitter(departmentsRequest.getSubmitter());
             department.setDepartmentManager(departmentsRequest.getDepartmentManager());
             departmentRepository.save(department);
         }
@@ -186,7 +248,7 @@ public class OtherDetailsService {
 
     }
 
-    public ResponseEntity<ApiResponse> deleteVendor(int id) {
+    public ResponseEntity<ApiResponse> deleteVendor(long id) {
         Optional<Vendor> vendor = vendorRepository.findById(id);
 
         if (vendor.isEmpty()) {

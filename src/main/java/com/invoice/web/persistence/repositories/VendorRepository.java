@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface VendorRepository extends JpaRepository<Vendor, Integer> {
+public interface VendorRepository extends JpaRepository<Vendor, Long> {
     @Query("select v from Vendor v where v.vendorId = ?1")
     Vendor findByVendorId(String vendorId);
 }
