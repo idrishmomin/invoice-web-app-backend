@@ -1,75 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Invoice</title>
     <style>
         @page {
-            size: A4;
-            margin: 10mm;
-}
+        size: A4 landscape;
+        }
 
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
-}
+        }
 
         .invoice-box {
-            width: 210mm;
-            min-height: 297mm;
-            margin: auto;
-            padding: 10mm;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            box-shadow: 0 0 10px rgba(0,
-    0,
-    0,
-    0.1);
-            font-size: 12px;
-            line-height: 1.4;
-            color: #555;
-}
+        width: 92%; /* Set width for landscape A4 */
+        min-height: 210mm; /* Set minimum height for landscape A4 */
+        padding: 10mm;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        font-size: 12px;
+        line-height: 1.4;
+        color: #555;
+        }
+
 
         .title {
             font-size: 28px;
             font-weight: bold;
             color: #333;
             text-align: center;
-}
+        }
 
-        .invoice-header {
-            margin-bottom: 20px;
-}
-
-        .invoice-header td {
-            padding: 4px 0;
-            vertical-align: top;
-}
 
         .invoice-header .invoice-details {
-            text-align: right;
-}
-/* Add custom spacing for invoice number */
+            text-align: center;
+        }
+
+
         .invoice-header .invoice-details table td {
             padding: 2px; /* Reduced padding */
-}
+            text-align: left;
+        }
 
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 10px;
-}
+        }
 
         table td {
             padding: 6px;
-}
+        }
 
         table th {
             padding: 8px;
-            text-align: left;
+            text-align: center;
             background-color: #007bff;
             color: white;
             border-bottom: 1px solid #ddd;
@@ -86,65 +75,35 @@
         .items tr:nth-child(even) {
             background-color: #f9f9f9;
 }
+.items tr {
+    height: auto;
+}
 
         .items tr:hover {
             background-color: #f1f1f1;
 }
 
-        .signature-box {
-            margin-top: 30px;
-}
-
-       .signature-box {
-    margin-top: 10px;
-    font-size: 12px;
-    text-align: left; /* Align signatures on the left */
-}
-
-.signature-box table {
-    width: auto;
-    margin-right: auto; /* Push the table to the left */
-    border: 1px solid #ddd;
-}
-
-.signature-box td, .signature-box th {
-    padding: 4px;
-    border: 1px solid #ddd;
-}
-
-.signature-box h4 {
-    text-align: left; /* Align the "Signatures" title on the left */
-    font-size: 14px;
-    margin-bottom: 15px;
-    color: #007bff;
-}
-
-.signature-box .sign-row {
+  .signature-box .sign-row {
     display: flex;
-    justify-content: flex-start; /* Align signature rows on the left */
-    margin-bottom: 20px;
+    flex-direction: row; /* Horizontal layout */
+    justify-content: space-between; /* Distribute space between signatures */
+    flex-wrap: nowrap; /* Prevent wrapping */
+    gap: 20px;
 }
 
-.signature-box .sign-box {
-    width: 45%;
-    border-top: 1px solid #333;
-    padding-top: 10px;
-    text-align: left;
-    font-size: 10px;
-    margin-right: 20px; /* Add margin to the right for space between signature boxes */
+.signature-box .sign-row div {
+    width: 30%; /* Adjust percentage based on the number of signatures */
+    text-align: center; /* Center the content */
 }
 
-.signature-box .name {
-    font-weight: bold;
-    margin-bottom: 8px;
-    color: #555;
-}
-/* Adjusted styles for the total section */
+
+
+        /* Adjusted styles for the total section */
         .total-box {
             margin-top: 10px;
             font-size: 12px;
             text-align: right; /* Align totals on the right */
-}
+        }
 
         .total-box table {
             width: auto;
@@ -169,6 +128,21 @@
             font-weight: bold;
             color: #007bff;
 }
+
+         /* Set specific widths for each column */
+    .items th:nth-child(1), .items td:nth-child(1) { width: 4%; } /* Ref ID */
+    .items th:nth-child(2), .items td:nth-child(2) { width: 10%; } /* Vendor Invoice Ref */
+    .items th:nth-child(3), .items td:nth-child(3) { width: 8%; } /* Vendor ID */
+    .items th:nth-child(4), .items td:nth-child(4) { width: 10%; } /* Vendor Name */
+    .items th:nth-child(5), .items td:nth-child(5) { width: 8%; } /* Invoice Date */
+    .items th:nth-child(6), .items td:nth-child(6) { width: 8%; } /* Description */
+    .items th:nth-child(7), .items td:nth-child(7) { width: 5%; } /* Recurring */
+    .items th:nth-child(8), .items td:nth-child(8) { width: 8%; } /* Cost Code */
+    .items th:nth-child(9), .items td:nth-child(9) { width: 10%; } /* Expense Type */
+    .items th:nth-child(10), .items td:nth-child(10) { width: 4%; } /* Currency */
+    .items th:nth-child(11), .items td:nth-child(11) { width: 8%; } /* Rate of SAR */
+    .items th:nth-child(12), .items td:nth-child(12) { width: 8%; } /* Invoice Amount */
+    .items th:nth-child(13), .items td:nth-child(13) { width: 8%; } /* Total */
     </style>
 </head>
 <body>
@@ -180,16 +154,13 @@
                 <td class="invoice-details">
                     <table>
                         <tr>
-                            <td>Invoice Number:</td>
-                            <td>${invoiceNumber}</td>
+                            <td><strong>Invoice Number: </strong>${invoiceNumber}</td>
                         </tr>
                         <tr>
-                            <td>Created Date:</td>
-                            <td>${invoiceCreatedDate}</td>
+                            <td><strong>Created Date: </strong>${invoiceCreatedDate}</td>
                         </tr>
                         <tr>
-                            <td>Created By:</td>
-                            <td>${createdBy}</td>
+                            <td><strong>Created By: </strong>${createdBy}</td>
                         </tr>
                     </table>
                 </td>
@@ -200,17 +171,17 @@
     <table>
         <tr>
             <td>
-                Submitter: <strong>${submitterName}</strong><br>
-                Department: <strong>${department}</strong>
+                <strong>Submitter: </strong>${submitterName}<br/>
+                <strong>Department: </strong>${department}
             </td>
             <td>
-                Account Type: <strong>${accountType}</strong><br>
-                Payment Type: <strong>${paymentType}</strong>
+                <strong>Account Type: </strong>${accountType}<br />
+                <strong>Payment Type: </strong>${paymentType}
             </td>
             <td>
-                Bill To: <strong>${billTo}</strong><br>
-                Payment Due: <strong>${paymentDue}</strong>
-                Vendor Bank Details: <strong>${vendorBankDetails}</strong>
+                <strong>Bill To: </strong>${billTo}<br />
+                <strong>Payment Due: </strong>${paymentDue}<br />
+                <strong>Vendor Bank Details: </strong>${vendorBankDetails}
             </td>
         </tr>
     </table>
