@@ -35,6 +35,12 @@ public class Controller {
         return invoiceService.invoices();
     }
 
+    @GetMapping(value = "/invoices-by-users", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> invoicesByUsers(@PathVariable String createdBy) {
+        log.info("Get Invoices for user : {}",createdBy);
+        return invoiceService.invoicesByUser(createdBy);
+    }
+
     @GetMapping(value = "/invoiceDetails/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> getInvoiceDetails(@PathVariable String id) {
         log.info("Get Invoice details");
