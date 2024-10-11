@@ -1,6 +1,7 @@
 package com.invoice.web.api.service;
 
 import com.invoice.web.api.dto.request.CreateInvoiceRequest;
+import com.invoice.web.infrastructure.Constants;
 import com.invoice.web.persistence.model.Invoice;
 import com.invoice.web.persistence.model.Signature;
 import com.invoice.web.persistence.repositories.InvoiceRepository;
@@ -39,9 +40,9 @@ public class GenerateInvoiceService {
         }
 
 
-//        if (invoice.getVendorDetails().getBillTo().equalsIgnoreCase(Constants.PETTY_CASH)) {
-//            return generateInvoiceForPettyCah(invoice, signatureList);
-//        }
+        if (invoice.getVendorDetails().getBillTo().equalsIgnoreCase(Constants.PETTY_CASH)) {
+            return generateInvoiceForPettyCah(invoice, signatureList);
+        }
 
         InputStream templateStream = GenerateInvoiceService.class.getClassLoader().getResourceAsStream("invoice_template_for_vendor.html");
 
@@ -127,7 +128,7 @@ public class GenerateInvoiceService {
             builder.run();
             byte[] pdfBytes = outputStream.toByteArray();
 
-            String invoiceName = invoice.getVendorDetails().getBillTo().concat("_").concat(invoice.getInvoiceNumber()).concat("_").concat(String.valueOf(LocalDate.now())).concat(".pdf");
+            String invoiceName = invoice.getVendorDetails().getBillTo().concat("_").concat(invoice.getInvoiceNumber()).concat(".pdf");
             try (FileOutputStream fos = new FileOutputStream(invoiceName)) {
                 fos.write(pdfBytes);
             }
@@ -213,9 +214,7 @@ public class GenerateInvoiceService {
         // Step 6: Replace the ${signatures} placeholder with the dynamically generated signature lines
         invoiceHtml = invoiceHtml.replace("${signatures}", signaturesHtml.toString());
 
-        byte[] invoiceBytes = invoiceHtml.getBytes(StandardCharsets.UTF_8);
-        return Base64.getEncoder().encodeToString(invoiceBytes);
-
+        return  "{ \"pdfData\": \"" +  generatePdfFromHtml(invoiceHtml,invoice) + "\" }";
 
     }
 
