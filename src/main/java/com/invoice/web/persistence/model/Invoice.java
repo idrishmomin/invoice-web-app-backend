@@ -53,4 +53,6 @@ public class Invoice {
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "JSON")
     private List<CreateInvoiceRequest.Item> items;
+
+    private boolean deleted;
 }

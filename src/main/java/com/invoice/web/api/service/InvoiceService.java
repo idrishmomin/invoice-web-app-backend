@@ -94,6 +94,7 @@ public class InvoiceService {
             invoice.setCreatedBy(request.getCreatedBy());
             invoice.setInvoiceStatus(request.getInvoiceStatus());
             invoice.setInvoiceCreatedDate(LocalDateTime.now());
+            invoice.setInvoiceUpdatedDate(LocalDateTime.now());
 
             invoice.setTotal(request.getTotal());
             invoice.setAccountDetails(request.getAccountDetails());
@@ -145,7 +146,8 @@ public class InvoiceService {
         if (invoice == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>("Invoice With Id Does not Exists"));
         }
-        invoiceRepository.delete(invoice);
+        invoice.setDeleted(true);
+        invoiceRepository.save(invoice);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>("Invoice Deleted Successfully"));
 
     }
