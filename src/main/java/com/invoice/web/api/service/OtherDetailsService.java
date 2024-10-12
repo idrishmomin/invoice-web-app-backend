@@ -20,7 +20,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -43,7 +45,7 @@ public class OtherDetailsService {
     public ResponseEntity<Object> createOrUpdateCostCenter(CostCenterRequest costCenterRequest) {
         RequestParameterValidator.commonValidateRequest(costCenterRequest);
 
-        if (!costCenterRequest.getId().isBlank()) {
+        if (null != costCenterRequest.getId()) {
             CostCenter costCenter = costCenterRepository.findByName(costCenterRequest.getName());
             if (null != costCenter) {
                 if (costCenter.getId() != Long.valueOf(costCenterRequest.getId())) {
@@ -83,7 +85,7 @@ public class OtherDetailsService {
     public ResponseEntity<Object> createOrUpdateExpenseType(ExpenseTypeRequest expenseTypeRequest) {
         RequestParameterValidator.commonValidateRequest(expenseTypeRequest);
 
-        if (!expenseTypeRequest.getId().isBlank()) {
+        if (null != expenseTypeRequest.getId()) {
             Optional<ExpenseCodes> optionalExpenseCodes = expenseCodesRepository.findByExpenseName(expenseTypeRequest.getExpenseName());
             ExpenseCodes expenseCodes;
             if (optionalExpenseCodes.isPresent()) {
@@ -91,6 +93,7 @@ public class OtherDetailsService {
                 if (expenseCodes.getId() != Long.valueOf(expenseTypeRequest.getId())) {
                     return ResponseEntity.status(HttpStatus.OK).body("Expense Type Already Exist");
                 }
+                expenseCodes.setCategory(expenseTypeRequest.getCategory());
                 expenseCodes.setExpenseCode(expenseTypeRequest.getExpenseCode());
                 expenseCodesRepository.save(expenseCodes);
                 return ResponseEntity.status(HttpStatus.OK).body(expenseCodes);
@@ -98,6 +101,7 @@ public class OtherDetailsService {
                 log.info("Update Expense Type with name : {}", expenseTypeRequest.getExpenseName());
                 Optional<ExpenseCodes> optCostCenter = expenseCodesRepository.findById(Long.valueOf(expenseTypeRequest.getId()));
                 expenseCodes = optCostCenter.get();
+                expenseCodes.setCategory(expenseTypeRequest.getCategory());
                 expenseCodes.setExpenseName(expenseTypeRequest.getExpenseName());
                 expenseCodes.setExpenseCode(expenseTypeRequest.getExpenseCode());
                 expenseCodesRepository.save(expenseCodes);
@@ -112,6 +116,7 @@ public class OtherDetailsService {
         } else {
             log.info("Create new Expense Type with name : {}", expenseTypeRequest.getExpenseName());
             expenseCodes = new ExpenseCodes();
+            expenseCodes.setCategory(expenseTypeRequest.getCategory());
             expenseCodes.setExpenseName(expenseTypeRequest.getExpenseName());
             expenseCodes.setExpenseCode(expenseTypeRequest.getExpenseCode());
             expenseCodesRepository.save(expenseCodes);
@@ -122,7 +127,7 @@ public class OtherDetailsService {
     public ResponseEntity<Object> createOrUpdateVendor(VendorCreateRequest request) {
         RequestParameterValidator.commonValidateRequest(request);
 
-        if (!request.getId().isBlank()) {
+        if (null != request.getId()) {
             Optional<Vendor> optionalVendor = vendorRepository.findByVendorId(request.getVendorId());
             Vendor vendor;
             if (optionalVendor.isPresent()) {
@@ -171,7 +176,7 @@ public class OtherDetailsService {
     public ResponseEntity<Object> createOrUpdateDepartment(DepartmentsRequest departmentsRequest) {
         RequestParameterValidator.commonValidateRequest(departmentsRequest);
 
-        if (!departmentsRequest.getId().isBlank()) {
+        if (null != departmentsRequest.getId()) {
             Optional<Department> optionalDepartment = departmentRepository.findByDepartmentName(departmentsRequest.getDepartmentName());
             Department department;
             if (optionalDepartment.isPresent()) {
@@ -219,6 +224,15 @@ public class OtherDetailsService {
     public ResponseEntity<Object> getExpenseTypes() {
         List<ExpenseCodes> costCenterList = expenseCodesRepository.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(costCenterList);
+    }
+
+    public ResponseEntity<Object> getExpenseTypesByCategory() {
+        List<ExpenseCodes> expenseCodesList = expenseCodesRepository.findAll();
+        Map<String, List<ExpenseCodes>> filterdList = expenseCodesList.stream()
+                .map(expenseCode -> new ExpenseCodes(expenseCode.getId(), expenseCode.getExpenseName(), expenseCode.getExpenseCode(), expenseCode.getCategory()))
+                .collect(Collectors.groupingBy(ExpenseCodes::getCategory));
+
+        return ResponseEntity.status(HttpStatus.OK).body(filterdList);
     }
 
     public ResponseEntity<Object> getDepartments() {

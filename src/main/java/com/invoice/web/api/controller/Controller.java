@@ -130,6 +130,11 @@ public class Controller {
         return otherDetailsService.getExpenseTypes();
     }
 
+    @GetMapping(value = "/expensetypes-by-category", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> expenseTypesByCategory() {
+        return otherDetailsService.getExpenseTypesByCategory();
+    }
+
     @GetMapping(value = "/departments", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> departments() {
         return otherDetailsService.getDepartments();

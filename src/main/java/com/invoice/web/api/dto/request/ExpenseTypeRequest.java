@@ -25,4 +25,6 @@ public class ExpenseTypeRequest {
 
     @NotBlank(message = "Expense Code should not be blank or null", groups = BlankCheck.class)
     private String expenseCode;
+
+    private String category;
 }
