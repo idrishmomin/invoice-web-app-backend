@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -125,6 +127,9 @@ public class InvoiceService {
         List<ExpenseCodes> expenseCodesList = expenseCodesRepository.findAll();
         List<Vendor> vendorList = vendorRepository.findAll();
         List<Submitter> submitterList = submitterRepository.findAll();
+        Map<String, List<ExpenseCodes>> filterdList = expenseCodesList.stream()
+                .map(expenseCode -> new ExpenseCodes(expenseCode.getId(), expenseCode.getExpenseName(), expenseCode.getExpenseCode(), expenseCode.getCategory()))
+                .collect(Collectors.groupingBy(ExpenseCodes::getCategory));
 
         OtherDataResponse otherDataResponse = new OtherDataResponse();
         otherDataResponse.setAccountsList(accountsList);
@@ -136,6 +141,7 @@ public class InvoiceService {
         otherDataResponse.setPaymentType(paymentType);
         otherDataResponse.setInvoiceStatus(invoiceStatus);
         otherDataResponse.setSubmitterList(submitterList);
+        otherDataResponse.setExpenseTypeByCategory(filterdList);
 
         return ResponseEntity.status(HttpStatus.OK).body(otherDataResponse);
     }

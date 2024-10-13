@@ -4,6 +4,7 @@ import com.invoice.web.persistence.model.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -22,5 +23,6 @@ public class OtherDataResponse {
     List<Vendor> vendorList;
     List<String> paymentType;
     List<String> invoiceStatus;
+    Map<String, List<ExpenseCodes>> expenseTypeByCategory;
 
 }
