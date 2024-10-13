@@ -9,5 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface ExpenseCodesRepository extends JpaRepository<ExpenseCodes, Long> {
-    Optional<ExpenseCodes> findByExpenseName(String expenseName);
+    @Query("select e from ExpenseCodes e where e.expenseCode = ?1")
+    Optional<ExpenseCodes> findByExpenseCode(String expenseName);
 }

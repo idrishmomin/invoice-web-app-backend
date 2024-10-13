@@ -86,7 +86,7 @@ public class OtherDetailsService {
         RequestParameterValidator.commonValidateRequest(expenseTypeRequest);
 
         if (null != expenseTypeRequest.getId()) {
-            Optional<ExpenseCodes> optionalExpenseCodes = expenseCodesRepository.findByExpenseName(expenseTypeRequest.getExpenseName());
+            Optional<ExpenseCodes> optionalExpenseCodes = expenseCodesRepository.findByExpenseCode(expenseTypeRequest.getExpenseCode());
             ExpenseCodes expenseCodes;
             if (optionalExpenseCodes.isPresent()) {
                 expenseCodes = optionalExpenseCodes.get();
@@ -94,11 +94,11 @@ public class OtherDetailsService {
                     return ResponseEntity.status(HttpStatus.OK).body("Expense Type Already Exist");
                 }
                 expenseCodes.setCategory(expenseTypeRequest.getCategory());
-                expenseCodes.setExpenseCode(expenseTypeRequest.getExpenseCode());
+                expenseCodes.setExpenseName(expenseTypeRequest.getExpenseName());
                 expenseCodesRepository.save(expenseCodes);
                 return ResponseEntity.status(HttpStatus.OK).body(expenseCodes);
             } else {
-                log.info("Update Expense Type with name : {}", expenseTypeRequest.getExpenseName());
+                log.info("Update Expense Type with Expense Code : {}", expenseTypeRequest.getExpenseCode());
                 Optional<ExpenseCodes> optCostCenter = expenseCodesRepository.findById(Long.valueOf(expenseTypeRequest.getId()));
                 expenseCodes = optCostCenter.get();
                 expenseCodes.setCategory(expenseTypeRequest.getCategory());
@@ -109,12 +109,12 @@ public class OtherDetailsService {
             }
         }
 
-        Optional<ExpenseCodes> optionalExpenseCodes = expenseCodesRepository.findByExpenseName(expenseTypeRequest.getExpenseName());
+        Optional<ExpenseCodes> optionalExpenseCodes = expenseCodesRepository.findByExpenseCode(expenseTypeRequest.getExpenseCode());
         ExpenseCodes expenseCodes;
         if (optionalExpenseCodes.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body("Expense Type  Already Exist");
         } else {
-            log.info("Create new Expense Type with name : {}", expenseTypeRequest.getExpenseName());
+            log.info("Create new Expense Type with Expense Code : {}", expenseTypeRequest.getExpenseCode());
             expenseCodes = new ExpenseCodes();
             expenseCodes.setCategory(expenseTypeRequest.getCategory());
             expenseCodes.setExpenseName(expenseTypeRequest.getExpenseName());
