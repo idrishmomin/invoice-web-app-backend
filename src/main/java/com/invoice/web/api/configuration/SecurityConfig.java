@@ -32,6 +32,7 @@ public class SecurityConfig {
         http.csrf().disable().cors().and()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/webportal/v1/login").permitAll()
+                        .requestMatchers("/webportal/v1/user/change-password").permitAll()
                         .requestMatchers("/webportal/v1/admin/**").hasAnyAuthority(Roles.ADMIN.name(),Roles.SUPER_ADMIN.name())
                         .requestMatchers("/webportal/v1/user/**").hasAnyAuthority(Roles.ADMIN.name(),Roles.SUPER_ADMIN.name(),Roles.USER.name())
                         .requestMatchers("/webportal/v1/invoice/**").hasAnyAuthority(Roles.ADMIN.name(),Roles.SUPER_ADMIN.name(),Roles.USER.name())
