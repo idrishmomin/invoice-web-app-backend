@@ -101,13 +101,16 @@ public class GenerateInvoiceService {
 
         StringBuilder signaturesHtml = new StringBuilder();
         for (Signature signature : signatureList) {
-            signaturesHtml.append("<div style='width: 30%; text-align: center;'>"); // Adjust width to fit multiple signatures
+            signaturesHtml.append("<div style='width: 30%; text-align: center;'>"); // Flex properties applied via inline CSS for each signature block
             signaturesHtml.append("<p><strong>Signature By ").append(signature.getDepartment()).append("</strong></p>");
             signaturesHtml.append("<h4>").append(signature.getName()).append("</h4>");
             signaturesHtml.append("<p><strong>Date: </strong> _____________________</p>");
             signaturesHtml.append("<p><strong>Signature: </strong> _____________________</p>");
-            signaturesHtml.append("</div>"); // Close the border div
+            signaturesHtml.append("</div>"); // Close the signature div
         }
+
+// Replace the ${signatures} placeholder with the dynamically generated signature lines
+        invoiceHtml = invoiceHtml.replace("${signatures}", signaturesHtml.toString());
 
         // Step 6: Replace the ${signatures} placeholder with the dynamically generated signature lines
         invoiceHtml = invoiceHtml.replace("${signatures}", signaturesHtml.toString());
