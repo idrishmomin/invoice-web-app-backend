@@ -29,7 +29,6 @@ public class UserController {
     @PutMapping(value = "/change-password", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<String>> changePassword(@RequestBody ChangePassword changePassword, Principal principal) {
         log.info("Change password Request");
-        changePassword.setEmail(principal.getName());
         return userService.changePassword(changePassword,false);
     }
 }
