@@ -6,7 +6,7 @@
     <title>Invoice</title>
     <style>
         @page {
-        size: A4 landscape;
+            size: A4 landscape;
         }
 
         body {
@@ -17,16 +17,15 @@
         }
 
         .invoice-box {
-        width: 92%; /* Set width for landscape A4 */
-        min-height: 210mm; /* Set minimum height for landscape A4 */
-        padding: 10mm;
-        background-color: #fff;
-        border: 1px solid #ddd;
-        font-size: 12px;
-        line-height: 1.4;
-        color: #555;
+            width: 92%; /* Set width for landscape A4 */
+            min-height: 210mm; /* Set minimum height for landscape A4 */
+            padding: 10mm;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            font-size: 12px;
+            line-height: 1.4;
+            color: #555;
         }
-
 
         .title {
             font-size: 28px;
@@ -35,25 +34,19 @@
             text-align: center;
         }
 
-
         .invoice-header .invoice-details {
             text-align: center;
         }
-
-/* Add custom spacing for invoice number */
-        .invoice-header .invoice-details table td {
-            padding: 2px; /* Reduced padding */
-}
 
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 10px;
-}
+        }
 
         table td {
             padding: 6px;
-}
+        }
 
         table th {
             padding: 8px;
@@ -61,87 +54,63 @@
             background-color: #007bff;
             color: white;
             border-bottom: 1px solid #ddd;
-}
+        }
 
         .items td {
             border: 1px solid #ddd;
-}
+        }
 
         .items th, .items td {
             font-size: 10px;
-}
+        }
 
         .items tr:nth-child(even) {
             background-color: #f9f9f9;
-}
-.items tr {
-    height: auto;
-}
+        }
 
         .items tr:hover {
             background-color: #f1f1f1;
-}
+        }
 
-  .signature-box .sign-row {
-    display: flex;
-    flex-direction: row; /* Horizontal layout */
-    justify-content: space-between; /* Distribute space between signatures */
-    flex-wrap: nowrap; /* Prevent wrapping */
-    gap: 20px;
-}
+        /* Signature section using inline-block */
+        .signature-box {
+            margin-top: 30px;
+            text-align: center;
+        }
 
-.signature-box .sign-row div {
-    width: 30%; /* Adjust percentage based on the number of signatures */
-    text-align: center; /* Center the content */
-}
+        .signature-box .sign-row div {
+            display: inline-block; /* Change to inline-block for better PDF compatibility */
+            width: 30%; /* Adjust width to fit signatures in a row */
+            text-align: center;
+            margin: 0 10px; /* Add some margin for spacing between signatures */
+            vertical-align: top; /* Align the divs to the top */
+        }
 
-
-
-        /* Adjusted styles for the total section */
         .total-box {
             margin-top: 10px;
             font-size: 12px;
-            text-align: right; /* Align totals on the right */
+            text-align: right;
         }
 
         .total-box table {
             width: auto;
-            margin-left: auto; /* Push the table to the right */
+            margin-left: auto;
             border: 1px solid #ddd;
-}
+        }
 
         .total-box td, .total-box th {
             padding: 4px;
             border: 1px solid #ddd;
-}
-
-        .total-title {
-            font-weight: normal;
-}
+        }
 
         .total-value {
             text-align: right;
-}
+        }
 
         .grand-total {
             font-weight: bold;
             color: #007bff;
-}
-
-         /* Set specific widths for each column */
-    .items th:nth-child(1), .items td:nth-child(1) { width: 4%; } /* Ref ID */
-    .items th:nth-child(2), .items td:nth-child(2) { width: 10%; } /* Vendor Invoice Ref */
-    .items th:nth-child(3), .items td:nth-child(3) { width: 8%; } /* Vendor ID */
-    .items th:nth-child(4), .items td:nth-child(4) { width: 10%; } /* Vendor Name */
-    .items th:nth-child(5), .items td:nth-child(5) { width: 8%; } /* Invoice Date */
-    .items th:nth-child(6), .items td:nth-child(6) { width: 8%; } /* Description */
-    .items th:nth-child(7), .items td:nth-child(7) { width: 5%; } /* Recurring */
-    .items th:nth-child(8), .items td:nth-child(8) { width: 8%; } /* Cost Code */
-    .items th:nth-child(9), .items td:nth-child(9) { width: 10%; } /* Expense Type */
-    .items th:nth-child(10), .items td:nth-child(10) { width: 4%; } /* Currency */
-    .items th:nth-child(11), .items td:nth-child(11) { width: 8%; } /* Rate of SAR */
-    .items th:nth-child(12), .items td:nth-child(12) { width: 8%; } /* Invoice Amount */
-    .items th:nth-child(13), .items td:nth-child(13) { width: 8%; } /* Total */
+        }
     </style>
 </head>
 <body>
@@ -227,7 +196,7 @@
 
     <div class="signature-box">
         <div class="sign-row">
-            ${signatures}
+            ${signatures} <!-- This is where the dynamically generated signatures will be inserted -->
         </div>
     </div>
 </div>
