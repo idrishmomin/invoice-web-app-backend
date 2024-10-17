@@ -6,6 +6,7 @@ import jakarta.validation.ConstraintViolationException;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,32 +23,24 @@ public class GlobalException extends Exception {
     private static final long serialVersionUID = 1L;
 
     @ExceptionHandler(DaoException.class)
-    public @ResponseBody ResponseEntity<Response<Object>> daoException(DaoException exception) {
+    public @ResponseBody ResponseEntity<Object> daoException(DaoException exception) {
         log.error("Error with database operation: {}", exception.getMessage());
         log.error("Application failure occurred by DaoException!", exception);
 
-        Response<Object> response = Response.<Object>builder()
-                .response(exception.getMessage())
-                .build();
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
 
 
     @ExceptionHandler(Exception.class)
-    public @ResponseBody ResponseEntity<Response<Object>> exception(Exception exception) {
+    public @ResponseBody ResponseEntity<Object> exception(Exception exception) {
         log.error("Internal Server Error: {}", exception.getMessage());
         log.error("Application failure occurred by unknown Exception!", exception);
-
-        Response<Object> response = Response.<Object>builder()
-                .response(exception.getMessage())
-                .build();
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public @ResponseBody ResponseEntity<Response<Object>> constraintViolationException(ConstraintViolationException exception) {
+    public @ResponseBody ResponseEntity<Object> constraintViolationException(ConstraintViolationException exception) {
         log.error("Constraint violation Error: {}", exception.getMessage(), exception);
         log.error("Application failure occurred by ConstraintViolationException !", exception);
 
@@ -57,11 +50,9 @@ public class GlobalException extends Exception {
                         .findFirst().orElse("Validation Error")
                 : exception.getMessage();
 
-        Response<Object> response = Response.<Object>builder()
-                .response(error)
-                .build();
+        log.info("Application failure occurred by ConstraintViolationException : {}", error);
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
 

@@ -45,6 +45,7 @@ public class CreateInvoiceRequest {
 
 
     // SubTotal class
+    @ToString
     @Setter
     @Getter
     @NoArgsConstructor
@@ -63,6 +64,8 @@ public class CreateInvoiceRequest {
 
 
     // AccountDue class
+
+    @ToString
     @Setter
     @Getter
     @NoArgsConstructor
@@ -77,6 +80,7 @@ public class CreateInvoiceRequest {
     }
 
     // Submitter class
+    @ToString
     @Setter
     @Getter
     @NoArgsConstructor
@@ -90,6 +94,7 @@ public class CreateInvoiceRequest {
         private String department;
     }
 
+    @ToString
     @Setter
     @Getter
     @NoArgsConstructor
@@ -107,6 +112,7 @@ public class CreateInvoiceRequest {
     }
 
     // Item class
+    @ToString
     @Setter
     @Getter
     @NoArgsConstructor

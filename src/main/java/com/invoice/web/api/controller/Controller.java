@@ -1,7 +1,10 @@
 package com.invoice.web.api.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.invoice.web.api.dto.request.*;
 import com.invoice.web.api.dto.response.ApiResponse;
+import com.invoice.web.api.dto.response.Response;
 import com.invoice.web.api.service.GenerateInvoiceService;
 import com.invoice.web.api.service.InvoiceService;
 import com.invoice.web.api.service.OtherDetailsService;
@@ -21,6 +24,7 @@ public class Controller {
     private final GenerateInvoiceService generateInvoiceService;
     private final OtherDetailsService otherDetailsService;
 
+    ObjectMapper mapper = new ObjectMapper();
     public Controller(InvoiceService invoiceService,
                       GenerateInvoiceService generateInvoiceService, OtherDetailsService otherDetailsService) {
         this.invoiceService = invoiceService;
@@ -48,9 +52,14 @@ public class Controller {
     }
 
 
+    @GetMapping(value = "/is-vendor-invoiceRef-exists/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response<Object>> isVendorInvoiceRefAlreadyExist(@PathVariable String id) {
+        return invoiceService.isVendorInvoiceRefAlreadyExists(id);
+    }
+
     @GetMapping(value = "/generateinvoice/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String generatePDFInvoice(@PathVariable String id) throws IOException {
-        log.info("Generate Invoice PDF");
+        log.info("Generate Invoice PDF for Id : {}",id);
         return generateInvoiceService.createInvoice(id);
     }
 
@@ -67,32 +76,32 @@ public class Controller {
     }
 
     @PostMapping(value = "/createinvoice", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> createinvoice(@RequestBody CreateInvoiceRequest createInvoiceRequest) {
-        log.info("Create Invoice request: {}", createInvoiceRequest);
+    public ResponseEntity<Object> createinvoice(@RequestBody CreateInvoiceRequest createInvoiceRequest) throws JsonProcessingException {
+        log.info("Create Invoice request: {}", mapper.writeValueAsString(createInvoiceRequest));
         return invoiceService.createInvoice(createInvoiceRequest);
     }
 
     @PostMapping(value = "/create-costcenter", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> createCostCenter(@RequestBody CostCenterRequest costCenterRequest) {
-        log.info("Cost Center request: {}", costCenterRequest);
+    public ResponseEntity<Object> createCostCenter(@RequestBody CostCenterRequest costCenterRequest) throws JsonProcessingException {
+        log.info("Cost Center request: {}", mapper.writeValueAsString(costCenterRequest));
         return otherDetailsService.createOrUpdateCostCenter(costCenterRequest);
     }
 
     @PostMapping(value = "/create-expensetype", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> createExpenseType(@RequestBody ExpenseTypeRequest expenseTypeRequest) {
-        log.info("Expense Type request: {}", expenseTypeRequest);
+    public ResponseEntity<Object> createExpenseType(@RequestBody ExpenseTypeRequest expenseTypeRequest) throws JsonProcessingException {
+        log.info("Expense Type request: {}", mapper.writeValueAsString(expenseTypeRequest));
         return otherDetailsService.createOrUpdateExpenseType(expenseTypeRequest);
     }
 
     @PostMapping(value = "/create-department", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> createDepartment(@RequestBody DepartmentsRequest departmentsRequest) {
-        log.info("Department request: {}", departmentsRequest);
+    public ResponseEntity<Object> createDepartment(@RequestBody DepartmentsRequest departmentsRequest) throws JsonProcessingException {
+        log.info("Department request: {}", mapper.writeValueAsString(departmentsRequest));
         return otherDetailsService.createOrUpdateDepartment(departmentsRequest);
     }
 
     @PostMapping(value = "/create-vendors", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> createVendor(@RequestBody VendorCreateRequest request) {
-        log.info("Vendor Create request: {}", request);
+    public ResponseEntity<Object> createVendor(@RequestBody VendorCreateRequest request) throws JsonProcessingException {
+        log.info("Vendor Create request: {}", mapper.writeValueAsString(request));
         return otherDetailsService.createOrUpdateVendor(request);
     }
 

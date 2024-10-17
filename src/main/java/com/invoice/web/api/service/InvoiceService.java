@@ -157,4 +157,13 @@ public class InvoiceService {
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>("Invoice Deleted Successfully"));
 
     }
+
+    public ResponseEntity<Response<Object>> isVendorInvoiceRefAlreadyExists(String id) {
+        List<Invoice> isExists =  invoiceRepository.findByVendorInvoiceRef(id);
+        String message = null;
+        if(!isExists.isEmpty()){
+            message = "VendorInvoiceRef Already exists in invoiceNumber : ".concat(isExists.get(0).getInvoiceNumber());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(new Response<>(message));
+    }
 }
