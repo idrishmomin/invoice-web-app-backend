@@ -7,6 +7,7 @@
     <style>
         @page {
             size: A4 landscape;
+            margin: 20px;
         }
 
         body {
@@ -16,15 +17,14 @@
             background-color: #f4f4f4;
         }
 
-        .invoice-box {
-            width: 92%; /* Set width for landscape A4 */
-            min-height: 210mm; /* Set minimum height for landscape A4 */
-            padding: 10mm;
+        .container {
+            width: 100%;
+            max-width: 1024px;
+            margin: 0 auto;
+            padding: 20px;
             background-color: #fff;
             border: 1px solid #ddd;
-            font-size: 12px;
-            line-height: 1.4;
-            color: #555;
+            box-sizing: border-box;
         }
 
         .title {
@@ -32,129 +32,154 @@
             font-weight: bold;
             color: #333;
             text-align: center;
+            margin-bottom: 20px;
         }
 
-        .invoice-header .invoice-details {
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .col-12 {
+            width: 100%;
+        }
+
+        .col-md-4 {
+            width: 33.33%;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        .col-md-6 {
+            width: 50%;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        .subtitle {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
             text-align: center;
+            margin-bottom: 20px;
+
+            background-color: #d4a017; /* Dark yellow */
+            color: #fff; /* White text for contrast */
+            padding: 10px;
+            border-radius: 10px; /* Rounded corners */
+            width: 20%;
+            box-sizing: border-box;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
 
-        table td {
-            padding: 6px;
+        table th, table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            font-size: 10px;
+            text-align: left;
+        }
+
+        .table-head td{
+            padding: 8px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            text-align: left;
         }
 
         table th {
-            padding: 8px;
+            background-color: #e2e6ea;
+        }
+
+        .table-borderless td {
+            border: none;
+        }
+
+        .text-end {
             text-align: center;
-            background-color: #007bff;
-            color: white;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .items td {
-            border: 1px solid #ddd;
-        }
-
-        .items th, .items td {
-            font-size: 10px;
-        }
-
-        .items tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        .items tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        /* Signature section using inline-block */
-        .signature-box {
-            margin-top: 30px;
-            text-align: center;
-        }
-
-        .signature-box .sign-row div {
-            display: inline-block; /* Change to inline-block for better PDF compatibility */
-            width: 30%; /* Adjust width to fit signatures in a row */
-            text-align: center;
-            margin: 0 10px; /* Add some margin for spacing between signatures */
-            vertical-align: top; /* Align the divs to the top */
-        }
-
-        .total-box {
-            margin-top: 10px;
-            font-size: 12px;
-            text-align: right;
-        }
-
-        .total-box table {
-            width: auto;
-            margin-left: auto;
-            border: 1px solid #ddd;
-        }
-
-        .total-box td, .total-box th {
-            padding: 4px;
-            border: 1px solid #ddd;
-        }
-
-        .total-value {
-            text-align: right;
+            font-size: 14px;
         }
 
         .grand-total {
             font-weight: bold;
             color: #007bff;
         }
+
+        /* Signature section */
+        .signature-box {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .signature-box .sign-row div {
+            display: inline-block;
+            width: 30%;
+            text-align: center;
+            margin: 0 10px;
+            vertical-align: top;
+        }
+
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            .container {
+                max-width: 100%;
+                width: 100%;
+                height: 100%;
+            }
+        }
     </style>
 </head>
 <body>
-<div class="invoice-box">
-    <div class="invoice-header">
-        <table>
-            <tr>
-                <td class="title">Invoice</td>
-                <td class="invoice-details">
-                    <table>
-                        <tr>
-                            <td><strong>Invoice Number: </strong>${invoiceNumber}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Created Date: </strong>${invoiceCreatedDate}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Created By: </strong>${createdBy}</td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
+<div class="container">
+    <div class="row">
+        <div class="col-12 title">Invoice</div>
+        <div class="col-12 subtitle">${billTo}</div>
     </div>
 
-    <table>
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table-borderless">
+                <tr>
+                    <strong>Invoice Number : </strong>       ${invoiceNumber}<br/>
+                </tr>
+                <tr>
+                    <strong>Created Date : </strong>       ${invoiceCreatedDate}<br/>
+                </tr>
+                <tr>
+                    <strong>Created By : </strong>       ${createdBy}<br/>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <table class="table-head">
         <tr>
             <td>
-                <strong>Submitter: </strong>${submitterName}<br/>
-                <strong>Department: </strong>${department}
+                <strong>Submitter : </strong>       ${submitterName}<br/>
+                <strong>Department : </strong>       ${department}
             </td>
             <td>
-                <strong>Account Type: </strong>${accountType}<br />
-                <strong>Payment Type: </strong>${paymentType}
+                <strong>Account Type : </strong>       ${accountType}<br />
+                <strong>Payment Type : </strong>       ${paymentType}
             </td>
             <td>
-                <strong>Bill To: </strong>${billTo}<br />
-                <strong>Payment Due: </strong>${paymentDue}<br />
-                <strong>Vendor Bank Details: </strong>${vendorBankDetails}
+                <strong>Bill To : </strong>       ${billTo}<br />
+                <strong>Payment Due : </strong>       ${paymentDue}<br />
+                <strong>Vendor Bank Details : </strong>       ${vendorBankDetails}
             </td>
         </tr>
     </table>
 
-    <table class="items">
+    <table>
         <thead>
         <tr>
             <th>Ref ID</th>
@@ -180,26 +205,27 @@
         </tbody>
     </table>
 
-    <div class="total-box">
-        <table>
-            <tr>
-                <td>Total:</td>
-                <td class="total-value">${subTotal}</td>
-            </tr>
-            <tr>
-                <td>Adjustment:</td>
-                <td class="total-value">${adjustment}</td>
-            </tr>
-            <tr>
-                <td>Grand Total:</td>
-                <td class="total-value grand-total">${grandTotal}</td>
-            </tr>
-        </table>
+    <div class="row">
+        <div class="col-md-6 offset-md-6">
+            <table>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td class="text-end">${subTotal}</td>
+                </tr>
+                <tr>
+                    <td><strong>Adjustment</strong></td>
+                    <td class="text-end">${adjustment}</td>
+                </tr>
+                <tr>
+                    <td class="table-primary"><strong>Grand Total</strong></td>
+                    <td class="text-end grand-total">${grandTotal}</td>
+                </tr>
+            </table>
+        </div>
     </div>
 
     <div class="signature-box">
-        <h4>Signatures</h4>
-        <div>
+        <div class="sign-row">
             ${signatures}
         </div>
     </div>
