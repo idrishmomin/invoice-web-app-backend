@@ -110,6 +110,39 @@
             vertical-align: top;
         }
 
+.header {
+    width: 100%;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Ensure items are centered vertically */
+}
+
+.header .logo {
+    margin-left: 20px;
+    max-width: 150px;
+    height: auto; /* Maintain aspect ratio */
+}
+
+.header .company-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-right: 20px;
+}
+
+.footer {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+    border-top: 1px solid #ddd;
+    margin-top: 20px;
+    bottom: 0;
+    left: 0;
+}
+
+
         @media print {
             body {
                 margin: 0;
@@ -126,6 +159,12 @@
 </head>
 <body>
 <div class="container">
+    <div class="header">
+        <div class="company-name">STL Infra LTD</div>
+        <img class="logo" src="data:image/jpeg;base64,${company-logo}"  alt="Company Logo" />
+    </div>
+
+
     <div class="row">
         <div class="col-12 title">Invoice</div>
     </div>
@@ -211,6 +250,9 @@
         <div class="sign-row">
             ${signatures}
         </div>
+    </div>
+    <div class="footer">
+        2024 Your Company Name - All rights reserved.
     </div>
 </div>
 </body>

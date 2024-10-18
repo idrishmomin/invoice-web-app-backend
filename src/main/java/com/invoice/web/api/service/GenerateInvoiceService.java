@@ -56,6 +56,15 @@ public class GenerateInvoiceService {
                 .collect(Collectors.joining("\n"));
 
 
+        String imagePath = "src/main/resources/company-logo.jpg"; // Replace with your image path
+        File file = new File(imagePath);
+        FileInputStream logoInputStream = new FileInputStream(file);
+        byte[] bytes = new byte[(int) file.length()];
+        logoInputStream.read(bytes);
+        logoInputStream.close();
+        String base64String = Base64.getEncoder().encodeToString(bytes);
+        System.out.println("BBBB : "+base64String);
+
         // Step 2: Replace placeholders with actual data
         String invoiceHtml = htmlTemplate
                 .replace("${invoiceNumber}", invoice.getInvoiceNumber())
@@ -74,7 +83,9 @@ public class GenerateInvoiceService {
 
                 .replace("${billTo}", invoice.getVendorDetails().getBillTo())
                 .replace("${paymentDue}", invoice.getVendorDetails().getPaymentDue())
-                .replace("${vendorBankDetails}", invoice.getVendorDetails().getVendorBankDetails());
+                .replace("${vendorBankDetails}", invoice.getVendorDetails().getVendorBankDetails())
+                .replace("${company-logo}",base64String);
+
 
         StringBuilder itemsHtml = new StringBuilder();
         int srNo = 0;
@@ -123,7 +134,8 @@ public class GenerateInvoiceService {
 
     }
 
-    public String generatePdfFromHtml(String htmlTemplate,Invoice invoice) {
+    public String generatePdfFromHtml(String htmlTemplate,Invoice invoice) throws IOException {
+
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             PdfRendererBuilder builder = new PdfRendererBuilder();
             builder.withHtmlContent(htmlTemplate, null);
@@ -142,7 +154,7 @@ public class GenerateInvoiceService {
         }
     }
 
-    public String generateInvoiceForPettyCah(Invoice invoice, List<Signature> signatureList) {
+    public String generateInvoiceForPettyCah(Invoice invoice, List<Signature> signatureList) throws IOException {
 
         InputStream templateStream = GenerateInvoiceService.class.getClassLoader().getResourceAsStream("invoice_template_for_PettyCash.html");
 
