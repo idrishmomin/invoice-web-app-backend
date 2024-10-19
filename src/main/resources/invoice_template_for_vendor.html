@@ -110,37 +110,37 @@
             vertical-align: top;
         }
 
-.header {
-    width: 100%;
-    padding: 10px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Ensure items are centered vertically */
-}
 
-.header .logo {
-    margin-left: 20px;
-    max-width: 150px;
-    height: auto; /* Maintain aspect ratio */
-}
-
-.header .company-name {
+    .company-name {
+    float: left; /* Align to the left */
+    padding: 20px;
     font-size: 24px;
     font-weight: bold;
     color: #333;
-    margin-right: 20px;
 }
 
-.footer {
-    width: 100%;
-    padding: 10px;
-    text-align: center;
-    font-size: 16px;
-    border-top: 1px solid #ddd;
-    margin-top: 20px;
-    bottom: 0;
-    left: 0;
+.logo {
+    float: right; /* Align to the right */
 }
+
+.logo img {
+    width: 3cm; /* Set logo width in cm */
+}
+
+
+
+
+
+        .footer {
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+            bottom: 0;
+            left: 0;
+        }
 
 
         @media print {
@@ -159,11 +159,14 @@
 </head>
 <body>
 <div class="container">
-    <div class="header">
+<div class="row">
+    <div class="companyName">
         <div class="company-name">STL Infra LTD</div>
+    </div>
+    <div class="logo">
         <img class="logo" src="data:image/jpeg;base64,${company-logo}"  alt="Company Logo" />
     </div>
-
+</div>
 
     <div class="row">
         <div class="col-12 title">Invoice</div>
