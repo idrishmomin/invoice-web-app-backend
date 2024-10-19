@@ -14,7 +14,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #ffffff;
         }
 
         .container {
@@ -124,6 +124,39 @@
             vertical-align: top;
         }
 
+
+    .company-name {
+    float: left; /* Align to the left */
+    padding: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.logo {
+    float: right; /* Align to the right */
+}
+
+.logo img {
+    width: 3cm; /* Set logo width in cm */
+}
+
+
+
+
+
+        .footer {
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+            bottom: 0;
+            left: 0;
+        }
+
+
         @media print {
             body {
                 margin: 0;
@@ -140,6 +173,16 @@
 </head>
 <body>
 <div class="container">
+
+    <div class="row">
+        <div class="companyName">
+            <div class="company-name">STL Infra LTD</div>
+        </div>
+        <div class="logo">
+            <img class="logo" src="data:image/jpeg;base64,${company-logo}"  alt="Company Logo" />
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-12 title">Invoice</div>
         <div class="col-12 subtitle">${billTo}</div>
@@ -228,6 +271,9 @@
         <div class="sign-row">
             ${signatures}
         </div>
+    </div>
+    <div class="footer">
+        2024 Your Company Name - All rights reserved.
     </div>
 </div>
 </body>

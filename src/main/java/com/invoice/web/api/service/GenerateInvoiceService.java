@@ -63,7 +63,6 @@ public class GenerateInvoiceService {
         logoInputStream.read(bytes);
         logoInputStream.close();
         String base64String = Base64.getEncoder().encodeToString(bytes);
-        System.out.println("BBBB : "+base64String);
 
         // Step 2: Replace placeholders with actual data
         String invoiceHtml = htmlTemplate
@@ -168,7 +167,13 @@ public class GenerateInvoiceService {
                 .collect(Collectors.joining("\n"));
 
 
-//        String htmlTemplate = new String(Files.readAllBytes(Paths.get("invoice_template_for_vendor.html")));
+        String imagePath = "src/main/resources/company-logo.jpg"; // Replace with your image path
+        File file = new File(imagePath);
+        FileInputStream logoInputStream = new FileInputStream(file);
+        byte[] bytes = new byte[(int) file.length()];
+        logoInputStream.read(bytes);
+        logoInputStream.close();
+        String base64String = Base64.getEncoder().encodeToString(bytes);
 
 
         // Step 2: Replace placeholders with actual data
@@ -189,7 +194,9 @@ public class GenerateInvoiceService {
 
                 .replace("${billTo}", invoice.getVendorDetails().getBillTo())
                 .replace("${paymentDue}", invoice.getVendorDetails().getPaymentDue())
-                .replace("${vendorBankDetails}", invoice.getVendorDetails().getVendorBankDetails());
+                .replace("${vendorBankDetails}", invoice.getVendorDetails().getVendorBankDetails())
+                .replace("${company-logo}",base64String);
+
 
         StringBuilder itemsHtml = new StringBuilder();
         int srNo = 0;
