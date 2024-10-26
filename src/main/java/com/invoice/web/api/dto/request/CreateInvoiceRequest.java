@@ -107,8 +107,7 @@ public class CreateInvoiceRequest {
         @NotBlank(message = "Payment Due Can not be blank", groups = BlankCheck.class)
         private String paymentDue;
 
-        @NotBlank(message = "Vendor Bank Details Can not be blank", groups = BlankCheck.class)
-        private String vendorBankDetails;
+        private BankDetails vendorBankDetails;
     }
 
     // Item class

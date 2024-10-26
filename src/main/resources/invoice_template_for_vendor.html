@@ -201,8 +201,19 @@
             </td>
             <td>
                 <strong>Bill To : </strong>       ${billTo}<br />
-                <strong>Payment Due : </strong>       ${paymentDue}<br />
-                <strong>Vendor Bank Details : </strong>       ${vendorBankDetails}
+                <strong>Payment Due : </strong>      <span style="color: red;">${paymentDue}</span><br />
+                <div style="margin-top: 15px;"></div>
+                <table class="table-borderless ">
+                    <tr>
+                        <strong>Bank Name : </strong>       ${bankName}<br/>
+                    </tr>
+                    <tr>
+                        <strong>IBAN : </strong>       ${ibanNumber}<br/>
+                    </tr>
+                    <tr>
+                        <strong>Address : </strong>       ${bankAddress}<br/>
+                    </tr>
+                </table>
             </td>
         </tr>
     </table>

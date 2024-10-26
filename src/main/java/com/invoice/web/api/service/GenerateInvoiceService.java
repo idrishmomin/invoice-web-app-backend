@@ -82,7 +82,9 @@ public class GenerateInvoiceService {
 
                 .replace("${billTo}", invoice.getVendorDetails().getBillTo())
                 .replace("${paymentDue}", invoice.getVendorDetails().getPaymentDue())
-                .replace("${vendorBankDetails}", invoice.getVendorDetails().getVendorBankDetails())
+                .replace("${bankName}", invoice.getVendorDetails().getVendorBankDetails().getBankName())
+                .replace("${ibanNumber}", invoice.getVendorDetails().getVendorBankDetails().getIbanNumber())
+                .replace("${bankAddress}", invoice.getVendorDetails().getVendorBankDetails().getBankAddress())
                 .replace("${company-logo}",base64String);
 
 
@@ -194,7 +196,7 @@ public class GenerateInvoiceService {
 
                 .replace("${billTo}", invoice.getVendorDetails().getBillTo())
                 .replace("${paymentDue}", invoice.getVendorDetails().getPaymentDue())
-                .replace("${vendorBankDetails}", invoice.getVendorDetails().getVendorBankDetails())
+                .replace("${vendorBankDetails}", "NONE")
                 .replace("${company-logo}",base64String);
 
 
