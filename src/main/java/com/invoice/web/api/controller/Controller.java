@@ -9,6 +9,7 @@ import com.invoice.web.api.service.GenerateInvoiceService;
 import com.invoice.web.api.service.InvoiceService;
 import com.invoice.web.api.service.OtherDetailsService;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,24 +35,25 @@ public class Controller {
 
 
     @GetMapping(value = "/invoices", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> invoices() {
+    public ResponseEntity<Object> invoices(Pageable pageable) {
         log.info("Get Invoices request ");
-        return invoiceService.invoices();
+        return invoiceService.invoices(pageable);
     }
 
     @GetMapping(value = "/filtered-invoices", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> filteredInvoices(@RequestParam(required = false) String invoiceNumber,
                                                    @RequestParam(required = false) String vendorName,
-                                                   @RequestParam(required = false) String status) {
+                                                   @RequestParam(required = false) String status,
+                                                   Pageable pageable) {
 //        log.info("Get Filtered-Invoice Request with filters - InvoiceNumber: {}, VendorName: {}, Status: {}",
 //                invoiceNumber, vendorName, status);
-        return invoiceService.filteredInvoice(invoiceNumber,vendorName,status);
+        return invoiceService.filteredInvoice(invoiceNumber,vendorName,status,pageable);
     }
 
     @GetMapping(value = "/invoices-by-users", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> invoicesByUsers(@RequestParam String createdBy) {
+    public ResponseEntity<Object> invoicesByUsers(@RequestParam String createdBy,Pageable pageable) {
         log.info("Get Invoices for user : {}",createdBy);
-        return invoiceService.invoicesByUser(createdBy);
+        return invoiceService.invoicesByUser(createdBy,pageable);
     }
 
     @GetMapping(value = "/invoiceDetails/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

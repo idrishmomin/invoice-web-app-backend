@@ -1,6 +1,7 @@
 package com.invoice.web.persistence.repositories;
 
 import com.invoice.web.persistence.model.Invoice;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,7 +16,7 @@ import java.util.List;
 public interface InvoiceRepository extends JpaRepository<Invoice, Integer> {
     Invoice findByInvoiceNumber(String invoiceNumber);
     @Query("SELECT i FROM Invoice i  where i.deleted = false ORDER BY i.invoiceUpdatedDate DESC")
-    List<Invoice> findAllInvoicesOrderedByCreatedDateDesc();
+    Page<Invoice> findAllInvoicesOrderedByCreatedDateDesc(Pageable pageable);
 
     @Query(value = """
     SELECT * FROM Invoice i
@@ -25,14 +26,15 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Integer> {
     AND i.deleted = false
     ORDER BY i.invoice_updated_date DESC
     """, nativeQuery = true)
-    List<Invoice> findInvoiceByFilteredValues(
+    Page<Invoice> findInvoiceByFilteredValues(
             @Nullable String invoiceNumber,
             @Nullable String vendorName,
-            @Nullable String invoiceStatus);
+            @Nullable String invoiceStatus,
+            Pageable pageable);
 
 
     @Query("select i from Invoice i where i.createdBy = ?1 AND  i.deleted = false order by i.invoiceUpdatedDate DESC")
-    List<Invoice> findByCreatedByOrderByInvoiceCreatedDateDesc(String createdBy);
+    Page<Invoice> findByCreatedByOrderByInvoiceCreatedDateDesc(String createdBy,Pageable pageable);
 
     @Query(value = "SELECT * FROM invoice i WHERE JSON_CONTAINS(i.items, JSON_OBJECT('vendorInvoiceRef', :vendorInvoiceRef))  LIMIT 1", nativeQuery = true)
     List<Invoice> findByVendorInvoiceRef(@Param("vendorInvoiceRef") String vendorInvoiceRef);

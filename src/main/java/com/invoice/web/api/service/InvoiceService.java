@@ -4,11 +4,14 @@ import com.invoice.web.api.dto.request.CreateInvoiceRequest;
 import com.invoice.web.api.dto.response.ApiResponse;
 import com.invoice.web.api.dto.response.OtherDataResponse;
 import com.invoice.web.api.dto.response.Response;
+import com.invoice.web.infrastructure.Constants;
 import com.invoice.web.infrastructure.utils.CommonUtils;
 import com.invoice.web.infrastructure.utils.validation.RequestParameterValidator;
 import com.invoice.web.persistence.model.*;
 import com.invoice.web.persistence.repositories.*;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,7 +20,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,23 +46,26 @@ public class InvoiceService {
         this.submitterRepository = submitterRepository;
     }
 
-    public ResponseEntity<Object> invoices() {
-        List<Invoice> invoiceList = invoiceRepository.findAllInvoicesOrderedByCreatedDateDesc();
-        log.info("Invoice List Size : {}", invoiceList.size());
-        return ResponseEntity.status(HttpStatus.OK).body(invoiceList);
+    public ResponseEntity<Object> invoices(Pageable pageable) {
+        Page<Invoice> invoicePages = invoiceRepository.findAllInvoicesOrderedByCreatedDateDesc(pageable);
+        log.info("Invoice List Size : {}", invoicePages.getTotalElements());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body( new ApiResponse<>(Constants.SUCCESS,invoicePages));
     }
 
-    public ResponseEntity<Object> filteredInvoice(String invoiceNumber,String vendorName,String status) {
-        List<Invoice> invoiceList = invoiceRepository.findInvoiceByFilteredValues(invoiceNumber,vendorName,status);
-        log.info("Invoice List Size : {}", invoiceList.size());
-        return ResponseEntity.status(HttpStatus.OK).body(invoiceList);
+    public ResponseEntity<Object> filteredInvoice(String invoiceNumber,String vendorName,String status,Pageable pageable) {
+        Page<Invoice> invoicePages = invoiceRepository.findInvoiceByFilteredValues(invoiceNumber,vendorName,status,pageable);
+        log.info("Invoice List Size : {}", invoicePages.getTotalElements());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body( new ApiResponse<>(Constants.SUCCESS,invoicePages));
     }
 
 
-    public ResponseEntity<Object> invoicesByUser(String createdBy) {
-        List<Invoice> invoiceList = invoiceRepository.findByCreatedByOrderByInvoiceCreatedDateDesc(createdBy);
-        log.info("Invoice List Size for user {} : {}", createdBy, invoiceList.size());
-        return ResponseEntity.status(HttpStatus.OK).body(invoiceList);
+    public ResponseEntity<Object> invoicesByUser(String createdBy, Pageable pageable) {
+        Page<Invoice> invoicePages = invoiceRepository.findByCreatedByOrderByInvoiceCreatedDateDesc(createdBy,pageable);
+        log.info("Invoice List Size : {}", invoicePages.getTotalElements());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body( new ApiResponse<>(Constants.SUCCESS,invoicePages));
     }
 
     public ResponseEntity<Object> getInvoiceDetails(String invoiceNumber) {
