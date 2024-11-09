@@ -19,7 +19,7 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Integer> {
     Page<Invoice> findAllInvoicesOrderedByCreatedDateDesc(Pageable pageable);
 
     @Query(value = """
-    SELECT * FROM Invoice i
+    SELECT * FROM invoice i
     WHERE (COALESCE(?1, '') = '' OR i.invoice_number LIKE CONCAT('%', ?1, '%'))
     AND (COALESCE(?2, '') = '' OR JSON_UNQUOTE(JSON_EXTRACT(i.vendor_details, '$.billTo')) LIKE CONCAT('%', ?2, '%'))
     AND (COALESCE(?3, '') = '' OR i.invoice_status LIKE CONCAT('%', ?3, '%'))
