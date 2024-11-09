@@ -39,6 +39,15 @@ public class Controller {
         return invoiceService.invoices();
     }
 
+    @GetMapping(value = "/filtered-invoices", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> filteredInvoices(@RequestParam(required = false) String invoiceNumber,
+                                                   @RequestParam(required = false) String vendorName,
+                                                   @RequestParam(required = false) String status) {
+//        log.info("Get Filtered-Invoice Request with filters - InvoiceNumber: {}, VendorName: {}, Status: {}",
+//                invoiceNumber, vendorName, status);
+        return invoiceService.filteredInvoice(invoiceNumber,vendorName,status);
+    }
+
     @GetMapping(value = "/invoices-by-users", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> invoicesByUsers(@RequestParam String createdBy) {
         log.info("Get Invoices for user : {}",createdBy);

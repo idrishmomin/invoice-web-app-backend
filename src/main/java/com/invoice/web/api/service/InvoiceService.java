@@ -50,6 +50,13 @@ public class InvoiceService {
         return ResponseEntity.status(HttpStatus.OK).body(invoiceList);
     }
 
+    public ResponseEntity<Object> filteredInvoice(String invoiceNumber,String vendorName,String status) {
+        List<Invoice> invoiceList = invoiceRepository.findInvoiceByFilteredValues(invoiceNumber,vendorName,status);
+        log.info("Invoice List Size : {}", invoiceList.size());
+        return ResponseEntity.status(HttpStatus.OK).body(invoiceList);
+    }
+
+
     public ResponseEntity<Object> invoicesByUser(String createdBy) {
         List<Invoice> invoiceList = invoiceRepository.findByCreatedByOrderByInvoiceCreatedDateDesc(createdBy);
         log.info("Invoice List Size for user {} : {}", createdBy, invoiceList.size());

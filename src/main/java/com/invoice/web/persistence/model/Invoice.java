@@ -21,7 +21,7 @@ public class Invoice {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "invoice_number", unique = true, nullable = false)
+    @Column(unique = true, nullable = false)
     private String invoiceNumber;
 
     private String createdBy;
