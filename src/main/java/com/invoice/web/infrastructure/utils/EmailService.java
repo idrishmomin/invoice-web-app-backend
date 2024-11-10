@@ -2,33 +2,43 @@ package com.invoice.web.infrastructure.utils;
 
 
 import com.invoice.web.infrastructure.Constants;
+import com.invoice.web.persistence.model.SystemConfig;
+import com.invoice.web.persistence.repositories.SystemConfigRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.util.Map;
+import java.util.Properties;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class EmailService {
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
+    private final SystemConfigRepository systemConfigRepository;
 
-    @Value("${email.from}")
-    private String fromAddress;
+
 
     private void sendEmailWithTemplate(String templateName, Context context, String to, String subject) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
+        Map<String,String> stringStringMap = systemConfigRepository.findAll()
+                .stream().collect(Collectors.toMap(SystemConfig::getSystemKey,SystemConfig::getSystemValue));
+
         helper.setTo(to);
         helper.setSubject(subject);
-        helper.setFrom(fromAddress);
+        helper.setFrom(stringStringMap.get("otp_sending_email"));
 
         // Thymeleaf context to inject variables into the template
         /*Context context = new Context();
@@ -36,8 +46,24 @@ public class EmailService {
         context.setVariable("message", messageBody);*/
         String htmlContent = templateEngine.process(templateName, context);
         helper.setText(htmlContent, true);
-        mailSender.send(message);
+        getJavaMailSender(stringStringMap).send(message);    }
+
+    public JavaMailSender getJavaMailSender( Map<String,String> stringStringMap) {
+
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost(stringStringMap.get("host"));
+        mailSender.setPort(Integer.parseInt(stringStringMap.get("port")));
+        mailSender.setUsername(stringStringMap.get("otp_sending_email"));
+        mailSender.setPassword(stringStringMap.get("otp_sending_password"));
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", stringStringMap.get("protocol"));
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+
+        return mailSender;
     }
+
     @Async
     public void sendOtpEmail(String name, String surname,String otp, String email) throws MessagingException {
         Context context = new Context();

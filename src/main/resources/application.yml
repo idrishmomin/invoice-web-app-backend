@@ -19,8 +19,8 @@ spring:
   main:
     banner-mode: 'off'
   mail:
-    host: smtp.office365.com
-    port: 587
+    host:
+    port:
     username:
     password:
     properties:
@@ -33,5 +33,4 @@ spring:
 jwt:
   secret: "Wi4XkPz4lDuy7YIdRSpcKpJhZhNsPXZMfGW15xnCX7A="
   expiration: 9000000
-email:
-  from:
+
