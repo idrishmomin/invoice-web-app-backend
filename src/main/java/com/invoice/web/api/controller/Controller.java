@@ -44,10 +44,11 @@ public class Controller {
     public ResponseEntity<Object> filteredInvoices(@RequestParam(required = false) String invoiceNumber,
                                                    @RequestParam(required = false) String vendorName,
                                                    @RequestParam(required = false) String status,
+                                                   @RequestParam String createdBy,
                                                    Pageable pageable) {
-//        log.info("Get Filtered-Invoice Request with filters - InvoiceNumber: {}, VendorName: {}, Status: {}",
-//                invoiceNumber, vendorName, status);
-        return invoiceService.filteredInvoice(invoiceNumber,vendorName,status,pageable);
+        log.info("Get Filtered-Invoice Request with filters - InvoiceNumber: {}, VendorName: {}, Status: {}, createdBy: {}",
+                invoiceNumber, vendorName, status, createdBy);
+        return invoiceService.filteredInvoice(invoiceNumber,vendorName,status,createdBy,pageable);
     }
 
     @GetMapping(value = "/invoices-by-users", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -53,8 +53,8 @@ public class InvoiceService {
                 .body( new ApiResponse<>(Constants.SUCCESS,invoicePages));
     }
 
-    public ResponseEntity<Object> filteredInvoice(String invoiceNumber,String vendorName,String status,Pageable pageable) {
-        Page<Invoice> invoicePages = invoiceRepository.findInvoiceByFilteredValues(invoiceNumber,vendorName,status,pageable);
+    public ResponseEntity<Object> filteredInvoice(String invoiceNumber,String vendorName,String status,String createdBy,Pageable pageable) {
+        Page<Invoice> invoicePages = invoiceRepository.findInvoiceByFilteredValues(invoiceNumber,vendorName,status,createdBy,pageable);
         log.info("Invoice List Size : {}", invoicePages.getTotalElements());
         return ResponseEntity.status(HttpStatus.OK)
                 .body( new ApiResponse<>(Constants.SUCCESS,invoicePages));

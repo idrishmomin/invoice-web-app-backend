@@ -23,13 +23,15 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Integer> {
     WHERE (COALESCE(?1, '') = '' OR i.invoice_number LIKE CONCAT('%', ?1, '%'))
     AND (COALESCE(?2, '') = '' OR JSON_UNQUOTE(JSON_EXTRACT(i.vendor_details, '$.billTo')) LIKE CONCAT('%', ?2, '%'))
     AND (COALESCE(?3, '') = '' OR i.invoice_status LIKE CONCAT('%', ?3, '%'))
-    AND i.deleted = false
+    AND (COALESCE(?4, '') = '' OR i.created_by LIKE CONCAT('%', ?4, '%')) AND 
+    i.deleted = false 
     ORDER BY i.invoice_updated_date DESC
     """, nativeQuery = true)
     Page<Invoice> findInvoiceByFilteredValues(
             @Nullable String invoiceNumber,
             @Nullable String vendorName,
             @Nullable String invoiceStatus,
+            @Nullable String createdBy,
             Pageable pageable);
 
 
