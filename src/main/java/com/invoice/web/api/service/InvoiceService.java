@@ -35,7 +35,9 @@ public class InvoiceService {
     private final VendorRepository vendorRepository;
     private final SubmitterRepository submitterRepository;
 
-    public InvoiceService(InvoiceRepository invoiceRepository, AccountsRepository accountsRepository, CostCenterRepository costCenterRepository, CurrenciesRepository currenciesRepository, DepartmentRepository departmentRepository, ExpenseCodesRepository expenseCodesRepository, VendorRepository vendorRepository, SubmitterRepository submitterRepository) {
+    private final CategoryRepository categoryRepository;
+
+    public InvoiceService(InvoiceRepository invoiceRepository, AccountsRepository accountsRepository, CostCenterRepository costCenterRepository, CurrenciesRepository currenciesRepository, DepartmentRepository departmentRepository, ExpenseCodesRepository expenseCodesRepository, VendorRepository vendorRepository, SubmitterRepository submitterRepository, CategoryRepository categoryRepository) {
         this.invoiceRepository = invoiceRepository;
         this.accountsRepository = accountsRepository;
         this.costCenterRepository = costCenterRepository;
@@ -44,6 +46,7 @@ public class InvoiceService {
         this.expenseCodesRepository = expenseCodesRepository;
         this.vendorRepository = vendorRepository;
         this.submitterRepository = submitterRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public ResponseEntity<Object> invoices(Pageable pageable) {
@@ -143,6 +146,8 @@ public class InvoiceService {
                 .map(expenseCode -> new ExpenseCodes(expenseCode.getId(), expenseCode.getExpenseName(), expenseCode.getExpenseCode(), expenseCode.getCategory()))
                 .collect(Collectors.groupingBy(ExpenseCodes::getCategory));
 
+        List<Category> categoryList = categoryRepository.findAll();
+
         OtherDataResponse otherDataResponse = new OtherDataResponse();
         otherDataResponse.setAccountsList(accountsList);
         otherDataResponse.setCostCenterList(costCenterList);
@@ -154,6 +159,7 @@ public class InvoiceService {
         otherDataResponse.setInvoiceStatus(invoiceStatus);
         otherDataResponse.setSubmitterList(submitterList);
         otherDataResponse.setExpenseTypeByCategory(filterdList);
+        otherDataResponse.setCategories(categoryList);
 
         return ResponseEntity.status(HttpStatus.OK).body(otherDataResponse);
     }

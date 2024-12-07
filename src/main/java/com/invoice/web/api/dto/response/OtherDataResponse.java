@@ -24,5 +24,6 @@ public class OtherDataResponse {
     List<String> paymentType;
     List<String> invoiceStatus;
     Map<String, List<ExpenseCodes>> expenseTypeByCategory;
+    List<Category> categories;
 
 }
