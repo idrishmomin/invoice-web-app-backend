@@ -15,7 +15,6 @@ import java.security.Principal;
 @Log4j2
 @RestController
 @RequestMapping("/webportal/v1/user")
-@CrossOrigin(origins = "http://localhost:4200")
 @AllArgsConstructor
 public class UserController {
 
