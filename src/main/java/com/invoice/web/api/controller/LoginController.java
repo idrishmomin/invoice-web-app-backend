@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @Log4j2
 @RestController
 @RequestMapping("/webportal/v1")
-@CrossOrigin(origins = "http://localhost:4200")
 @AllArgsConstructor
 public class LoginController {
 

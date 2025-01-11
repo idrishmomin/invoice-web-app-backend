@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/webportal/v1/admin")
-@CrossOrigin(origins = "http://localhost:4200")
 public class AdminController {
     private final UserService userService ;
     @PostMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)

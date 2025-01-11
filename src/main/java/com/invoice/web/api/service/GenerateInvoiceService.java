@@ -6,13 +6,13 @@ import com.invoice.web.persistence.model.Invoice;
 import com.invoice.web.persistence.model.Signature;
 import com.invoice.web.persistence.repositories.InvoiceRepository;
 import com.invoice.web.persistence.repositories.SignatureRepository;
+import com.invoice.web.persistence.repositories.SystemConfigRepository;
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.List;
@@ -24,10 +24,12 @@ public class GenerateInvoiceService {
 
     private final InvoiceRepository invoiceRepository;
     private final SignatureRepository signatureRepository;
+    private final SystemConfigRepository systemConfigRepository;
 
-    public GenerateInvoiceService(InvoiceRepository invoiceRepository, SignatureRepository signatureRepository) {
+    public GenerateInvoiceService(InvoiceRepository invoiceRepository, SignatureRepository signatureRepository, SystemConfigRepository systemConfigRepository) {
         this.invoiceRepository = invoiceRepository;
         this.signatureRepository = signatureRepository;
+        this.systemConfigRepository = systemConfigRepository;
     }
 
     public String createInvoice(String invoiceId) throws IOException {
@@ -56,7 +58,7 @@ public class GenerateInvoiceService {
                 .collect(Collectors.joining("\n"));
 
 
-        String imagePath = "src/main/resources/company-logo.jpg"; // Replace with your image path
+        String imagePath = systemConfigRepository.findBySystemKey("imageLogoPath").getSystemValue(); // Replace with your image path
         File file = new File(imagePath);
         FileInputStream logoInputStream = new FileInputStream(file);
         byte[] bytes = new byte[(int) file.length()];
@@ -137,6 +139,14 @@ public class GenerateInvoiceService {
 
     public String generatePdfFromHtml(String htmlTemplate,Invoice invoice) throws IOException {
 
+        String targetDirectory = systemConfigRepository.findBySystemKey("invoices_directory").getSystemValue();
+        // Create the directory if it doesn't already exist
+        File directory = new File(targetDirectory);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             PdfRendererBuilder builder = new PdfRendererBuilder();
             builder.withHtmlContent(htmlTemplate, null);
@@ -145,7 +155,8 @@ public class GenerateInvoiceService {
             byte[] pdfBytes = outputStream.toByteArray();
 
             String invoiceName = invoice.getVendorDetails().getBillTo().concat("_").concat(invoice.getInvoiceNumber()).concat(".pdf");
-            try (FileOutputStream fos = new FileOutputStream(invoiceName)) {
+            String filePath = targetDirectory + File.separator + invoiceName;
+            try (FileOutputStream fos = new FileOutputStream(filePath)) {
                 fos.write(pdfBytes);
             }
             return Base64.getEncoder().encodeToString(pdfBytes);
@@ -168,8 +179,10 @@ public class GenerateInvoiceService {
                 .lines()
                 .collect(Collectors.joining("\n"));
 
+        String imagePath = systemConfigRepository.findBySystemKey("imageLogoPath").getSystemValue(); // Replace with your image path
 
-        String imagePath = "src/main/resources/company-logo.jpg"; // Replace with your image path
+
+//        String imagePath = "src/main/resources/company-logo.jpg"; // Replace with your image path
         File file = new File(imagePath);
         FileInputStream logoInputStream = new FileInputStream(file);
         byte[] bytes = new byte[(int) file.length()];
