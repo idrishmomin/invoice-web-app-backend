@@ -33,3 +33,10 @@ spring:
 jwt:
   secret: "Wi4XkPz4lDuy7YIdRSpcKpJhZhNsPXZMfGW15xnCX7A="
   expiration: 9000000
+
+server:
+  address: 0.0.0.0
+  port: 8082
+  servlet:
+    context-path: /InvoiceWebApp
+
