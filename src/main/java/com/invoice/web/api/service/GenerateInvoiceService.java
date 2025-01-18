@@ -59,6 +59,7 @@ public class GenerateInvoiceService {
 
 
         String imagePath = systemConfigRepository.findBySystemKey("imageLogoPath").getSystemValue(); // Replace with your image path
+        String companyName = systemConfigRepository.findBySystemKey("companyName").getSystemValue();
         File file = new File(imagePath);
         FileInputStream logoInputStream = new FileInputStream(file);
         byte[] bytes = new byte[(int) file.length()];
@@ -68,6 +69,7 @@ public class GenerateInvoiceService {
 
         // Step 2: Replace placeholders with actual data
         String invoiceHtml = htmlTemplate
+                .replace("${companyName}", companyName)
                 .replace("${invoiceNumber}", invoice.getInvoiceNumber())
                 .replace("${createdBy}", invoice.getCreatedBy())
                 .replace("${invoiceCreatedDate}", invoice.getInvoiceCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
@@ -180,6 +182,8 @@ public class GenerateInvoiceService {
                 .collect(Collectors.joining("\n"));
 
         String imagePath = systemConfigRepository.findBySystemKey("imageLogoPath").getSystemValue(); // Replace with your image path
+        String companyName = systemConfigRepository.findBySystemKey("companyName").getSystemValue();
+
 
 
 //        String imagePath = "src/main/resources/company-logo.jpg"; // Replace with your image path
@@ -210,6 +214,7 @@ public class GenerateInvoiceService {
                 .replace("${billTo}", invoice.getVendorDetails().getBillTo())
                 .replace("${paymentDue}", invoice.getVendorDetails().getPaymentDue())
                 .replace("${vendorBankDetails}", "NONE")
+                .replace("${companyName}", companyName)
                 .replace("${company-logo}",base64String);
 
 
