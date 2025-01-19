@@ -29,6 +29,10 @@
             min-height: calc(100vh - 60px); /* Ensures container height to accommodate footer */
             padding-bottom: 60px; /* Adds space for footer */
             position: relative; /* Ensures footer position relative to container */
+            display: flex; /* Enables stretching */
+            flex-direction: column; /* Aligns content vertically */
+            justify-content: space-between; /* Pushes footer to the bottom */
+            padding-bottom: 60px; /* Adds space for footer */
         }
 
         .title {
@@ -141,6 +145,15 @@
             background-color: #ffffff; /* White background to prevent overlap issues */
         }
 
+
+        .totals-container {
+            page-break-inside: avoid; /* Prevents totals section from splitting */
+        }
+
+        table {
+            page-break-inside: auto; /* Allows table rows to break if necessary */
+        }
+
         @media print {
             body {
                 margin: 0;
@@ -244,7 +257,7 @@
     </table>
 
     <div class="row">
-        <div class="col-md-6 offset-md-6">
+        <div class="col-md-6 offset-md-6 totals-container">
             <table>
                 <tr>
                     <td><strong>Total</strong></td>
@@ -269,7 +282,7 @@
     </div>
 </div>
 <div class="footer">
-    2024 Your Company Name - All rights reserved.
+    ${companyName} - All rights reserved.
 </div>
 </body>
 </html>
