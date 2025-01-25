@@ -185,6 +185,17 @@ public class UserService {
                 .body( new ApiResponse<>(Constants.SUCCESS,userDtos));
     }
 
+    public ResponseEntity<ApiResponse<List<UserDto>>> getAllUsersList() {
+        List<User> userPage = userRepository.findAll();
+
+        List<UserDto> userDtos = userPage.stream()
+                .map(this::convertUserEntityToDto)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body( new ApiResponse<>(Constants.SUCCESS,userDtos));
+    }
+
     @Transactional
     public ResponseEntity<ApiResponse<String>> changePassword(ChangePassword changePassword, boolean isAdmin) {
         User user = userRepository.findByEmail(changePassword.getEmail().toLowerCase());

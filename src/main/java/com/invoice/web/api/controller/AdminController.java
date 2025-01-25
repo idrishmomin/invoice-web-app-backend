@@ -4,6 +4,7 @@ import com.invoice.web.api.dto.request.ChangePassword;
 import com.invoice.web.api.dto.request.CreateUserRequest;
 import com.invoice.web.api.dto.request.UpdateUserRequest;
 import com.invoice.web.api.dto.response.ApiResponse;
+import com.invoice.web.api.dto.response.UserDto;
 import com.invoice.web.api.dto.response.UserResponseDto;
 import com.invoice.web.api.service.UserService;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Log4j2
 @RestController
@@ -42,6 +45,11 @@ public class AdminController {
     public ResponseEntity<ApiResponse<Page<UserResponseDto>>> userDetails(Pageable pageable) {
         log.info("Get All UserDetails Request");
         return userService.getAllUsers(pageable);
+    }
+
+    @GetMapping(value = "/usersList", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<List<UserDto>>> getAllUsersList() {
+        return userService.getAllUsersList();
     }
     @DeleteMapping(value = "/user/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<String>> deleteUser(@PathVariable String email) {
