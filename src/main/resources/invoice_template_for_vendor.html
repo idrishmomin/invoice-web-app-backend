@@ -26,6 +26,13 @@
             background-color: #fff;
             border: 1px solid #ddd;
             box-sizing: border-box;
+            min-height: calc(100vh - 60px); /* Ensures container height to accommodate footer */
+            padding-bottom: 60px; /* Adds space for footer */
+            position: relative; /* Ensures footer position relative to container */
+            display: flex; /* Enables stretching */
+            flex-direction: column; /* Aligns content vertically */
+            justify-content: space-between; /* Pushes footer to the bottom */
+            padding-bottom: 60px; /* Adds space for footer */
         }
 
         .title {
@@ -71,7 +78,7 @@
             text-align: left;
         }
 
-        .table-head td{
+        .table-head td {
             padding: 8px;
             border: 1px solid #ddd;
             font-size: 14px;
@@ -110,26 +117,21 @@
             vertical-align: top;
         }
 
+        .company-name {
+            float: left; /* Align to the left */
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
 
-    .company-name {
-    float: left; /* Align to the left */
-    padding: 20px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-}
+        .logo {
+            float: right; /* Align to the right */
+        }
 
-.logo {
-    float: right; /* Align to the right */
-}
-
-.logo img {
-    width: 3cm; /* Set logo width in cm */
-}
-
-
-
-
+        .logo img {
+            width: 3cm; /* Set logo width in cm */
+        }
 
         .footer {
             width: 100%;
@@ -137,11 +139,20 @@
             text-align: center;
             font-size: 16px;
             border-top: 1px solid #ddd;
-            margin-top: 20px;
+            position: absolute; /* Ensures footer stays at the bottom */
             bottom: 0;
             left: 0;
+            background-color: #ffffff; /* White background to prevent overlap issues */
         }
 
+
+        .totals-container {
+            page-break-inside: avoid; /* Prevents totals section from splitting */
+        }
+
+        table {
+            page-break-inside: auto; /* Allows table rows to break if necessary */
+        }
 
         @media print {
             body {
@@ -152,21 +163,26 @@
             .container {
                 max-width: 100%;
                 width: 100%;
-                height: 100%;
+                min-height: calc(100vh - 60px);
+                height: auto;
+            }
+
+            .footer {
+                position: fixed;
             }
         }
     </style>
 </head>
 <body>
 <div class="container">
-<div class="row">
-    <div class="companyName">
-        <div class="company-name">${companyName}</div>
+    <div class="row">
+        <div class="companyName">
+            <div class="company-name">${companyName}</div>
+        </div>
+        <div class="logo">
+            <img class="logo" src="data:image/jpeg;base64,${company-logo}" alt="Company Logo" />
+        </div>
     </div>
-    <div class="logo">
-        <img class="logo" src="data:image/jpeg;base64,${company-logo}"  alt="Company Logo" />
-    </div>
-</div>
 
     <div class="row">
         <div class="col-12 title">Invoice</div>
@@ -176,42 +192,41 @@
         <div class="col-md-6">
             <table class="table-borderless">
                 <tr>
-                    <strong>Invoice Number : </strong>       ${invoiceNumber}<br/>
+                    <strong>Invoice Number : </strong> ${invoiceNumber}<br/>
                 </tr>
                 <tr>
-                    <strong>Created Date : </strong>       ${invoiceCreatedDate}<br/>
+                    <strong>Created Date : </strong> ${invoiceCreatedDate}<br/>
                 </tr>
                 <tr>
-                    <strong>Created By : </strong>       ${createdBy}<br/>
+                    <strong>Created By : </strong> ${createdBy}<br/>
                 </tr>
             </table>
         </div>
     </div>
 
-
     <table class="table-head">
         <tr>
             <td>
-                <strong>Submitter : </strong>       ${submitterName}<br/>
-                <strong>Department : </strong>       ${department}
+                <strong>Submitter : </strong> ${submitterName}<br/>
+                <strong>Department : </strong> ${department}
             </td>
             <td>
-                <strong>Account Type : </strong>       ${accountType}<br />
-                <strong>Payment Type : </strong>       ${paymentType}
+                <strong>Account Type : </strong> ${accountType}<br />
+                <strong>Payment Type : </strong> ${paymentType}
             </td>
             <td>
-                <strong>Bill To : </strong>       ${billTo}<br />
-                <strong>Payment Due : </strong>      <span style="color: red;">${paymentDue}</span><br />
+                <strong>Bill To : </strong> ${billTo}<br />
+                <strong>Payment Due : </strong> <span style="color: red;">${paymentDue}</span><br />
                 <div style="margin-top: 15px;"></div>
-                <table class="table-borderless ">
+                <table class="table-borderless">
                     <tr>
-                        <strong>Bank Name : </strong>       ${bankName}<br/>
+                        <strong>Bank Name : </strong> ${bankName}<br/>
                     </tr>
                     <tr>
-                        <strong>IBAN : </strong>       ${ibanNumber}<br/>
+                        <strong>IBAN : </strong> ${ibanNumber}<br/>
                     </tr>
                     <tr>
-                        <strong>Address : </strong>       ${bankAddress}<br/>
+                        <strong>Address : </strong> ${bankAddress}<br/>
                     </tr>
                 </table>
             </td>
@@ -242,7 +257,7 @@
     </table>
 
     <div class="row">
-        <div class="col-md-6 offset-md-6">
+        <div class="col-md-6 offset-md-6 totals-container">
             <table>
                 <tr>
                     <td><strong>Total</strong></td>
@@ -265,9 +280,9 @@
             ${signatures}
         </div>
     </div>
-    <div class="footer">
-        2024 Your Company Name - All rights reserved.
-    </div>
+</div>
+<div class="footer">
+    ${companyName} - All rights reserved.
 </div>
 </body>
 </html>

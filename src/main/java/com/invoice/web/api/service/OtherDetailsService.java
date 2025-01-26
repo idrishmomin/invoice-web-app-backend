@@ -128,24 +128,22 @@ public class OtherDetailsService {
         RequestParameterValidator.commonValidateRequest(request);
 
         if (null != request.getId()) {
-            Optional<Vendor> optionalVendor = vendorRepository.findByVendorId(request.getVendorId());
+            Optional<Vendor> optionalVendor = vendorRepository.findByVendorName(request.getVendorName());
             Vendor vendor;
             if (optionalVendor.isPresent()) {
                 vendor = optionalVendor.get();
                 if (vendor.getId() != Long.valueOf(request.getId())) {
                     return ResponseEntity.status(HttpStatus.OK).body("Vendor Already Exist");
                 }
-                vendor.setVendorName(request.getVendorName());
                 vendor.setBankDetails(request.getBankDetails());
                 vendor.setAddress(request.getAddress());
                 vendor.setPhoneNumber(request.getPhoneNumber());
                 vendorRepository.save(vendor);
                 return ResponseEntity.status(HttpStatus.OK).body(vendor);
             } else {
-                log.info("Update Vendor with Vendor Id : {}", request.getVendorId());
+                log.info("Update Vendor with Vendor Name : {}", request.getVendorName());
                 Optional<Vendor> optionalVendor1 = vendorRepository.findById(Long.valueOf(request.getId()));
                 vendor = optionalVendor1.get();
-                vendor.setVendorId(request.getVendorId());
                 vendor.setVendorName(request.getVendorName());
                 vendor.setBankDetails(request.getBankDetails());
                 vendor.setAddress(request.getAddress());
@@ -155,14 +153,13 @@ public class OtherDetailsService {
             }
         }
 
-        Optional<Vendor> optionalVendor = vendorRepository.findByVendorId(request.getVendorId());
+        Optional<Vendor> optionalVendor = vendorRepository.findByVendorName(request.getVendorName());
         Vendor vendor;
         if (optionalVendor.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body("Vendor Already Exist");
         } else {
-            log.info("Create new Vendor with Id : {}", request.getVendorId());
+            log.info("Create new Vendor with Name : {}", request.getVendorName());
             vendor = new Vendor();
-            vendor.setVendorId(request.getVendorId());
             vendor.setVendorName(request.getVendorName());
             vendor.setBankDetails(request.getBankDetails());
             vendor.setAddress(request.getAddress());
