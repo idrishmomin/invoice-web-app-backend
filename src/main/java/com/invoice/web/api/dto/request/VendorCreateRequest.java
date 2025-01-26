@@ -5,6 +5,7 @@ import com.invoice.web.infrastructure.utils.validation.LengthCheck;
 import com.invoice.web.infrastructure.utils.validation.NoNullStringCheck;
 import com.invoice.web.infrastructure.utils.validation.PatternCheck;
 import jakarta.validation.GroupSequence;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,9 +21,6 @@ public class VendorCreateRequest {
 
     private String id;
 
-    @NotBlank(message = "Vendor ID should not be blank or null", groups = BlankCheck.class)
-    private String vendorId;
-
     @NotBlank(message = "VendorName should not be blank or null", groups = BlankCheck.class)
     private String vendorName;
 
@@ -32,6 +30,7 @@ public class VendorCreateRequest {
     @NotBlank(message = "Phone Number should not be blank or null", groups = BlankCheck.class)
     private String phoneNumber;
 
+    @Valid
     private BankDetails bankDetails;
 
 }

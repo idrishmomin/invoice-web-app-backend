@@ -47,10 +47,7 @@ public class AdminController {
         return userService.getAllUsers(pageable);
     }
 
-    @GetMapping(value = "/usersList", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<List<UserDto>>> getAllUsersList() {
-        return userService.getAllUsersList();
-    }
+
     @DeleteMapping(value = "/user/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<String>> deleteUser(@PathVariable String email) {
         log.info("Delete UserDetails Request");

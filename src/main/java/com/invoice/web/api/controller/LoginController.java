@@ -3,6 +3,7 @@ package com.invoice.web.api.controller;
 import com.invoice.web.api.dto.request.LoginRequest;
 import com.invoice.web.api.dto.response.ApiResponse;
 import com.invoice.web.api.dto.response.LoginResponse;
+import com.invoice.web.api.dto.response.UserDto;
 import com.invoice.web.api.service.UserService;
 import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Log4j2
 @RestController
@@ -24,6 +27,11 @@ public class LoginController {
     public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest loginRequest) throws MessagingException {
         log.info("Login Request : {}", loginRequest);
         return userService.login(loginRequest);
+    }
+
+    @GetMapping(value = "/usersList", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<List<UserDto>>> getAllUsersList() {
+        return userService.getAllUsersList();
     }
 
 }

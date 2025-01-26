@@ -11,4 +11,7 @@ import java.util.Optional;
 public interface VendorRepository extends JpaRepository<Vendor, Long> {
     @Query("select v from Vendor v where v.vendorId = ?1")
     Optional<Vendor> findByVendorId(String vendorId);
+
+    @Query("select v from Vendor v where v.vendorName = ?1")
+    Optional<Vendor> findByVendorName(String vendorName);
 }
