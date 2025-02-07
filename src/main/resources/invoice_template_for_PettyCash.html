@@ -8,6 +8,11 @@
         @page {
             size: A4 landscape;
             margin: 20px;
+            @bottom-right {
+               content: counter(page) " of " counter(pages);
+               font-size: 16px;
+               color: #000000;
+            }
         }
 
         body {
@@ -23,15 +28,13 @@
             margin: 0 auto;
             padding: 20px;
             background-color: #fff;
-            border: 1px solid #ddd;
+            border: 0px solid #ddd;
             box-sizing: border-box;
             min-height: calc(100vh - 60px); /* Ensures container height to accommodate footer */
-            padding-bottom: 60px; /* Adds space for footer */
             position: relative; /* Ensures footer position relative to container */
             display: flex; /* Enables stretching */
             flex-direction: column; /* Aligns content vertically */
             justify-content: space-between; /* Pushes footer to the bottom */
-            padding-bottom: 60px; /* Adds space for footer */
         }
 
         .title {
@@ -149,12 +152,11 @@
 
         .footer {
             width: 100%;
-            padding: 10px;
             text-align: center;
             font-size: 16px;
-            border-top: 1px solid #ddd;
+            border-top: 0px solid #ddd;
             position: absolute; /* Ensures footer stays at the bottom */
-            bottom: 0;
+            bottom: 0px;
             left: 0;
             background-color: #ffffff; /* White background to prevent overlap issues */
         }
@@ -246,17 +248,16 @@
             <th>Vendor ID</th>
             <th>Purchaser FullName</th>
             <th>Vendor Invoice Ref</th>
-            <th>Vendor <br> Invoice Ref</th>
             <th>Invoice Date</th>
-            <th>Item Amount</th>
-            <th>Quantity</th>
             <th>Description</th>
             <th>Cost Code</th>
             <th>Expense Type</th>
             <th>Currency</th>
-            <th>SAR Rate</th>
+            <th>SAR <br> Rate </br></th>
+            <th>Item Amount</th>
+            <th>Qty</th>
             <th>SubTotal</th>
-            <th>PTC Advance</th>
+            <th>PTC <br>Advance</br></th>
             <th>Total</th>
         </tr>
         </thead>
@@ -266,7 +267,7 @@
     </table>
 
     <div class="row">
-        <div class="col-md-6 offset-md-6 totals-container">
+        <div class="col-md-4 offset-md-4 totals-container">
             <table>
                 <tr>
                     <td><strong>Total</strong></td>
