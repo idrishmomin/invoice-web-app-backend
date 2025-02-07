@@ -42,7 +42,7 @@ public class GenerateInvoiceService {
         }
 
 
-        if (invoice.getVendorDetails().getBillTo().equalsIgnoreCase(Constants.PETTY_CASH)) {
+        if (invoice.getVendorDetails().getBillTo().equals(Constants.PETTY_CASH)) {
             return generateInvoiceForPettyCah(invoice, signatureList);
         }
 
